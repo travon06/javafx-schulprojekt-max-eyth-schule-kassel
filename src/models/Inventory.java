@@ -13,7 +13,7 @@ public class Inventory {
         return this.size;
     }
 
-    public Item[] getInventory() {
+    public Item[] getItems() {
         return this.items;
     }
 }
