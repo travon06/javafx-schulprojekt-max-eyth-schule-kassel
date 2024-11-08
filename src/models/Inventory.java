@@ -2,11 +2,11 @@ package models;
 
 public class Inventory {
     private final int size;
-    private final Item[] inventory;
+    private final Item[] items;
 
     public Inventory(int size) {
         this.size = size;
-        this.inventory = new Item[size];
+        this.items = new Item[size];
     }
 
     public int getSize() {
@@ -14,6 +14,6 @@ public class Inventory {
     }
 
     public Item[] getInventory() {
-        return this.inventory;
+        return this.items;
     }
 }

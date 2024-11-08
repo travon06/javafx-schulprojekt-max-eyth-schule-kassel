@@ -4,11 +4,13 @@ public class Player {
     private final Inventory inventory;
     private int health;
     private int maxHealth;
+    private int speed;
 
-    public Player(int health) {
+    public Player(int health, int speed) {
         this.inventory = new Inventory(50);
         this.health = health;
         this.maxHealth = health;
+        this.speed = speed;
     }
 
     public Inventory getInventory() {
@@ -19,12 +21,11 @@ public class Player {
         return this.health;
     }
 
-    public boolean setHealth(int health) {
+    public void setHealth(int health) {
         if (!(health < 0 || health > maxHealth))  {
             this.health = health;
-            return true;
         } else {
-            return false;
+            throw new IllegalArgumentException("health must be higher than 0 and must be lower than maxHealth");
         }
     }
 
@@ -40,4 +41,16 @@ public class Player {
         }
         return true;
     } 
+
+    public int getSpeed() {
+        return this.speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public void addSpeed(int amount) {
+        this.speed += amount;
+    }
 }
