@@ -7,13 +7,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import models.Player;
+import utils.ConfigArguments;
+import utils.ConfigReader;
 
 public class App extends Application {
 
+
     // Size of the game window
     // width 1200, height 900
-    private static final int WINDOW_WIDTH = 720;
-    private static final int WINDOW_HEIGHT = 680;
+    private static final int SCREEN_WIDTH;
+    private static final int SCREEN_HEIGHT;
     private boolean upPressed = false;
     private boolean downPressed = false;
     private boolean leftPressed = false;
@@ -25,6 +28,12 @@ public class App extends Application {
     private Player player1;
     private Player player2;
     private int counter;
+
+    static {
+        ConfigReader.readConfig();
+        SCREEN_WIDTH = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH"));
+        SCREEN_HEIGHT = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"));
+    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -42,7 +51,7 @@ public class App extends Application {
         Pane pane = new Pane();
         pane.getChildren().addAll(playerRectangle1, playerRectangle2);
 
-        Scene scene = new Scene(pane, WINDOW_WIDTH, WINDOW_HEIGHT);
+        Scene scene = new Scene(pane, SCREEN_WIDTH, SCREEN_HEIGHT);
         primaryStage.setTitle("2D Player Movement");
         primaryStage.setScene(scene);
         primaryStage.show();
