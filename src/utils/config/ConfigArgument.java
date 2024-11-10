@@ -1,4 +1,4 @@
-package utils;
+package utils.config;
 
 public class ConfigArgument {
     private final String argument;

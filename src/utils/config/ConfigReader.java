@@ -1,4 +1,4 @@
-package utils;
+package utils.config;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,7 +11,7 @@ public class ConfigReader {
 
     public static void readConfig() {
         // Define the relative path using the Path class
-        Path configPath = Paths.get("src/utils/config.txt");
+        Path configPath = Paths.get("src/utils/config/config.txt");
 
         // Convert to absolute path if required
         Path absoluteConfigPath = configPath.toAbsolutePath();

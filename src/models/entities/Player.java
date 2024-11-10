@@ -1,14 +1,16 @@
-package models;
+package models.entities;
+
+import models.Inventory;
 
 public class Player {
     private final Inventory inventory;
-    private int health;
-    private int maxHealth;
-    private int speed;
-    private int x;
-    private int y;
+    private double health;
+    private double maxHealth;
+    private double speed;
+    private double x;
+    private double y;
     
-    public Player(int health, int speed, int startX, int startY) {
+    public Player(double health, double speed, double startX, double startY) {
         this.inventory = new Inventory(50);
         this.health = health;
         this.maxHealth = health;
@@ -34,7 +36,7 @@ public class Player {
         this.x += this.speed;
     }
     
-    public boolean addHealth(int amount) {
+    public boolean addHealth(double amount) {
         if (amount < 0) {
             return false;
         }
@@ -47,7 +49,7 @@ public class Player {
         return true;
     } 
     
-    public void addSpeed(int amount) {
+    public void addSpeed(double amount) {
         this.speed += amount;
     }
     
@@ -56,11 +58,11 @@ public class Player {
         return this.inventory;
     }
 
-    public int getHealth() {
+    public double getHealth() {
         return this.health;
     }
     
-    public void setHealth(int health) {
+    public void setHealth(double health) {
         if (!(health < 0 || health > maxHealth))  {
             this.health = health;
         } else {
@@ -69,28 +71,28 @@ public class Player {
     }
 
 
-    public int getSpeed() {
+    public double getSpeed() {
         return this.speed;
     }
 
-    public void setSpeed(int speed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
 
 
-    public int getX() {
+    public double getX() {
         return this.x;
     }
 
-    public int getY() {
+    public double getY() {
         return this.y;
     }
 
-    public void setX(int newX) {
+    public void setX(double newX) {
         this.x = newX;
     }
 
-    public void setY(int newY) {
+    public void setY(double newY) {
         this.y = newY;
     }
 }

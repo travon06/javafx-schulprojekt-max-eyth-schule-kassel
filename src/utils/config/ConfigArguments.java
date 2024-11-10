@@ -1,4 +1,4 @@
-package utils;
+package utils.config;
 
 import java.util.ArrayList;
 
