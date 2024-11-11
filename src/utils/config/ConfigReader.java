@@ -23,7 +23,12 @@ public class ConfigReader {
                 String line;
                 // Read the config file line by line
                 while ((line = reader.readLine()) != null) {
-                    ConfigArguments.getConfigArguments().add(new ConfigArgument(getArgument(line), getValue(line)));
+                    // skip line if line is a comment
+                    if(getArgument(line).startsWith("#")) {
+                        continue;
+                    }
+                        // adding new Argument to ConfigArguments
+                        ConfigArguments.getConfigArguments().add(new ConfigArgument(getArgument(line), getValue(line)));
                 }
             } catch (IOException e) {
                 e.printStackTrace();

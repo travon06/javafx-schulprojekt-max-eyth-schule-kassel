@@ -8,6 +8,13 @@
             "type": "java",
             "name": "ConfigReader",
             "request": "launch",
+            "mainClass": "utils.config.ConfigReader",
+            "projectName": "project_15f4b383"
+        },
+        {
+            "type": "java",
+            "name": "ConfigReader",
+            "request": "launch",
             "mainClass": "utils.ConfigReader",
             "projectName": "project_15f4b383"
         },

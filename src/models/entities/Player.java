@@ -1,5 +1,6 @@
 package models.entities;
 
+import javafx.scene.shape.Rectangle;
 import models.Inventory;
 
 public class Player {
@@ -7,33 +8,43 @@ public class Player {
     private double health;
     private double maxHealth;
     private double speed;
+    private double sprintSpeed;
     private double x;
     private double y;
     
-    public Player(double health, double speed, double startX, double startY) {
+    public Player(double health, double speed, double sprintSpeed, double startX, double startY) {
         this.inventory = new Inventory(50);
         this.health = health;
         this.maxHealth = health;
         this.speed = speed;
+        this.sprintSpeed = sprintSpeed;
         this.x = startX;
         this.y = startY;
     }
+
+    public void setSprintSpeed(double sprintSpeed) {
+        this.sprintSpeed = sprintSpeed;
+    }
+
+    public double getSprintSpeed() {
+        return this.sprintSpeed;
+    }
     
     // movement methods
-    public void moveUp() {
-        this.y -= this.speed;
+    public void moveUp(double speed) {
+        this.y -= speed;
     }
     
-    public void moveDown() {
-        this.y += this.speed;
+    public void moveDown(double speed) {
+        this.y += speed;
     }
     
-    public void moveLeft() {
-        this.x -= this.speed;
+    public void moveLeft(double speed) {
+        this.x -= speed;
     }
     
-    public void moveRight() {
-        this.x += this.speed;
+    public void moveRight(double speed) {
+        this.x += speed;
     }
     
     public boolean addHealth(double amount) {
@@ -78,7 +89,6 @@ public class Player {
     public void setSpeed(double speed) {
         this.speed = speed;
     }
-
 
     public double getX() {
         return this.x;

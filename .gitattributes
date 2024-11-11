@@ -1,2 +1,4 @@
 *.md text eol=lf
 *.LICENSE text eol=lf
+*.jar
+*.properties
