@@ -10,6 +10,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import models.CollisionDetection;
 import models.entities.Player;
+import models.keyboard.Keyboard;
 import models.tiles.Tile;
 import utils.config.ConfigArguments;
 import utils.config.ConfigReader;
@@ -35,6 +36,7 @@ public class App extends Application {
     private Player player1;
     private Tile wall1;
     private Tile wall2;
+    private Scene scene;
 
 
     static {
@@ -47,57 +49,34 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        Keyboard.setStage(primaryStage);
         player1 = new Player(Double.parseDouble(ConfigArguments.getConfigArgumentValue("PLAYER_HEALTH")), Double.parseDouble(ConfigArguments.getConfigArgumentValue("PLAYER_SPEED")), Double.parseDouble(ConfigArguments.getConfigArgumentValue("PLAYER_SPRINT_SPEED")), 0, 0);
         wall1 = new Tile(true, 50.0, 50.0);
         wall2 = new Tile(true, 100.0, 50.0);
-
+        
         playerRectangle1 = new Rectangle(20, 20, Color.BLUE);
         playerRectangle1.setX(player1.getX());
         playerRectangle1.setY(player1.getY());
-
+        
         wallRectangle1 = new Rectangle(20, 20, Color.RED);
         wallRectangle1.setX(wall1.getX());
         wallRectangle1.setY(wall1.getY());
-
+        
         wallRectangle2= new Rectangle(20, 20, Color.RED);
         wallRectangle2.setX(wall1.getX());
         wallRectangle2.setY(wall1.getY());
-
+        
         Pane pane = new Pane();
         pane.getChildren().addAll(playerRectangle1, wallRectangle1, wallRectangle2);
-
-        Scene scene = new Scene(pane, SCREEN_WIDTH, SCREEN_HEIGHT);
+        
+        this.scene = new Scene(pane, SCREEN_WIDTH, SCREEN_HEIGHT);
+        Keyboard.setScene(this.scene);
         primaryStage.setTitle("2D Player Movement");
         primaryStage.setScene(scene);
         primaryStage.show();
-
-
-        // Event handling for key pressed
-        scene.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case W -> upPressed = true;
-                case S -> downPressed = true;
-                case A -> leftPressed = true;
-                case D -> rightPressed = true;
-                case ENTER -> {
-                    if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("EXIT_ON_ENTER"))) {
-                        primaryStage.close();
-                    }
-                }
-                case SHIFT -> shiftPressed = true;
-            }
-        });
-
-        // Event handling for key released
-        scene.setOnKeyReleased(event -> {
-            switch (event.getCode()) {
-                case W -> upPressed = false;
-                case S -> downPressed = false;
-                case A -> leftPressed = false;
-                case D -> rightPressed = false;
-                case SHIFT -> shiftPressed = false;
-            }
-        });
+        
+        // handle keyboard inputs 
+        Keyboard.handleKeyboardInputs(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("ENABLE_PLAYER_MOVEMENT")), Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("EXIT_ON_ENTER")));
 
         // Animation timer to update player position continuously
         AnimationTimer timer = new AnimationTimer() {
@@ -108,7 +87,7 @@ public class App extends Application {
         };
         timer.start();
     }
-
+    
     // update the positiona of the player 
     private void updatePlayerPosition() {
         double originalX = player1.getX();
@@ -121,12 +100,10 @@ public class App extends Application {
             speed = player1.getSpeed();
         }
 
-        // if (rightPressed) player1.moveRight(speed);
-
-        if(rightPressed) player1.moveRight(speed);
-        if (leftPressed) player1.moveLeft(speed);
-        if (downPressed) player1.moveDown(speed);
-        if (upPressed) player1.moveUp(speed);
+        if(Keyboard.getRightPressed()) player1.moveRight(speed);
+        if (Keyboard.getLeftPressed()) player1.moveLeft(speed);
+        if (Keyboard.getDownPressed()) player1.moveDown(speed);
+        if (Keyboard.getUpPressed()) player1.moveUp(speed);
 
     
         playerRectangle1.setX(player1.getX());

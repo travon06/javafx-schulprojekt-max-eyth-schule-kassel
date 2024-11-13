@@ -1,4 +1,4 @@
-package models.comments;
+package models.conversations;
 
 public class Comment {
     private final String speaker;

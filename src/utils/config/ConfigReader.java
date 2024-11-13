@@ -22,7 +22,7 @@ public class ConfigReader {
             try (BufferedReader reader = new BufferedReader(new FileReader(absoluteConfigPath.toString()))) {
                 String line;
                 // Read the config file line by line
-                while ((line = reader.readLine()) != null) {
+                while (!((line = reader.readLine()).isBlank())) {
                     // skip line if line is a comment
                     if(getArgument(line).startsWith("#")) {
                         continue;
