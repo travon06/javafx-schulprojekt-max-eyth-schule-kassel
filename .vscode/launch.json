@@ -6,6 +6,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "T",
+            "request": "launch",
+            "mainClass": "utils.maps.T",
+            "projectName": "project_15f4b383"
+        },
+        {
+            "type": "java",
+            "name": "TT",
+            "request": "launch",
+            "mainClass": "utils.maps.TT",
+            "projectName": "project_15f4b383"
+        },
+        {
+            "type": "java",
+            "name": "MapReader",
+            "request": "launch",
+            "mainClass": "utils.maps.MapReader",
+            "projectName": "project_15f4b383"
+        },
+        {
+            "type": "java",
             "name": "ConfigReader",
             "request": "launch",
             "mainClass": "utils.config.ConfigReader",

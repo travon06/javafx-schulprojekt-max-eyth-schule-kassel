@@ -22,9 +22,9 @@ public class ConfigReader {
             try (BufferedReader reader = new BufferedReader(new FileReader(absoluteConfigPath.toString()))) {
                 String line;
                 // Read the config file line by line
-                while (!((line = reader.readLine()).isBlank())) {
+                while (!((line = reader.readLine()).trim().equals("FINAL"))) {
                     // skip line if line is a comment
-                    if(getArgument(line).startsWith("#")) {
+                    if(getArgument(line).startsWith("#") || line.isEmpty()) {
                         continue;
                     }
                         // adding new Argument to ConfigArguments
@@ -47,10 +47,10 @@ public class ConfigReader {
     }
 
     // Optionally, add a main method for testing
-    // public static void main(String[] args) {
-    //     readConfig();
-    //     for (ConfigArgument configArgument : ConfigArguments.getConfigArguments()) {
-    //         System.out.println(String.format("%s=%s", configArgument.getArgument(), configArgument.getValue()));
-    //     }
-    // }
+    public static void main(String[] args) {
+        readConfig();
+        for (ConfigArgument configArgument : ConfigArguments.getConfigArguments()) {
+            System.out.println(String.format("%s=%s", configArgument.getArgument(), configArgument.getValue()));
+        }
+    }
 }
