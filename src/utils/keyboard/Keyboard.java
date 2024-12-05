@@ -3,6 +3,7 @@ package utils.keyboard;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+import models.entities.Player;
 import utils.config.ConfigArguments;
 
 
@@ -12,33 +13,37 @@ public class Keyboard {
     private static boolean leftPressed = false;
     private static boolean rightPressed = false;
     private static boolean shiftPressed = false;
+    private static boolean collectItemPressed = false;
     private static Scene scene;
     private static Stage stage;
-    private final static String walkUp = Keybindings.getKeybindingValue("WALK_UP");
-    private final static String walkLeft = Keybindings.getKeybindingValue("WALK_LEFT");
-    private final static String walkDown = Keybindings.getKeybindingValue("WALK_DOWN");
-    private final static String walkRight = Keybindings.getKeybindingValue("WALK_RIGHT");
+    private final static String WALK_UP = Keybindings.getKeybindingValue("WALK_UP");
+    private final static String WALK_LEFT = Keybindings.getKeybindingValue("WALK_LEFT");
+    private final static String WALK_DOWN = Keybindings.getKeybindingValue("WALK_DOWN");
+    private final static String WALK_RIGHT = Keybindings.getKeybindingValue("WALK_RIGHT");
+    private final static String COLLECT_ITEM = Keybindings.getKeybindingValue("COLLECT_ITEM");
     
 
-    public static void handleKeyboardInputs(boolean playerMovement, boolean exitOnEnter) {
+    public static void handleKeyboardInputs(Player player, boolean playerMovement, boolean exitOnEnter, boolean allowCollectItem) {
         Keyboard.scene.setOnKeyPressed(event -> {
             if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("CONSOLE_KEYBOARD_OUTPUT"))) {
-                System.out.println(event.getCode().toString());
+                System.out.println(String.format("Key pressed: %s", event.getCode().toString()));
             }
             String keyPressed = event.getCode().getName();
 
-            if (keyPressed.equalsIgnoreCase(Keyboard.walkUp)) {
+            if (keyPressed.equalsIgnoreCase(Keyboard.WALK_UP)) {
                 if (playerMovement) Keyboard.upPressed = true;
-            } else if (keyPressed.equalsIgnoreCase(Keyboard.walkLeft)) {
+            } else if (keyPressed.equalsIgnoreCase(Keyboard.WALK_LEFT)) {
                 if (playerMovement) Keyboard.leftPressed = true;
-            } else if (keyPressed.equalsIgnoreCase(Keyboard.walkDown)) {
+            } else if (keyPressed.equalsIgnoreCase(Keyboard.WALK_DOWN)) {
                 if (playerMovement) Keyboard.downPressed = true;
-            } else if (keyPressed.equalsIgnoreCase(Keyboard.walkRight)) {
+            } else if (keyPressed.equalsIgnoreCase(Keyboard.WALK_RIGHT)) {
                 if (playerMovement) Keyboard.rightPressed = true;
-            } else if (event.getCode() == KeyCode.SHIFT) {
+            } else if (keyPressed.equalsIgnoreCase(KeyCode.SHIFT.getName())) {
                 if (playerMovement) Keyboard.shiftPressed = true;
-            } else if (event.getCode() == KeyCode.ENTER) {
+            } else if (keyPressed.equalsIgnoreCase(KeyCode.ENTER.getName())) {
                 if (exitOnEnter) Keyboard.stage.close();
+            }  else if (keyPressed.equalsIgnoreCase(COLLECT_ITEM)) {
+                if(allowCollectItem) Keyboard.collectItemPressed = true;
             }
 
         });
@@ -46,16 +51,18 @@ public class Keyboard {
         Keyboard.scene.setOnKeyReleased(event -> {
 
             String keyPressed = event.getCode().getName();
-            if (keyPressed.equalsIgnoreCase(Keyboard.walkUp)) {
-                if (playerMovement) Keyboard.upPressed = false;
-            } else if (keyPressed.equalsIgnoreCase(Keyboard.walkLeft)) {
-                if (playerMovement) Keyboard.leftPressed = false;
-            } else if (keyPressed.equalsIgnoreCase(Keyboard.walkDown)) {
-                if (playerMovement) Keyboard.downPressed = false;
-            } else if (keyPressed.equalsIgnoreCase(Keyboard.walkRight)) {
-                if (playerMovement) Keyboard.rightPressed = false;
-            } else if (event.getCode() == KeyCode.SHIFT) {
-                if (playerMovement) Keyboard.shiftPressed = false;
+            if (keyPressed.equalsIgnoreCase(Keyboard.WALK_UP)) {
+                Keyboard.upPressed = false;
+            } else if (keyPressed.equalsIgnoreCase(Keyboard.WALK_LEFT)) {
+                Keyboard.leftPressed = false;
+            } else if (keyPressed.equalsIgnoreCase(Keyboard.WALK_DOWN)) {
+                Keyboard.downPressed = false;
+            } else if (keyPressed.equalsIgnoreCase(Keyboard.WALK_RIGHT)) {
+                Keyboard.rightPressed = false;
+            } else if (keyPressed.equalsIgnoreCase(KeyCode.SHIFT.getName())) {
+                Keyboard.shiftPressed = false;
+            } else if (keyPressed.equalsIgnoreCase(COLLECT_ITEM)) {
+                Keyboard.collectItemPressed = false;
             }
         });
 
@@ -115,6 +122,14 @@ public class Keyboard {
 
     public static boolean getShiftPressed() {
         return Keyboard.shiftPressed;
+    }
+
+    public static boolean getCollectItemPressed() {
+        return Keyboard.collectItemPressed;
+    }
+
+    public static void setCollectItemPressed(boolean collectItem) {
+        Keyboard.collectItemPressed = collectItem;
     }
     
 }

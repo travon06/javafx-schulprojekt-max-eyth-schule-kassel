@@ -1,11 +1,11 @@
 package models.entities;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import javafx.scene.shape.Rectangle;
 import models.CollisionDetection;
 import models.Inventory;
+import models.Item;
+import utils.config.ConfigArguments;
 import utils.keyboard.Keyboard;
 
 public class Player {
@@ -16,15 +16,51 @@ public class Player {
     private double sprintSpeed;
     private double x;
     private double y;
+    private int collectRange;
     
-    public Player(double health, double speed, double sprintSpeed, double startX, double startY) {
+    public Player(double health, double speed, double sprintSpeed, int collectRange, double startX, double startY) {
         this.inventory = new Inventory(50);
         this.health = health;
         this.maxHealth = health;
         this.speed = speed;
         this.sprintSpeed = sprintSpeed;
+        this.collectRange = collectRange;
         this.x = startX;
         this.y = startY;
+    }
+
+    public void collectItem(List<Item> items) {
+        Keyboard.setCollectItemPressed(false);
+        Item nearestItem = null;
+        double minDistance = Double.MAX_VALUE;
+
+        for(int i = 0; i < items.size(); i++) {
+            double distance = calculateDistance(items.get(i));
+
+            if(distance < minDistance) {
+                nearestItem = items.get(i);
+                minDistance = distance;
+            }
+            
+            // if item is in range when E is Pressed
+            if(calculateDistance(nearestItem) < Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_COLLECT_RANGE"))) {
+                if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_IN_RANGE_OUTPUT"))) {
+                    System.out.println(String.format("Item (%d | %d) is in Range", nearestItem.getX(), nearestItem.getY()));
+                }
+
+                // code for E pressed
+            }
+
+        }
+        
+        // ouput for showing nearest item
+        if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("SHOW_NEAREST_ITEM_OUTPUT"))) {
+            System.out.println(String.format("Nearest item: (%d | %d)", nearestItem.getX(), nearestItem.getY()));
+        }
+    }
+
+    private double calculateDistance(Item item) {
+        return Math.sqrt(Math.pow(this.x - item.getX(), 2) + Math.pow(this.y - item.getY(), 2));
     }
 
     public void updatePlayerPosition(Rectangle playerRectangle, List<Rectangle> collisionRectangles) {
@@ -149,5 +185,13 @@ public class Player {
 
     public void setY(double newY) {
         this.y = newY;
+    }
+
+    public int getCollectRange() {
+        return collectRange;
+    }
+
+    public void setCollectRange(int collectRange) {
+        this.collectRange = collectRange;
     }
 }

@@ -60,7 +60,7 @@ public class CollisionDetection {
 
     // Hilfsmethode für Konsolenausgabe
     private static void logCollision(String side) {
-        if (Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("CONSOLE_INFORMATION_OUTPUT"))) {
+        if (Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("CONSOLE_COLLISION_OUTPUT"))) {
             System.out.println("Collision on the " + side + " side");
         }
     }

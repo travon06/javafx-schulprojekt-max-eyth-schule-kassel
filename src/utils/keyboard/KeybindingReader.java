@@ -16,7 +16,7 @@ public class KeybindingReader {
             String data = Files.readString(absoluteMapsPath);
             data = data.replaceAll("\\s", "");
 
-            String lines[] = data.split(";");
+            String[] lines = data.split(";");
 
             for(String line : lines) {
                String argument = getArgument(line);

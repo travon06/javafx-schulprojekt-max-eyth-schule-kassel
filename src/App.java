@@ -6,16 +6,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import models.Item;
 import models.entities.Player;
 import models.fpsCounter.FPSCounter;
 import utils.config.ConfigArguments;
 import utils.config.ConfigReader;
-import utils.keyboard.Keybinding;
 import utils.keyboard.KeybindingReader;
 import utils.keyboard.Keyboard;
-import utils.maps.MapReader;
-
-import java.util.ArrayList;
+import utils.mapConfig.MapReader;
 import java.util.List;
 
 public class App extends Application {
@@ -24,6 +22,7 @@ public class App extends Application {
     private static final int SCREEN_HEIGHT;
 
     private List<Rectangle> collisionRectangles;
+    private List<Item> items;
     private Scene scene;
 
     static {
@@ -47,22 +46,27 @@ public class App extends Application {
 
         // Hindernisse und Wände erstellen
         collisionRectangles = initializeObstacles(rootPane);
+        items = intitializeItems(rootPane);
+
 
         // FPS-Anzeige hinzufügen
-        Label fpsCounter = FPSCounter.createFPSCounter();
-        rootPane.getChildren().add(fpsCounter);
+        FPSCounter fpsCounter = new FPSCounter();
+        Label fpsCounterLabel = fpsCounter.createFPSCounterLabel();
+        rootPane.getChildren().add(fpsCounterLabel);
 
         // Szene erstellen
         scene = new Scene(rootPane, SCREEN_WIDTH, SCREEN_HEIGHT);
         Keyboard.setScene(scene);
-        primaryStage.setTitle("2D Player Movement");
+        primaryStage.setTitle("Game");
         primaryStage.setScene(scene);
         primaryStage.show();
 
         // Tastatureingaben aktivieren
         Keyboard.handleKeyboardInputs(
+                player,
                 Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("ENABLE_PLAYER_MOVEMENT")),
-                Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("EXIT_ON_ENTER"))
+                Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("EXIT_ON_ENTER")),
+                Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("ALLOW_COLLECT_ITEM"))
         );
 
         // Animation Timer für kontinuierliche Updates
@@ -73,6 +77,9 @@ public class App extends Application {
                         (Rectangle) rootPane.lookup("#playerRectangle"),
                         collisionRectangles
                 );
+                if(Keyboard.getCollectItemPressed()) {
+                    player.collectItem(items);
+                }
             }
         };
         timer.start();
@@ -84,6 +91,7 @@ public class App extends Application {
                 Double.parseDouble(ConfigArguments.getConfigArgumentValue("PLAYER_HEALTH")),
                 Double.parseDouble(ConfigArguments.getConfigArgumentValue("PLAYER_SPEED")),
                 Double.parseDouble(ConfigArguments.getConfigArgumentValue("PLAYER_SPRINT_SPEED")),
+                Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_COLLECT_RANGE")),
                 100, // Startposition X
                 200  // Startposition Y
         );
@@ -99,13 +107,24 @@ public class App extends Application {
 
     private List<Rectangle> initializeObstacles(Pane pane) {
         // Hindernisse und Wände hinzufügen
-        List<Rectangle> obstacles = MapReader.readObstacles("level1");
+        List<Rectangle> obstacles = MapReader.readObstacles("level2");
 
         for(Rectangle rectangle : obstacles) {
             pane.getChildren().addAll(rectangle);
         }
 
         return obstacles;
+    }
+
+    private List<Item> intitializeItems(Pane pane) {
+        List<Item> items = MapReader.readItems("level2");
+
+        for(Item item : items) {
+            item.getHitbox().setFill(Color.RED);
+            pane.getChildren().add(item.getHitbox());
+        }
+
+        return items;
     }
 
     public static void main(String[] args) {
