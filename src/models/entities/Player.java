@@ -6,7 +6,7 @@ import models.CollisionDetection;
 import models.Inventory;
 import models.Item;
 import utils.config.ConfigArguments;
-import utils.keyboard.Keyboard;
+import utils.keyboard.KeyboardListener;
 
 public class Player {
     private final Inventory inventory;
@@ -29,57 +29,69 @@ public class Player {
         this.y = startY;
     }
 
-    public void collectItem(List<Item> items) {
-        Keyboard.setCollectItemPressed(false);
+    public List<Item> collectItem(List<Item> items, KeyboardListener keyboardListener) {
+        keyboardListener.setCollectItemPressed(false);
         Item nearestItem = null;
         double minDistance = Double.MAX_VALUE;
-
-        for(int i = 0; i < items.size(); i++) {
+    
+        // Find the nearest item
+        for (int i = 0; i < items.size(); i++) {
             double distance = calculateDistance(items.get(i));
-
-            if(distance < minDistance) {
+    
+            if (distance < minDistance) {
                 nearestItem = items.get(i);
                 minDistance = distance;
             }
-            
-            // if item is in range when E is Pressed
-            if(calculateDistance(nearestItem) < Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_COLLECT_RANGE"))) {
-                if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_IN_RANGE_OUTPUT"))) {
-                    System.out.println(String.format("Item (%d | %d) is in Range", nearestItem.getX(), nearestItem.getY()));
-                }
-
-                // code for E pressed
-            }
-
         }
-        
-        // ouput for showing nearest item
-        if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("SHOW_NEAREST_ITEM_OUTPUT"))) {
+    
+        // Check if there is a nearest item
+        if (nearestItem == null) {
+            if (Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_COLLECTED_OUTPUT"))) {
+                System.out.println("No item in level");
+            }
+        } else if (minDistance < Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_COLLECT_RANGE"))) {
+            // Nearest item is within range
+            if (Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_IN_RANGE_OUTPUT"))) {
+                System.out.println(String.format("Item (%d | %d) is in range", nearestItem.getX(), nearestItem.getY()));
+            }
+    
+            // Remove the item if 'E' is pressed
+            items.remove(nearestItem);
+            if (Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_COLLECTED_OUTPUT"))) {
+                System.out.println(String.format("Item (%d | %d) got removed", nearestItem.getX(), nearestItem.getY()));
+            }
+        }
+    
+        // Output the nearest item (if it exists)
+        if (nearestItem != null && Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_OUTPUT"))) {
             System.out.println(String.format("Nearest item: (%d | %d)", nearestItem.getX(), nearestItem.getY()));
         }
+    
+        return items;
     }
+    
 
     private double calculateDistance(Item item) {
         return Math.sqrt(Math.pow(this.x - item.getX(), 2) + Math.pow(this.y - item.getY(), 2));
     }
 
-    public void updatePlayerPosition(Rectangle playerRectangle, List<Rectangle> collisionRectangles) {
+    public void updatePlayerPosition(Rectangle playerRectangle, List<Rectangle> collisionRectangles, KeyboardListener keyboardListener) {
         double originalX = this.getX();
         double originalY = this.getY();
         double speed;
         
         // Bestimme die Bewegungsgeschwindigkeit
-        if (Keyboard.getShiftPressed()) {
+        if (keyboardListener.getShiftPressed()) {
             speed = this.getSprintSpeed();
         } else {
             speed = this.getSpeed();
         }
     
         // Bewege den Spieler
-        if (Keyboard.getRightPressed()) this.moveRight(speed);
-        if (Keyboard.getLeftPressed()) this.moveLeft(speed);
-        if (Keyboard.getDownPressed()) this.moveDown(speed);
-        if (Keyboard.getUpPressed()) this.moveUp(speed);
+        if (keyboardListener.getRightPressed()) this.moveRight(speed);
+        if (keyboardListener.getLeftPressed()) this.moveLeft(speed);
+        if (keyboardListener.getDownPressed()) this.moveDown(speed);
+        if (keyboardListener.getUpPressed()) this.moveUp(speed);
     
         // Aktualisiere die Position des Spieler-Rechtecks
         playerRectangle.setX(this.getX());
@@ -102,7 +114,7 @@ public class Player {
         playerRectangle.setY(this.getY());
     }
     
-
+    //#region getter & setter 
     public void setSprintSpeed(double sprintSpeed) {
         this.sprintSpeed = sprintSpeed;
     }
@@ -162,7 +174,6 @@ public class Player {
         }
     }
 
-
     public double getSpeed() {
         return this.speed;
     }
@@ -194,4 +205,6 @@ public class Player {
     public void setCollectRange(int collectRange) {
         this.collectRange = collectRange;
     }
+
+    //#endregion
 }
