@@ -6,7 +6,6 @@ import javafx.stage.Stage;
 import models.entities.Player;
 import utils.config.ConfigArguments;
 
-
 public class KeyboardListener {
     private boolean upPressed = false;
     private boolean downPressed = false;

@@ -1,5 +1,6 @@
 package models;
 
+import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 
 public class Item {
@@ -9,6 +10,7 @@ public class Item {
     private boolean isAccessible;
     private int x;
     private int y;
+    private Node node;
 
     public Item(String name, int size, int startX, int startY) {
         this.name = name;
@@ -19,6 +21,7 @@ public class Item {
         this.y = startY;
         this.hitbox.setX(startX);
         this.hitbox.setY(startY);
+        this.node = this.hitbox;
     }
 
     public String getName() {
@@ -59,4 +62,9 @@ public class Item {
         this.hitbox.setY(y);
 
     }
+
+    public Node getNode() {
+        return node;
+    }
+    
 }

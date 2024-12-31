@@ -47,10 +47,10 @@ public class ConfigReader {
     }
 
     // Optionally, add a main method for testing
-    public static void main(String[] args) {
-        readConfig();
-        for (ConfigArgument configArgument : ConfigArguments.getConfigArguments()) {
-            System.out.println(String.format("%s=%s", configArgument.getArgument(), configArgument.getValue()));
-        }
-    }
+    // public static void main(String[] args) {
+    //     readConfig();
+    //     for (ConfigArgument configArgument : ConfigArguments.getConfigArguments()) {
+    //         System.out.println(String.format("%s=%s", configArgument.getArgument(), configArgument.getValue()));
+    //     }
+    // }
 }

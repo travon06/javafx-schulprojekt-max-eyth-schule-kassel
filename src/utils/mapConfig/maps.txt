@@ -1,11 +1,26 @@
 !map:level1&
-!playerLocation:50,50&
-!obstacles:(100,50,50,50);(200,50,70,70);(-10,-10,760,10);(-10,-10,10,680);(720,10,10,680);(0,680,720,10)&
-!items:()()&
+!playerStartCoordinates:50,50&
+!obstacles:border;(100,50,50,50);(200,50,70,70)&
+!items:(Juice,3,350,350);(Juice,3,350,300)&
 !mapEnd
 
 !map:level2&
-!playerLocation:50,50&
-!obstacles:(100,300,150,50);(200,50,70,70);(-10,-10,760,10);(-10,-10,10,680);(720,10,10,680);(0,680,720,10)&
+!playerStartCoordinates:50,50&
+!obstacles:(100,300,150,50);border;(200,50,70,70)&
 !items:(Penny,1,300,300);(Juice,3,300,350);(Juice,3,350,350);(Juice,3,350,300)&
+!policemen:(50,50,5);(100,70,1);(90,90)&
+!policemanWaypoints:{
+    [(300,300);(300,100);(50,100);(50,50)]
+    [(100,150);(200,150);(200,70);(100,70)]
+    [(90,90)]
+    
+}&
+!mapEnd
+
+!map:level3&
+!playerStartCoordinates:300,50&
+!obstacles:(100,300,150,50);border;(200,50,70,70)&
+!items:(Penny,1,300,300);(Juice,3,300,350);(Juice,3,350,350);(Juice,3,350,300)&
+!policemen:(50,50,5)&
+!policemanWaypoints:{[(300,50);(300,100);(50,100);(50,50)]}&
 !mapEnd

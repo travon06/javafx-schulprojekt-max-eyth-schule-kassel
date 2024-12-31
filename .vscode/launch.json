@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MapReader",
+            "request": "launch",
+            "mainClass": "utils.mapConfig.MapReader",
+            "projectName": "project_15f4b383"
+        },
+        {
+            "type": "java",
             "name": "T",
             "request": "launch",
             "mainClass": "utils.maps.T",

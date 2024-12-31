@@ -1,6 +1,8 @@
 package models.entities;
 
 import java.util.List;
+
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import models.CollisionDetection;
 import models.Inventory;
@@ -17,8 +19,9 @@ public class Player {
     private double x;
     private double y;
     private int collectRange;
+    private Rectangle hitbox;
     
-    public Player(double health, double speed, double sprintSpeed, int collectRange, double startX, double startY) {
+    public Player(double health, double speed, double sprintSpeed, int collectRange, Rectangle hitbox, double startX, double startY) {
         this.inventory = new Inventory(50);
         this.health = health;
         this.maxHealth = health;
@@ -27,9 +30,12 @@ public class Player {
         this.collectRange = collectRange;
         this.x = startX;
         this.y = startY;
+        this.hitbox = hitbox;
+        this.hitbox.setX(startX);
+        this.hitbox.setY(startY);
     }
 
-    public List<Item> collectItem(List<Item> items, KeyboardListener keyboardListener) {
+    public List<Item> collectItem(Pane rootPane, List<Item> items, KeyboardListener keyboardListener) {
         keyboardListener.setCollectItemPressed(false);
         Item nearestItem = null;
         double minDistance = Double.MAX_VALUE;
@@ -52,19 +58,23 @@ public class Player {
         } else if (minDistance < Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_COLLECT_RANGE"))) {
             // Nearest item is within range
             if (Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_IN_RANGE_OUTPUT"))) {
-                System.out.println(String.format("Item (%d | %d) is in range", nearestItem.getX(), nearestItem.getY()));
+                System.out.println(String.format("Item %s(%d | %d) is in range", nearestItem.getName(), nearestItem.getX(), nearestItem.getY()));
             }
     
             // Remove the item if 'E' is pressed
+
+            
             items.remove(nearestItem);
+            rootPane.getChildren().remove(nearestItem.getNode());
+
             if (Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_COLLECTED_OUTPUT"))) {
-                System.out.println(String.format("Item (%d | %d) got removed", nearestItem.getX(), nearestItem.getY()));
+                System.out.println(String.format("Item %s(%d | %d) got removed", nearestItem.getName(), nearestItem.getX(), nearestItem.getY()));
             }
         }
     
         // Output the nearest item (if it exists)
         if (nearestItem != null && Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_OUTPUT"))) {
-            System.out.println(String.format("Nearest item: (%d | %d)", nearestItem.getX(), nearestItem.getY()));
+            System.out.println(String.format("Nearest item: %s(%d | %d)", nearestItem.getName(), nearestItem.getX(), nearestItem.getY()));
         }
     
         return items;
@@ -113,16 +123,7 @@ public class Player {
         playerRectangle.setX(this.getX());
         playerRectangle.setY(this.getY());
     }
-    
-    //#region getter & setter 
-    public void setSprintSpeed(double sprintSpeed) {
-        this.sprintSpeed = sprintSpeed;
-    }
 
-    public double getSprintSpeed() {
-        return this.sprintSpeed;
-    }
-    
     // movement methods
     public void moveUp(double speed) {
         this.y -= speed;
@@ -155,6 +156,15 @@ public class Player {
     
     public void addSpeed(double amount) {
         this.speed += amount;
+    }
+    
+    //#region getter & setter 
+    public void setSprintSpeed(double sprintSpeed) {
+        this.sprintSpeed = sprintSpeed;
+    }
+
+    public double getSprintSpeed() {
+        return this.sprintSpeed;
     }
     
     // getter and setter methods
@@ -204,6 +214,22 @@ public class Player {
 
     public void setCollectRange(int collectRange) {
         this.collectRange = collectRange;
+    }
+
+    public void setHitbox(Rectangle hitbox) {
+        this.hitbox = hitbox;
+    }
+
+    public Rectangle getHitbox() {
+        return hitbox;
+    }
+
+    public void setMaxHealth(double maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public double getMaxHealth() {
+        return maxHealth;
     }
 
     //#endregion
