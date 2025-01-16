@@ -2,16 +2,21 @@ package levels;
 
 import java.util.ArrayList;
 
+import HUD.HUD;
 import javafx.animation.AnimationTimer;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import models.CollisionDetection;
 import models.Item;
+import models.Screens.GameoverScreen;
 import models.entities.Player;
 import models.entities.Policeman;
 import models.fpsCounter.FPSCounter;
+import models.tiles.Tile;
 import utils.config.ConfigArguments;
 import utils.keyboard.KeyboardListener;
 import utils.mapConfig.MapReader;
@@ -24,16 +29,18 @@ public class Level {
     private Player player;
     private ArrayList<Policeman> policemen;
     private KeyboardListener keyboardListener;
-    private ArrayList<Rectangle> obstacles;
+    private ArrayList<Tile> tiles;
     private ArrayList<Item> items;
     private AnimationTimer timer;
-
+    private HUD hud;
+    private boolean itemInRange;
+    
     public Level(Stage stage, String mapName) {
-
-
+        
+        
         this.stage = stage;
         this.stage.setResizable(false);
-
+        
         this.mapName = mapName;
         this.rootPane = new Pane();
         this.scene = new Scene(
@@ -41,30 +48,34 @@ public class Level {
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")),
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"))       
             );        
-        this.obstacles = initializeObstacles(this.rootPane, mapName);
-        this.items = intitializeItems(this.rootPane, mapName);
-        this.player = initializePlayer(this.rootPane);    
-        this.policemen = initializePoliceman(rootPane, mapName);
-        if(this.policemen.size() > 0) {
-            for(int i = 0; i < this.policemen.size(); i++) {
-                this.policemen.get(i).getWaypoints().addAll(MapReader.readWaypoints(mapName, i));
+            this.tiles = initializeTiles(this.rootPane, mapName);
+            this.items = intitializeItems(this.rootPane, mapName);
+            this.player = initializePlayer(this.rootPane);    
+            this.policemen = initializePoliceman(rootPane, mapName);
+            if(this.policemen.size() > 0) {
+                for(int i = 0; i < this.policemen.size(); i++) {
+                    this.policemen.get(i).getWaypoints().addAll(MapReader.readWaypoints(mapName, i));
+                }
             }
+            this.keyboardListener = new KeyboardListener(this.stage, this.scene);
+            
+            this.hud = new HUD(rootPane);
+            this.itemInRange = false;
+            
         }
-        this.keyboardListener = new KeyboardListener(this.stage, this.scene);
-    
-
-    }
+        
+        //#region ini functions
 
 
-    private ArrayList<Rectangle> initializeObstacles(Pane pane, String mapName) {
+    private ArrayList<Tile> initializeTiles(Pane pane, String mapName) {
         // Hindernisse und Wände hinzufügen
-        ArrayList<Rectangle> obstacles = MapReader.readObstacles(mapName);
+        ArrayList<Tile> tiles = MapReader.readTiles(mapName);
 
-        for(Rectangle rectangle : obstacles) {
-            pane.getChildren().addAll(rectangle);
+        for(Tile tile : tiles) {
+            pane.getChildren().addAll(tile.getHitbox());
         }
 
-        return obstacles;
+        return tiles;
     }
 
     private ArrayList<Item> intitializeItems(Pane pane, String mapName) {
@@ -79,10 +90,11 @@ public class Level {
     }
 
     private ArrayList<Policeman> initializePoliceman(Pane pane, String mapName) {
-        ArrayList<Policeman> policemen = MapReader.readpolicemen(mapName);
+        ArrayList<Policeman> policemen = MapReader.readPolicemen(mapName);
     
         for (Policeman policeman : policemen) {
-            pane.getChildren().addAll(policeman.getHitbox());
+            pane.getChildren().add(policeman.getVisionCircle());
+            pane.getChildren().add(policeman.getHitbox());
         }
 
         return policemen;
@@ -107,28 +119,62 @@ public class Level {
         pane.getChildren().add(player.getHitbox());
         return player;
     }
+    //#endregion
 
     public void start() {
-        for (Policeman policeman : policemen) {
-            policeman.followPath(rootPane);
+        
+        ArrayList<Rectangle> tileHitboxes = new ArrayList<>();
+
+        for(Tile tile : tiles) {
+            tileHitboxes.add(tile.getHitbox());
         }
         
         this.timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                for(Policeman policeman : policemen) {
+                    if(CollisionDetection.checkCollisionWithPoliceman(player, policeman) && !keyboardListener.getGodMode()) {
+                        this.stop();
+                        GameoverScreen gmScreen = new GameoverScreen(stage, mapName);
+                        gmScreen.setDeathMessage("You got caught!");
+                    }
+
+                    if(keyboardListener.getShiftPressed()) {
+                        player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_SPRINT_SPEED")));
+                    } else {
+                        player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_SPEED")));
+                    }
+
+                }
+
                 player.updatePlayerPosition(
                     (Rectangle) rootPane.lookup("#playerRectangle"),
-                    obstacles,
+                    tileHitboxes,
                     keyboardListener
                 );
-    
-                if (keyboardListener.getCollectItemPressed()) {
-                    player.collectItem(rootPane, items, keyboardListener);
+
+                Item nearestItem = getNearestItem();
+                if(itemInRange) {
+                    hud.printItemCollectable(nearestItem);
+                } else {
+                    hud.hideItemCollectable();
+                }
+
+                if(itemInRange && keyboardListener.getCollectItemPressed()) {
+                    player.collectItem(rootPane, items, nearestItem, keyboardListener);
+                }
+
+                if(keyboardListener.getGetCoordinates()) {
+                    System.out.println(String.format("Player(%.1f | %.1f)", player.getX(), player.getY()));
                 }
             }
         };
         timer.start();
-
+        
+        
+        for (Policeman policeman : policemen) {
+            policeman.followPath(rootPane);
+        }
         boolean enablePlayerMovement = Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("ENABLE_PLAYER_MOVEMENT"));
         boolean exitOnEnter = Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("ENABLE_EXIT_ON_ENTER"));
         boolean allowCollectItem = Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("ENABLE_COLLECT_ITEM"));
@@ -151,7 +197,7 @@ public class Level {
         stage = null;
         rootPane = null;
         player = null;
-        obstacles = null;
+        tiles = null;
         items = null;
         keyboardListener = null;
 
@@ -161,6 +207,43 @@ public class Level {
         FPSCounter fpsCounter = new FPSCounter();
         
         this.rootPane.getChildren().add(fpsCounter.createFPSCounterLabel());
+    }
+
+    private Item getNearestItem() {
+        Item nearestItem = null;
+        double minDistance = Double.MAX_VALUE;
+    
+        // Find the nearest item
+        for (Item item : items) {
+            double distance = calculateDistance(item);
+    
+            if (distance < minDistance) {
+                nearestItem = item;
+                minDistance = distance;
+            }
+        }
+    
+        if (nearestItem == null) {
+            this.itemInRange = false; // Kein Item vorhanden
+            if (Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NO_ITEM_IN_LEVEL_OUTPUT"))) {
+                System.out.println("No item in level");
+            }
+        } else {
+            this.itemInRange = minDistance < Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_COLLECT_RANGE"));
+    
+            if (Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_OUTPUT"))) {
+                System.out.println(String.format("Nearest Item: '%s'", nearestItem.toString()));
+            }
+            if (this.itemInRange && Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_IN_RANGE_OUTPUT"))) {
+                System.out.println(String.format("Item: '%s' is in range", nearestItem.toString()));
+            }
+        }
+        return nearestItem;
+    }
+    
+
+    private double calculateDistance(Item item) {
+        return Math.sqrt(Math.pow(this.player.getX() - item.getX(), 2) + Math.pow(this.player.getY() - item.getY(), 2));
     }
     
 
@@ -221,12 +304,12 @@ public class Level {
         return items;
     }
 
-    public void setObstacles(ArrayList<Rectangle> obstacles) {
-        this.obstacles = obstacles;
+    public void setTiles(ArrayList<Tile> tiles) {
+        this.tiles = tiles;
     }
 
-    public ArrayList<Rectangle> getObstacles() {
-        return obstacles;
+    public ArrayList<Tile> getTiles() {
+        return tiles;
     }
     
     public void setTimer(AnimationTimer timer) {

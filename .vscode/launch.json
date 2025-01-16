@@ -6,62 +6,7 @@
     "configurations": [
         {
             "type": "java",
-            "name": "MapReader",
-            "request": "launch",
-            "mainClass": "utils.mapConfig.MapReader",
-            "projectName": "project_15f4b383"
-        },
-        {
-            "type": "java",
-            "name": "T",
-            "request": "launch",
-            "mainClass": "utils.maps.T",
-            "projectName": "project_15f4b383"
-        },
-        {
-            "type": "java",
-            "name": "TT",
-            "request": "launch",
-            "mainClass": "utils.maps.TT",
-            "projectName": "project_15f4b383"
-        },
-        {
-            "type": "java",
-            "name": "MapReader",
-            "request": "launch",
-            "mainClass": "utils.maps.MapReader",
-            "projectName": "project_15f4b383"
-        },
-        {
-            "type": "java",
-            "name": "ConfigReader",
-            "request": "launch",
-            "mainClass": "utils.config.ConfigReader",
-            "projectName": "project_15f4b383"
-        },
-        {
-            "type": "java",
-            "name": "ConfigReader",
-            "request": "launch",
-            "mainClass": "utils.ConfigReader",
-            "projectName": "project_15f4b383"
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "project_15f4b383"
-        },
-        {
-            "type": "java",
-            "name": "Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "App",
+            "name": "Launch App.java",
             "request": "launch",
             "mainClass": "App",
             "projectName": "project_15f4b383",

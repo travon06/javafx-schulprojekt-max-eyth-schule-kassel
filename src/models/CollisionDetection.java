@@ -1,9 +1,22 @@
 package models;
 
+import java.util.ArrayList;
+
+import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
+import models.entities.Player;
+import models.entities.Policeman;
 import utils.config.ConfigArguments;
 
 public class CollisionDetection {
+
+    public static boolean checkCollisionWithPoliceman(Player player, Policeman policeman) {
+        return policeman.getHitboxNode().getBoundsInParent().intersects(player.getHitboxNode().getBoundsInParent());
+    }
+
+    public static boolean checkCollisionWithPolicemanVisionCircle(Player player, Policeman policeman) {
+        return policeman.getVisionCircle().getBoundsInParent().intersects(player.getHitbox().getBoundsInParent());
+    }
 
     // Prüft, ob zwei Bereiche überlappen (allgemeine Hilfsmethode)
     private static boolean isOverlapping(double min1, double max1, double min2, double max2) {
@@ -80,5 +93,12 @@ public class CollisionDetection {
 
     public static boolean checkCollisionTop(Rectangle player, Rectangle block, boolean blockIsSolid) {
         return checkCollision("top", player, block, blockIsSolid);
+    }
+
+    public static boolean checkCollisionForPlayer(Player player, ArrayList<Node> objects) {
+        for(Node object : objects) {
+            if(player.getHitbox().getBoundsInParent().intersects(object.getBoundsInParent())) return true;
+        }
+        return false;
     }
 }

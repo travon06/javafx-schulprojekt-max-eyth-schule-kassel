@@ -6,6 +6,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import utils.Waypoint;
@@ -13,28 +15,37 @@ import utils.Waypoint;
 public class Policeman {
     private int health;
     private double speed;
+    private int hitboxBounds;
     private Rectangle hitbox;
     private int visionRange;
-    private Node node;
+    private Node hitboxNode;
+    private Node visionNode;
     private double x;
     private double y;
     private ArrayList<Waypoint> waypoints;
     private int currentWaypointIndex;
+    private Circle visionCircle;
 
 
-    public Policeman(double speed, int health, Rectangle hitbox, int visionRange, int startX, int startY) {
+    public Policeman(double speed, int health, int hitboxBounds, int visionRange, int startX, int startY) {
         this.speed = speed;
         this.health = health;
-        this.hitbox = hitbox;
-        this.node = hitbox;
+        this.hitboxBounds = hitboxBounds;
+        this.hitbox = new Rectangle(hitboxBounds, hitboxBounds, Color.DARKBLUE);
+        this.hitboxNode = hitbox;
         this.visionRange = visionRange;
         this.x = startX;
+        this.y = startY;
         this.hitbox.setY(startX);
-        this.hitbox.setX(startY);;
+        this.hitbox.setY(startY);
         this.currentWaypointIndex = 0;
         this.waypoints = new ArrayList<>();
-
-
+        this.visionCircle = new Circle(this.visionRange);
+        this.visionCircle.setOpacity(0.5);
+        this.visionCircle.setFill(Color.YELLOW);
+        this.visionCircle.setCenterX(startX + this.hitboxBounds / 2);
+        this.visionCircle.setCenterY(startY + this.hitboxBounds / 2);
+        this.visionNode = this.visionCircle;
     }
 
 
@@ -124,17 +135,18 @@ public class Policeman {
         this.visionRange = visionRange;
     }
 
-    public Node getNode() {
-        return node;
+    public Node getHitboxNode() {
+        return hitboxNode;
     }
 
-    public void setNode(Node node) {
-        this.node = node;
+    public void setHitboxNode(Node node) {
+        this.hitboxNode = node;
     }
 
     public void setX(double x) {
         this.x = x;
         this.hitbox.setX(x);
+        this.visionCircle.setCenterX(x + this.hitboxBounds / 2);
     }
 
     public double getX() {
@@ -144,6 +156,7 @@ public class Policeman {
     public void setY(double y) {
         this.y = y;
         this.hitbox.setY(y);
+        this.visionCircle.setCenterY(y + this.hitboxBounds / 2);
     }
 
     public double getY() {
@@ -156,6 +169,22 @@ public class Policeman {
 
     public void setWaypoints(ArrayList<Waypoint> waypoints) {
         this.waypoints = waypoints;
+    }
+
+    public void setVisionCircle(Circle visionCircle) {
+        this.visionCircle = visionCircle;
+    }
+
+    public Circle getVisionCircle() {
+        return visionCircle;
+    }
+
+    public void setVisionNode(Node visionNode) {
+        this.visionNode = visionNode;
+    }
+
+    public Node getVisionNode() {
+        return visionNode;
     }
 
     //#endregion

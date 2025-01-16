@@ -5,12 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import models.Item;
 import models.entities.Policeman;
+import models.tiles.Tile;
 import utils.Waypoint;
 import utils.config.ConfigArguments;
 
@@ -18,56 +16,23 @@ public class MapReader {
 
     private final static ArrayList<String> MAPS = MapReader.getMaps();
 
-    public static ArrayList<Rectangle> readObstacles(String mapName) {
-        ArrayList<Rectangle> obstacleRectangles = new ArrayList<>(); 
+    public static ArrayList<Tile> readTiles(String mapName) {
+        ArrayList<Tile> tiles = new ArrayList<>(); 
     
         for (String map : MapReader.MAPS) {
             if (map.startsWith(String.format("!map:%s", mapName))) {
                 String[] arguments = map.split("&");
     
                 for (String argument : arguments) {
-                    if (argument.startsWith("!obstacles")) {
+                    if (argument.startsWith("!tiles")) {
                         String[] obstacles = argument.split(":")[1].split(";");
 
                         
-
+                        boolean borderIsSet = false;
                         for (int i = 0; i < obstacles.length; i++) {
-                            if(obstacles[i].equalsIgnoreCase("border")) {
-                                int screenWidth = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH"));
-                                int screenHeight = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"));
-                                int borderBounds = 10;
-
-                                // top border
-                                obstacleRectangles.add(new Rectangle(
-                                    0,
-                                    0 - borderBounds,
-                                    screenWidth + borderBounds,
-                                    borderBounds
-                                ));
-                                
-                                // right border
-                                obstacleRectangles.add(new Rectangle(
-                                    screenWidth,
-                                    0 - borderBounds,
-                                    borderBounds,
-                                    screenHeight + borderBounds
-                                ));
-
-                                // bottom border
-                                obstacleRectangles.add(new Rectangle(
-                                    0,
-                                    screenHeight,
-                                    screenWidth + borderBounds,
-                                    borderBounds
-                                ));
-
-                                // left border
-                                obstacleRectangles.add(new Rectangle(
-                                    0 - borderBounds,
-                                    0 - borderBounds,
-                                    borderBounds,
-                                    screenHeight + borderBounds
-                                ));
+                            if(obstacles[i].equalsIgnoreCase("border") && !borderIsSet) {
+                                initializeBorder(tiles);
+                                borderIsSet = true;
                                 continue;
                             }
 
@@ -75,7 +40,8 @@ public class MapReader {
                             String[] obstacleArguments = obstacles[i].split(",");
     
                             if (obstacleArguments.length == 4) { // Ensure 4 arguments
-                                obstacleRectangles.add(new Rectangle(
+                                tiles.add(new Tile(
+                                    true,
                                     Integer.parseInt(obstacleArguments[0]), // x
                                     Integer.parseInt(obstacleArguments[1]), // y
                                     Integer.parseInt(obstacleArguments[2]), // width
@@ -89,10 +55,53 @@ public class MapReader {
                 }
             }
         }
-        return obstacleRectangles;
+        return tiles;
     }
 
-    public static ArrayList<Policeman> readpolicemen(String mapName) {
+    private static void initializeBorder(ArrayList<Tile> tiles) {
+        int screenWidth = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH"));
+        int screenHeight = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"));
+        int borderBounds = 10;
+
+        // top border
+        tiles.add(new Tile(
+            true,
+            0,
+            0 - borderBounds,
+            screenWidth + borderBounds,
+            borderBounds
+            
+        ));
+        
+        // right border
+        tiles.add(new Tile(
+            true,
+            screenWidth,
+            0 - borderBounds,
+            borderBounds,
+            screenHeight + borderBounds
+        ));
+
+        // bottom border
+        tiles.add(new Tile(
+            true,
+            0,
+            screenHeight,
+            screenWidth + borderBounds,
+            borderBounds
+        ));
+
+        // left border
+        tiles.add(new Tile(
+            true,
+            0 - borderBounds,
+            0 - borderBounds,
+            borderBounds,
+            screenHeight + borderBounds
+        ));
+    }
+
+    public static ArrayList<Policeman> readPolicemen(String mapName) {
         ArrayList<Policeman> policemen = new ArrayList<>();
 
         for(String map : MapReader.MAPS) {
@@ -119,14 +128,8 @@ public class MapReader {
                             policemen.add(new Policeman(
                                 policemanSpeed, 
                                 Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_HEALTH")),
-
-                                new Rectangle(
-                                    Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_HITBOX_BOUNDS")), 
-                                    Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_HITBOX_BOUNDS")),
-                                    Color.DARKBLUE
-                                ),
-
                                 Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_HITBOX_BOUNDS")),
+                                Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_VISION_RANGE")),
                                 Integer.parseInt(policemanArguments[0]),
                                 Integer.parseInt(policemanArguments[1])
                             ));
@@ -182,7 +185,7 @@ public class MapReader {
 
 
                 for(String argument : arguments) { 
-                    if(argument.startsWith("!policemanWaypoints:")) {
+                    if(argument.startsWith("!policemenWaypoints:")) {
                         String waypointData = argument.split(":")[1];
                         waypointData = waypointData.replace("{", "").replace("}", "");
 
@@ -203,7 +206,6 @@ public class MapReader {
 
                             // if allowVertical was given in maps.txt
                             if(waypointCoordiante.split(",").length == 3) {
-                                System.out.println("####aagsiidfbsijbi");
                                 allowVerticalMovement = Boolean.parseBoolean(waypointCoordiante.split(",")[2]);
                             }
 

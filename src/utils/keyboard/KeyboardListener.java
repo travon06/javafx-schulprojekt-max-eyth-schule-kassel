@@ -13,6 +13,8 @@ public class KeyboardListener {
     private boolean rightPressed = false;
     private boolean shiftPressed = false;
     private boolean collectItemPressed = false;
+    private boolean getCoordinates = false;
+    private boolean godMode = false;
     private Scene scene;
     private Stage stage;
     private final String WALK_UP = Keybindings.getKeybindingValue("WALK_UP");
@@ -20,7 +22,8 @@ public class KeyboardListener {
     private final String WALK_DOWN = Keybindings.getKeybindingValue("WALK_DOWN");
     private final String WALK_RIGHT = Keybindings.getKeybindingValue("WALK_RIGHT");
     private final String COLLECT_ITEM = Keybindings.getKeybindingValue("COLLECT_ITEM");
-    
+    private final String GET_COORDINATES = Keybindings.getKeybindingValue("GET_COORDIANTES");
+    private final String TOGGLE_GOD_MODE = Keybindings.getKeybindingValue("TOGGLE_GOD_MODE");    
     public KeyboardListener(Stage stage, Scene scene) {
         this.scene = scene;
         this.stage = stage;
@@ -48,6 +51,10 @@ public class KeyboardListener {
                 if (exitOnEnter) this.stage.close();
             } else if (keyPressed.equalsIgnoreCase(COLLECT_ITEM)) {
                 if(allowCollectItem) this.collectItemPressed = true;
+            } else if (keyPressed.equalsIgnoreCase(this.GET_COORDINATES)) {
+                this.getCoordinates = true;
+            } else if (keyPressed.equalsIgnoreCase(this.TOGGLE_GOD_MODE)) {
+                this.godMode = !this.godMode;
             }
 
         });
@@ -65,8 +72,10 @@ public class KeyboardListener {
                 this.rightPressed = false;
             } else if (keyPressed.equalsIgnoreCase(KeyCode.SHIFT.getName())) {
                 this.shiftPressed = false;
-            } else if (keyPressed.equalsIgnoreCase(COLLECT_ITEM)) {
+            } else if (keyPressed.equalsIgnoreCase(this.COLLECT_ITEM)) {
                 this.collectItemPressed = false;
+            } else if (keyPressed.equalsIgnoreCase(this.GET_COORDINATES)) {
+                this.getCoordinates = false;
             }
         });
 
@@ -135,5 +144,20 @@ public class KeyboardListener {
     public  void setCollectItemPressed(boolean collectItem) {
         this.collectItemPressed = collectItem;
     }
+
+    public void setGetCoordinates(boolean getCoordinates) {
+        this.getCoordinates = getCoordinates;
+    }
+
+    public boolean getGetCoordinates() {
+        return this.getCoordinates;
+    }
     
+    public void setGodMode(boolean godMode) {
+        this.godMode = godMode;
+    }
+
+    public boolean getGodMode() {
+        return this.godMode;
+    }
 }

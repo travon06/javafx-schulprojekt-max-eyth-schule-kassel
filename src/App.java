@@ -14,17 +14,16 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Stage level2Stage = new Stage();
-        
+        String mapName = "level2";
+        Stage levelStage = new Stage();
+        Level level = new Level(levelStage, mapName);
+        levelStage.setTitle(mapName);
+        level.addFPSCounter();
+        level.start();
 
-        Level level2 = new Level(level2Stage, "level2");
-        level2.addFPSCounter();
-        level2.start();
-        
     }
 
     public static void main(String[] args) {
-
         launch(args);
     }
 }

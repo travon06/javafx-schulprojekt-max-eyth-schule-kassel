@@ -1,6 +1,8 @@
 package models;
 
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
 public class Item {
@@ -11,9 +13,10 @@ public class Item {
     private int x;
     private int y;
     private Node node;
+    private ImageView image;
 
     public Item(String name, int size, int startX, int startY) {
-        this.name = name;
+        this.name = formatName(name);
         this.size = size;
         this.isAccessible = false;
         this.hitbox = new Rectangle(25, 25);
@@ -22,8 +25,20 @@ public class Item {
         this.hitbox.setX(startX);
         this.hitbox.setY(startY);
         this.node = this.hitbox;
+
+        this.image = new ImageView(new Image("../sprites/key.png"));
     }
 
+    private String formatName(String name) {
+        return name.replace("_", " ");
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s(%d | %d)", this.name, this.x, this.y);
+    }
+
+    //#region getter & setter
     public String getName() {
         return this.name;
     }
@@ -66,5 +81,14 @@ public class Item {
     public Node getNode() {
         return node;
     }
+
+    public void setImage(ImageView image) {
+        this.image = image;
+    }
+
+    public ImageView getImage() {
+        return image;
+    }
+    //#endregion
     
 }

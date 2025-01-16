@@ -1,7 +1,9 @@
 package models.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import models.CollisionDetection;
@@ -20,9 +22,10 @@ public class Player {
     private double y;
     private int collectRange;
     private Rectangle hitbox;
+    private Node hitboxNode;
     
     public Player(double health, double speed, double sprintSpeed, int collectRange, Rectangle hitbox, double startX, double startY) {
-        this.inventory = new Inventory(50);
+        this.inventory = new Inventory(3);
         this.health = health;
         this.maxHealth = health;
         this.speed = speed;
@@ -33,69 +36,28 @@ public class Player {
         this.hitbox = hitbox;
         this.hitbox.setX(startX);
         this.hitbox.setY(startY);
+        this.hitboxNode = this.hitbox;
     }
-
-    public List<Item> collectItem(Pane rootPane, List<Item> items, KeyboardListener keyboardListener) {
+    
+    public List<Item> collectItem(Pane rootPane, ArrayList<Item> items, Item nearestItem, KeyboardListener keyboardListener) {
         keyboardListener.setCollectItemPressed(false);
-        Item nearestItem = null;
-        double minDistance = Double.MAX_VALUE;
-    
-        // Find the nearest item
-        for (int i = 0; i < items.size(); i++) {
-            double distance = calculateDistance(items.get(i));
-    
-            if (distance < minDistance) {
-                nearestItem = items.get(i);
-                minDistance = distance;
-            }
-        }
-    
-        // Check if there is a nearest item
-        if (nearestItem == null) {
-            if (Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_COLLECTED_OUTPUT"))) {
-                System.out.println("No item in level");
-            }
-        } else if (minDistance < Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_COLLECT_RANGE"))) {
-            // Nearest item is within range
-            if (Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_IN_RANGE_OUTPUT"))) {
-                System.out.println(String.format("Item %s(%d | %d) is in range", nearestItem.getName(), nearestItem.getX(), nearestItem.getY()));
-            }
-    
-            // Remove the item if 'E' is pressed
-
-            
-            items.remove(nearestItem);
+        if(this.inventory.addItem(nearestItem)) {
             rootPane.getChildren().remove(nearestItem.getNode());
-
-            if (Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_COLLECTED_OUTPUT"))) {
-                System.out.println(String.format("Item %s(%d | %d) got removed", nearestItem.getName(), nearestItem.getX(), nearestItem.getY()));
-            }
+            items.remove(nearestItem);
         }
-    
-        // Output the nearest item (if it exists)
-        if (nearestItem != null && Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_OUTPUT"))) {
-            System.out.println(String.format("Nearest item: %s(%d | %d)", nearestItem.getName(), nearestItem.getX(), nearestItem.getY()));
+        System.out.println(this.inventory);
+
+        if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_REMOVED_OUTPUT"))) {
+            System.out.println(String.format("nearest Item '%s' got removed", nearestItem.toString()));
         }
     
         return items;
-    }
-    
-
-    private double calculateDistance(Item item) {
-        return Math.sqrt(Math.pow(this.x - item.getX(), 2) + Math.pow(this.y - item.getY(), 2));
     }
 
     public void updatePlayerPosition(Rectangle playerRectangle, List<Rectangle> collisionRectangles, KeyboardListener keyboardListener) {
         double originalX = this.getX();
         double originalY = this.getY();
-        double speed;
-        
-        // Bestimme die Bewegungsgeschwindigkeit
-        if (keyboardListener.getShiftPressed()) {
-            speed = this.getSprintSpeed();
-        } else {
-            speed = this.getSpeed();
-        }
+        double speed = this.getSpeed();
     
         // Bewege den Spieler
         if (keyboardListener.getRightPressed()) this.moveRight(speed);
@@ -108,22 +70,25 @@ public class Player {
         playerRectangle.setY(this.getY());
     
         // Kollisionsprüfung und Rücksetzen der Position
-        for (Rectangle collisionRectangle : collisionRectangles) {
-            if (CollisionDetection.checkCollisionRight(playerRectangle, collisionRectangle, true) ||
-                CollisionDetection.checkCollisionLeft(playerRectangle, collisionRectangle, true)) {
-                this.setX(originalX);
+        if(!keyboardListener.getGodMode()) {
+            for (Rectangle collisionRectangle : collisionRectangles) {
+                if (CollisionDetection.checkCollisionRight(playerRectangle, collisionRectangle, true) ||
+                    CollisionDetection.checkCollisionLeft(playerRectangle, collisionRectangle, true)) {
+                    this.setX(originalX);
+                }
+                if (CollisionDetection.checkCollisionBottom(playerRectangle, collisionRectangle, true) ||
+                    CollisionDetection.checkCollisionTop(playerRectangle, collisionRectangle, true)) {
+                    this.setY(originalY);
+                }
             }
-            if (CollisionDetection.checkCollisionBottom(playerRectangle, collisionRectangle, true) ||
-                CollisionDetection.checkCollisionTop(playerRectangle, collisionRectangle, true)) {
-                this.setY(originalY);
-            }
+
         }
     
         // Visuelle Darstellung nach Rücksetzung
         playerRectangle.setX(this.getX());
         playerRectangle.setY(this.getY());
     }
-
+ 
     // movement methods
     public void moveUp(double speed) {
         this.y -= speed;
@@ -230,6 +195,14 @@ public class Player {
 
     public double getMaxHealth() {
         return maxHealth;
+    }
+
+    public void setHitboxNode(Node hitboxNode) {
+        this.hitboxNode = hitboxNode;
+    }
+
+    public Node getHitboxNode() {
+        return hitboxNode;
     }
 
     //#endregion
