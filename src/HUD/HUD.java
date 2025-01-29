@@ -2,22 +2,31 @@ package HUD;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import language.Texts;
 import models.Item;
+import utils.config.ConfigArguments;
 import utils.keyboard.Keybindings;
 
 public class HUD {
 
     private Pane rootPane;
     private Label collectibleLabel;
+    private Label goalLabel;
 
     public HUD(Pane rootPane) {
         this.rootPane = rootPane;
+
         this.collectibleLabel = new Label();
         this.collectibleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.2em;");
         this.collectibleLabel.setVisible(false);
-        collectibleLabel.layoutXProperty().bind(rootPane.widthProperty().subtract(collectibleLabel.widthProperty()).divide(2));
-        collectibleLabel.layoutYProperty().bind(rootPane.heightProperty().subtract(collectibleLabel.heightProperty()).divide(2).subtract(200));
-        this.rootPane.getChildren().add(this.collectibleLabel);
+        this.collectibleLabel.layoutXProperty().bind(rootPane.widthProperty().subtract(collectibleLabel.widthProperty()).divide(2));
+        this.collectibleLabel.layoutYProperty().bind(rootPane.heightProperty().subtract(collectibleLabel.heightProperty()).divide(2).subtract(200));
+        
+        this.goalLabel = new Label();
+        this.goalLabel.layoutXProperty().bind(rootPane.widthProperty().subtract(goalLabel.widthProperty()).divide(2));
+        this.goalLabel.layoutYProperty().bind(rootPane.heightProperty().subtract(goalLabel.heightProperty()).divide(2).subtract(300));
+        this.goalLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.2em;");
+        this.rootPane.getChildren().addAll(this.collectibleLabel, this.goalLabel);
 
     } 
 
@@ -28,8 +37,14 @@ public class HUD {
         }
    
         if(!this.collectibleLabel.isVisible() ||!nearesItem.getName().equals(lastNearestItemName)) {
-            String collectBind = Keybindings.getKeybindingValue("COLLECT_ITEM");
-            this.collectibleLabel.setText(String.format("Press %s to collect '%s'", collectBind, nearesItem.getName()));
+            String interactBind = Keybindings.getKeybindingValue("INTERACT");
+            this.collectibleLabel.setText(String.format("%s %s %s '%s' %s",
+                Texts.getTextByName("ineractLabelCollectItemP1").getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")),
+                interactBind, 
+                Texts.getTextByName("ineractLabelCollectItemP2").getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")),
+                nearesItem.getName(),
+                Texts.getTextByName("ineractLabelCollectItemP3").getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE"))
+            ));
             this.collectibleLabel.setVisible(true);
         }
     }
@@ -52,6 +67,14 @@ public class HUD {
 
     public Label getCollectibleLabel() {
         return collectibleLabel;
+    }
+
+    public void setGoalLabel(Label goalLabel) {
+        this.goalLabel = goalLabel;
+    }
+
+    public Label getGoalLabel() {
+        return goalLabel;
     }
 
 }

@@ -1,8 +1,8 @@
 #retryButton {
     -fx-pref-height: 50px;
-    -fx-pref-width: 200px;
+    -fx-pref-width: 240px;
     -fx-font-family: arial;
-    -fx-font-size: 3em;
+    -fx-font-size: 2em;
 }
 
 #messageLabel {

@@ -1,5 +1,6 @@
 package models;
 
+import graphics.Graphics;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,7 +14,7 @@ public class Item {
     private int x;
     private int y;
     private Node node;
-    private ImageView image;
+    private ImageView imageView;
 
     public Item(String name, int size, int startX, int startY) {
         this.name = formatName(name);
@@ -25,8 +26,20 @@ public class Item {
         this.hitbox.setX(startX);
         this.hitbox.setY(startY);
         this.node = this.hitbox;
+    }
 
-        this.image = new ImageView(new Image("../sprites/key.png"));
+    public Item(String name, int size, int startX, int startY, String imageName) {
+        this.name = formatName(name);
+        this.size = size;
+        this.isAccessible = false;
+        this.hitbox = new Rectangle(25, 25);
+        this.node = this.hitbox;
+        this.imageView = new ImageView(new Image(Graphics.getGraphicUrl(imageName)));
+        this.imageView.setFitHeight(25);
+        this.imageView.setFitWidth(25);
+        this.setX(startX);
+        this.setY(startY);
+        this.hitbox.setVisible(false);
     }
 
     private String formatName(String name) {
@@ -66,6 +79,7 @@ public class Item {
     public void setX(int x) {
         this.x = x;
         this.hitbox.setX(x);
+        this.imageView.setX(x);
     }
 
     public int getY() {
@@ -75,6 +89,7 @@ public class Item {
     public void setY(int y) {
         this.y = y;
         this.hitbox.setY(y);
+        this.imageView.setY(y);
 
     }
 
@@ -82,12 +97,16 @@ public class Item {
         return node;
     }
 
-    public void setImage(ImageView image) {
-        this.image = image;
+    public ImageView getImageView() {
+        return imageView;
     }
 
-    public ImageView getImage() {
-        return image;
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
+    }
+
+    public void setAccessible(boolean isAccessible) {
+        this.isAccessible = isAccessible;
     }
     //#endregion
     

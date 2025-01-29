@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 
+import goal.Finish;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import models.entities.Player;
@@ -14,8 +15,8 @@ public class CollisionDetection {
         return policeman.getHitboxNode().getBoundsInParent().intersects(player.getHitboxNode().getBoundsInParent());
     }
 
-    public static boolean checkCollisionWithPolicemanVisionCircle(Player player, Policeman policeman) {
-        return policeman.getVisionCircle().getBoundsInParent().intersects(player.getHitbox().getBoundsInParent());
+    public static boolean checkCollisionWithFinish(Player player, Finish finish) {
+        return finish.getHitbox().getBoundsInParent().intersects(player.getHitbox().getBoundsInParent());
     }
 
     // Prüft, ob zwei Bereiche überlappen (allgemeine Hilfsmethode)

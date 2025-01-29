@@ -2,15 +2,18 @@ package models.entities;
 
 import java.util.ArrayList;
 
+import graphics.Graphics;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import utils.Waypoint;
+
 
 public class Policeman {
     private int health;
@@ -24,30 +27,25 @@ public class Policeman {
     private double y;
     private ArrayList<Waypoint> waypoints;
     private int currentWaypointIndex;
-    private Circle visionCircle;
+    private ImageView imageView;
 
-
-    public Policeman(double speed, int health, int hitboxBounds, int visionRange, int startX, int startY) {
+    public Policeman(double speed, int health, int hitboxBounds, int startX, int startY, String imageName) {
         this.speed = speed;
         this.health = health;
         this.hitboxBounds = hitboxBounds;
         this.hitbox = new Rectangle(hitboxBounds, hitboxBounds, Color.DARKBLUE);
+        this.hitbox.setVisible(false);
         this.hitboxNode = hitbox;
-        this.visionRange = visionRange;
         this.x = startX;
         this.y = startY;
         this.hitbox.setY(startX);
         this.hitbox.setY(startY);
         this.currentWaypointIndex = 0;
         this.waypoints = new ArrayList<>();
-        this.visionCircle = new Circle(this.visionRange);
-        this.visionCircle.setOpacity(0.5);
-        this.visionCircle.setFill(Color.YELLOW);
-        this.visionCircle.setCenterX(startX + this.hitboxBounds / 2);
-        this.visionCircle.setCenterY(startY + this.hitboxBounds / 2);
-        this.visionNode = this.visionCircle;
+        this.imageView = new ImageView(new Image(Graphics.getGraphicUrl(imageName)));
+        this.imageView.setFitHeight(this.hitboxBounds * 2.2 + 5);
+        this.imageView.setFitWidth(this.hitboxBounds * 2.3 + 5);
     }
-
 
     public void followPath(Pane pane) {
         if (waypoints.isEmpty()) return;
@@ -88,18 +86,22 @@ public class Policeman {
     
     public void moveRight() {
         setX(this.x + speed);
+        this.imageView.setRotate(270);
     }
 
     public void moveDown() {
         setY(this.y + speed);
+        this.imageView.setRotate(0);
     }
 
     public void moveLeft() {
         setX(this.x - speed);
+        this.imageView.setRotate(90);
     }
 
     public void moveUp() {
         setY(this.y - speed);
+        this.imageView.setRotate(180);
     }
 
     //#region getter & setter
@@ -146,7 +148,7 @@ public class Policeman {
     public void setX(double x) {
         this.x = x;
         this.hitbox.setX(x);
-        this.visionCircle.setCenterX(x + this.hitboxBounds / 2);
+        this.imageView.setX(x - this.hitboxBounds / 2 + - 10);
     }
 
     public double getX() {
@@ -156,7 +158,7 @@ public class Policeman {
     public void setY(double y) {
         this.y = y;
         this.hitbox.setY(y);
-        this.visionCircle.setCenterY(y + this.hitboxBounds / 2);
+        this.imageView.setY(y - this.hitboxBounds / 2 - 5);
     }
 
     public double getY() {
@@ -171,14 +173,6 @@ public class Policeman {
         this.waypoints = waypoints;
     }
 
-    public void setVisionCircle(Circle visionCircle) {
-        this.visionCircle = visionCircle;
-    }
-
-    public Circle getVisionCircle() {
-        return visionCircle;
-    }
-
     public void setVisionNode(Node visionNode) {
         this.visionNode = visionNode;
     }
@@ -186,6 +180,23 @@ public class Policeman {
     public Node getVisionNode() {
         return visionNode;
     }
+
+    public void setHitboxBounds(int hitboxBounds) {
+        this.hitboxBounds = hitboxBounds;
+    }
+
+    public int getHitboxBounds() {
+        return hitboxBounds;
+    }
+
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
+    }
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
 
     //#endregion
 }

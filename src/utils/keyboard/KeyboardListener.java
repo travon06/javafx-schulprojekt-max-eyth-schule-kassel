@@ -12,7 +12,7 @@ public class KeyboardListener {
     private boolean leftPressed = false;
     private boolean rightPressed = false;
     private boolean shiftPressed = false;
-    private boolean collectItemPressed = false;
+    private boolean interactPressed = false;
     private boolean getCoordinates = false;
     private boolean godMode = false;
     private Scene scene;
@@ -21,7 +21,7 @@ public class KeyboardListener {
     private final String WALK_LEFT = Keybindings.getKeybindingValue("WALK_LEFT");
     private final String WALK_DOWN = Keybindings.getKeybindingValue("WALK_DOWN");
     private final String WALK_RIGHT = Keybindings.getKeybindingValue("WALK_RIGHT");
-    private final String COLLECT_ITEM = Keybindings.getKeybindingValue("COLLECT_ITEM");
+    private final String INTERACT = Keybindings.getKeybindingValue("INTERACT");
     private final String GET_COORDINATES = Keybindings.getKeybindingValue("GET_COORDIANTES");
     private final String TOGGLE_GOD_MODE = Keybindings.getKeybindingValue("TOGGLE_GOD_MODE");    
     public KeyboardListener(Stage stage, Scene scene) {
@@ -49,8 +49,8 @@ public class KeyboardListener {
                 if (playerMovement) this.shiftPressed = true;
             } else if (keyPressed.equalsIgnoreCase(KeyCode.ENTER.getName())) {
                 if (exitOnEnter) this.stage.close();
-            } else if (keyPressed.equalsIgnoreCase(COLLECT_ITEM)) {
-                if(allowCollectItem) this.collectItemPressed = true;
+            } else if (keyPressed.equalsIgnoreCase(INTERACT)) {
+                if(allowCollectItem) this.interactPressed = true;
             } else if (keyPressed.equalsIgnoreCase(this.GET_COORDINATES)) {
                 this.getCoordinates = true;
             } else if (keyPressed.equalsIgnoreCase(this.TOGGLE_GOD_MODE)) {
@@ -72,8 +72,8 @@ public class KeyboardListener {
                 this.rightPressed = false;
             } else if (keyPressed.equalsIgnoreCase(KeyCode.SHIFT.getName())) {
                 this.shiftPressed = false;
-            } else if (keyPressed.equalsIgnoreCase(this.COLLECT_ITEM)) {
-                this.collectItemPressed = false;
+            } else if (keyPressed.equalsIgnoreCase(this.INTERACT)) {
+                this.interactPressed = false;
             } else if (keyPressed.equalsIgnoreCase(this.GET_COORDINATES)) {
                 this.getCoordinates = false;
             }
@@ -137,12 +137,12 @@ public class KeyboardListener {
         return this.shiftPressed;
     }
 
-    public  boolean getCollectItemPressed() {
-        return this.collectItemPressed;
+    public  boolean getInteractPressed() {
+        return this.interactPressed;
     }
 
-    public  void setCollectItemPressed(boolean collectItem) {
-        this.collectItemPressed = collectItem;
+    public  void setInteractPressed(boolean collectItem) {
+        this.interactPressed = collectItem;
     }
 
     public void setGetCoordinates(boolean getCoordinates) {

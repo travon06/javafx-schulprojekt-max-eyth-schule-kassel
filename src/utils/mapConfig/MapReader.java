@@ -6,6 +6,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import goal.Finish;
+import language.Texts;
 import models.Item;
 import models.entities.Policeman;
 import models.tiles.Tile;
@@ -14,7 +16,7 @@ import utils.config.ConfigArguments;
 
 public class MapReader {
 
-    private final static ArrayList<String> MAPS = MapReader.getMaps();
+    public final static ArrayList<String> MAPS = MapReader.getMaps();
 
     public static ArrayList<Tile> readTiles(String mapName) {
         ArrayList<Tile> tiles = new ArrayList<>(); 
@@ -39,7 +41,16 @@ public class MapReader {
                             obstacles[i] = obstacles[i].replace("(", "").replace(")", "");
                             String[] obstacleArguments = obstacles[i].split(",");
     
-                            if (obstacleArguments.length == 4) { // Ensure 4 arguments
+                            if (obstacleArguments.length == 5) { // Ensure 4 arguments
+                                tiles.add(new Tile(
+                                    true,
+                                    Integer.parseInt(obstacleArguments[0]), // x
+                                    Integer.parseInt(obstacleArguments[1]), // y
+                                    Integer.parseInt(obstacleArguments[2]), // width
+                                    Integer.parseInt(obstacleArguments[3]),  // height
+                                    obstacleArguments[4] // image
+                                ));
+                            } else if (obstacleArguments.length == 4){
                                 tiles.add(new Tile(
                                     true,
                                     Integer.parseInt(obstacleArguments[0]), // x
@@ -47,7 +58,7 @@ public class MapReader {
                                     Integer.parseInt(obstacleArguments[2]), // width
                                     Integer.parseInt(obstacleArguments[3])  // height
                                 ));
-                            } else {
+                            } else { 
                                 System.err.println("Invalid obstacle format: " + obstacles[i]);           
                             }
                         }
@@ -70,7 +81,6 @@ public class MapReader {
             0 - borderBounds,
             screenWidth + borderBounds,
             borderBounds
-            
         ));
         
         // right border
@@ -129,9 +139,9 @@ public class MapReader {
                                 policemanSpeed, 
                                 Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_HEALTH")),
                                 Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_HITBOX_BOUNDS")),
-                                Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_VISION_RANGE")),
                                 Integer.parseInt(policemanArguments[0]),
-                                Integer.parseInt(policemanArguments[1])
+                                Integer.parseInt(policemanArguments[1]),
+                                ConfigArguments.getConfigArgumentValue("POLICEMEN_GRAPHIC_NAME")
                             ));
 
                         }
@@ -160,12 +170,24 @@ public class MapReader {
 
                             String[] itemArguments = item.split(",");
 
-                            items.add(new Item(
-                                itemArguments[0], 
-                                Integer.parseInt(itemArguments[1]), 
-                                Integer.parseInt(itemArguments[2]), 
-                                Integer.parseInt(itemArguments[3])
-                            ));
+                            if(itemArguments.length == 4) {
+                                items.add(new Item(
+                                    Texts.getTextByName(itemArguments[0]).getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")), 
+                                    Integer.parseInt(itemArguments[1]), 
+                                    Integer.parseInt(itemArguments[2]), 
+                                    Integer.parseInt(itemArguments[3])
+                                ));
+                            } else if (itemArguments.length == 5) {
+                                items.add(new Item(
+                                    Texts.getTextByName(itemArguments[0]).getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")), 
+                                    Integer.parseInt(itemArguments[1]), 
+                                    Integer.parseInt(itemArguments[2]), 
+                                    Integer.parseInt(itemArguments[3]),
+                                    itemArguments[4]
+                                ));
+                            } else {
+                                throw new Error("Ilegal Item format");
+                            }
 
                         }
                     }
@@ -264,6 +286,62 @@ public class MapReader {
             System.err.println(String.format("File: '%s' does not exist!", absoluteMapsPath.toString()));
         }
         return maps;
+    }
+
+    public static Finish readFinish(String mapName) {
+        Finish finish = null;
+
+        for(String map : MapReader.MAPS) {
+            if(map.startsWith(String.format("!map:%s", mapName))) {
+                String[] arguments = map.split("&");
+    
+    
+                for(String argument : arguments) { 
+                    if(argument.startsWith("!finish")) {
+                        argument = argument.split(":")[1];
+                        argument = argument.replace("(", "").replace(")", "");
+                        String[] finishArguments = argument.split(",");
+
+                        finish = new Finish(
+                            Integer.parseInt(finishArguments[0]), // x
+                            Integer.parseInt(finishArguments[1]), // y
+                            Integer.parseInt(ConfigArguments.getConfigArgumentValue("GOAL_BOUNDS")), // width
+                            Integer.parseInt(ConfigArguments.getConfigArgumentValue("GOAL_BOUNDS")), // height
+                            finishArguments[2] // goal
+                        );
+                    }
+                }   
+            }
+        }
+        return finish;
+    }
+
+    public static ArrayList<Item> readItemsToCollect(String mapName, ArrayList<Item> itemsInMap) {
+        ArrayList<Item> itemsToCollect = new ArrayList<>();
+
+
+        for(String map : MapReader.MAPS) {
+            if(map.startsWith(String.format("!map:%s", mapName))) {
+                String[] arguments = map.split("&");
+
+                for(String argument : arguments) {
+                    if(argument.startsWith("!itemsToCollect:")) {
+                        String[] itemsToCollectNames = argument.split(":")[1].split(";");
+
+                        for(Item item : itemsInMap) {
+                            for(String itemToCollectName : itemsToCollectNames) {
+                                if(item.getName().equals(Texts.getTextByName(itemToCollectName).getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")))) {
+                                    itemsToCollect.add(item);
+                                }
+                            }
+                         }
+
+                       
+                    }
+                }   
+            }
+        }
+        return itemsToCollect;
     }
 
     // public static void main(String[] args) {

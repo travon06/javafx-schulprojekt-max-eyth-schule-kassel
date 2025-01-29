@@ -1,0 +1,6 @@
+copperRooftop=wall1.png;
+player1=player1.png;
+bank=bank.png;
+playerGreen=playerGreen.png;
+key=key1.png;
+policeman=policeman.png;

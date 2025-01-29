@@ -3,13 +3,16 @@ package levels;
 import java.util.ArrayList;
 
 import HUD.HUD;
+import goal.Finish;
+import graphics.Graphic;
+import graphics.Graphics;
 import javafx.animation.AnimationTimer;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import language.Texts;
 import models.CollisionDetection;
 import models.Item;
 import models.Screens.GameoverScreen;
@@ -34,14 +37,18 @@ public class Level {
     private AnimationTimer timer;
     private HUD hud;
     private boolean itemInRange;
+    private Finish finish;
+    private ArrayList<Item> itemsToCollect;
+    private boolean finished;
+    private ArrayList<Level> levels;
     
-    public Level(Stage stage, String mapName) {
-        
-        
+    public Level(Stage stage, String mapName, ArrayList<Level> levels) {
+ 
         this.stage = stage;
         this.stage.setResizable(false);
-        
+        this.levels = levels;
         this.mapName = mapName;
+        this.finished = false;
         this.rootPane = new Pane();
         this.scene = new Scene(
             this.rootPane, 
@@ -50,8 +57,10 @@ public class Level {
             );        
             this.tiles = initializeTiles(this.rootPane, mapName);
             this.items = intitializeItems(this.rootPane, mapName);
-            this.player = initializePlayer(this.rootPane);    
             this.policemen = initializePoliceman(rootPane, mapName);
+            this.finish = initializeGoal(rootPane);
+            this.itemsToCollect = initializeItemsToCollect();
+            this.player = initializePlayer(this.rootPane);    
             if(this.policemen.size() > 0) {
                 for(int i = 0; i < this.policemen.size(); i++) {
                     this.policemen.get(i).getWaypoints().addAll(MapReader.readWaypoints(mapName, i));
@@ -64,15 +73,16 @@ public class Level {
             
         }
         
-        //#region ini functions
-
-
+    //#region ini functions
     private ArrayList<Tile> initializeTiles(Pane pane, String mapName) {
         // Hindernisse und Wände hinzufügen
         ArrayList<Tile> tiles = MapReader.readTiles(mapName);
 
         for(Tile tile : tiles) {
             pane.getChildren().addAll(tile.getHitbox());
+            if(tile.getImageView() != null) {
+                pane.getChildren().addAll(tile.getImageView());
+            }
         }
 
         return tiles;
@@ -83,7 +93,12 @@ public class Level {
 
         for(Item item : items) {
             item.getHitbox().setFill(Color.RED);
-            pane.getChildren().add(item.getHitbox());
+            if(item.getImageView() == null) {
+                pane.getChildren().add(item.getHitbox());
+            } else {
+                pane.getChildren().addAll(item.getHitbox(), item.getImageView());
+
+            }   
         }
 
         return items;
@@ -93,8 +108,7 @@ public class Level {
         ArrayList<Policeman> policemen = MapReader.readPolicemen(mapName);
     
         for (Policeman policeman : policemen) {
-            pane.getChildren().add(policeman.getVisionCircle());
-            pane.getChildren().add(policeman.getHitbox());
+            pane.getChildren().addAll(policeman.getHitbox(), policeman.getImageView());
         }
 
         return policemen;
@@ -116,8 +130,19 @@ public class Level {
         player.getHitbox().setX(MapReader.readPlayerStartCoordinates(mapName)[0]);
         player.getHitbox().setY(MapReader.readPlayerStartCoordinates(mapName)[1]); 
         player.getHitbox().setFill(Color.BLUE);
-        pane.getChildren().add(player.getHitbox());
+        pane.getChildren().addAll(player.getHitbox(), player.getImage());
         return player;
+    }
+
+    private Finish initializeGoal(Pane pane) {
+        this.finish = MapReader.readFinish(mapName);
+        pane.getChildren().addAll(finish.getHitbox());
+        return finish;
+    }
+
+    private ArrayList<Item> initializeItemsToCollect() {
+        this.finish.setItemsToCollect(MapReader.readItemsToCollect(mapName, items));
+        return itemsToCollect;
     }
     //#endregion
 
@@ -128,6 +153,11 @@ public class Level {
         for(Tile tile : tiles) {
             tileHitboxes.add(tile.getHitbox());
         }
+
+        if(finish.getGoal().equals("COLLECT_ITEMS")) {
+            hud.getGoalLabel().setText(formatItemToCollectLabelMessage());
+        }
+
         
         this.timer = new AnimationTimer() {
             @Override
@@ -135,18 +165,19 @@ public class Level {
                 for(Policeman policeman : policemen) {
                     if(CollisionDetection.checkCollisionWithPoliceman(player, policeman) && !keyboardListener.getGodMode()) {
                         this.stop();
-                        GameoverScreen gmScreen = new GameoverScreen(stage, mapName);
-                        gmScreen.setDeathMessage("You got caught!");
+                        GameoverScreen gmScreen = new GameoverScreen(stage, mapName, levels);
+                        gmScreen.setDeathMessage(Texts.getTextByName("gameoverScreenMessageLabel").getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")));
                     }
-
-                    if(keyboardListener.getShiftPressed()) {
-                        player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_SPRINT_SPEED")));
-                    } else {
-                        player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_SPEED")));
-                    }
+                    
+                }
+                
+                if(keyboardListener.getShiftPressed()) {
+                    player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_SPRINT_SPEED")));
+                } else {
+                    player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_SPEED")));
 
                 }
-
+                
                 player.updatePlayerPosition(
                     (Rectangle) rootPane.lookup("#playerRectangle"),
                     tileHitboxes,
@@ -160,13 +191,29 @@ public class Level {
                     hud.hideItemCollectable();
                 }
 
-                if(itemInRange && keyboardListener.getCollectItemPressed()) {
-                    player.collectItem(rootPane, items, nearestItem, keyboardListener);
+                if(itemInRange && keyboardListener.getInteractPressed()) {
+                    player.collectItem(rootPane, items, finish.getItemsToCollect(), nearestItem, keyboardListener, finish);
                 }
 
                 if(keyboardListener.getGetCoordinates()) {
-                    System.out.println(String.format("Player(%.1f | %.1f)", player.getX(), player.getY()));
+                    System.out.println(String.format("Player(%d | %d)", player.getX(), player.getY()));
                 }
+
+                if(finish.getAccessible()) {
+                    hud.getGoalLabel().setText(Texts.getTextByName("HUDGoalLabelFinished").getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")));
+                    if(CollisionDetection.checkCollisionWithFinish(player, finish) && keyboardListener.getInteractPressed()) {
+                        finished = true;
+                        // this.stop();
+                        // System.out.println("jasdofjsbdc");
+                        // Level nextLevel = levels.get(levels.indexOf(2)+1);
+                        // nextLevel.addFPSCounter();
+                        // nextLevel.start();
+
+                    }
+                }
+
+                finish.checkState();
+
             }
         };
         timer.start();
@@ -187,21 +234,81 @@ public class Level {
     }
 
     public void stop() {
-        if (timer != null) {
-            timer.stop();
+        if (this.timer != null) {
+            this.timer.stop();
+            this.timer = null;
         }
-        
+    
+        // Stoppe alle Polizisten und lösche sie aus der Szene
+        if (policemen != null) {
+            for (Policeman policeman : policemen) {
+                // policeman.stop(); // Eine Methode, die Bewegungen der Polizisten stoppt
+            }
+            policemen.clear();
+            policemen = null;
+        }
+    
+        // Entferne den Spieler aus der Szene
+        if (player != null) {
+            rootPane.getChildren().remove(player.getHitbox());
+            rootPane.getChildren().remove(player.getImage());
+            player = null;
+        }
+    
+        // Entferne Items
+        if (items != null) {
+            for (Item item : items) {
+                rootPane.getChildren().remove(item.getHitbox());
+                if (item.getImageView() != null) {
+                    rootPane.getChildren().remove(item.getImageView());
+                }
+            }
+            items.clear();
+            items = null;
+        }
+    
+        // Entferne Tiles
+        if (tiles != null) {
+            for (Tile tile : tiles) {
+                rootPane.getChildren().remove(tile.getHitbox());
+                if (tile.getImageView() != null) {
+                    rootPane.getChildren().remove(tile.getImageView());
+                }
+            }
+            tiles.clear();
+            tiles = null;
+        }
+    
+        // Entferne das Ziel
+        if (finish != null) {
+            rootPane.getChildren().remove(finish.getHitbox());
+            finish = null;
+        }
+    
+        // Entferne HUD
+        if (hud != null) {
+            // hud.clear(); // Methode zum Entfernen aller HUD-Elemente
+            hud = null;
+        }
+    
+        // Entferne Event-Listener
+        if (keyboardListener != null) {
+            // keyboardListener.removeAllListeners();
+            keyboardListener = null;
+        }
+    
+        // Lösche alle übrigen Elemente und setze die Szene zurück
         rootPane.getChildren().clear();
-        scene = null;
-        this.stage.close();
-        stage = null;
         rootPane = null;
-        player = null;
-        tiles = null;
-        items = null;
-        keyboardListener = null;
-
+        scene = null;
+    
+        // Schließe das Fenster
+        if (stage != null) {
+            stage.close();
+            stage = null;
+        }
     }
+    
 
     public void addFPSCounter() {
         FPSCounter fpsCounter = new FPSCounter();
@@ -244,6 +351,21 @@ public class Level {
 
     private double calculateDistance(Item item) {
         return Math.sqrt(Math.pow(this.player.getX() - item.getX(), 2) + Math.pow(this.player.getY() - item.getY(), 2));
+    }
+
+    private String formatItemToCollectLabelMessage() {
+        String goalString = Texts.getTextByName("HUDGoalLabelUnfinished").getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")) + ": (";
+
+        for(int i = 0; i < finish.getItemsToCollect().size(); i++) {
+            goalString += finish.getItemsToCollect().get(i).getName();
+            if(i < finish.getItemsToCollect().size()  - 1) {
+                goalString += ", ";
+            }
+        }
+
+        goalString += ")";
+
+        return goalString;
     }
     
 
@@ -320,5 +442,55 @@ public class Level {
         return timer;
     }
 
+    public void setFinish(Finish finish) {
+        this.finish = finish;
+    }
+    
+    public Finish getFinish() {
+        return finish;
+    }
+
+    public void setHud(HUD hud) {
+        this.hud = hud;
+    }
+
+    public HUD getHud() {
+        return hud;
+    }
+
+    public void setItemInRange(boolean itemInRange) {
+        this.itemInRange = itemInRange;
+    }
+
+    public ArrayList<Item> getItemsToCollect() {
+        return itemsToCollect;
+    }
+
+    public void setItemsToCollect(ArrayList<Item> itemsToCollect) {
+        this.itemsToCollect = itemsToCollect;
+    }
+
+    public KeyboardListener getKeyboardListener() {
+        return keyboardListener;
+    }
+
+    public void setKeyboardListener(KeyboardListener keyboardListener) {
+        this.keyboardListener = keyboardListener;
+    }
+
+    public boolean getFinished() {
+        return this.finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public ArrayList<Policeman> getPolicemen() {
+        return policemen;
+    }
+    public void setPolicemen(ArrayList<Policeman> policemen) {
+        this.policemen = policemen;
+    }
     //#endregion
 }

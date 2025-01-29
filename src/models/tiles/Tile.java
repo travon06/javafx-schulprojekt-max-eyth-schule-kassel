@@ -1,44 +1,70 @@
 package models.tiles;
 
+import graphics.Graphics;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 
 public class Tile {
     private boolean isSolid;
-    private double x;
-    private double y;
+    private int x;
+    private int y;
     private Rectangle hitbox;
     private Node hitboxNode;
     private int width;
     private int height;
+    private ImageView imageView;
+    private Rotate rotate;
 
-    public Tile(boolean isSolid, double x, double y, int width, int height) {
+    public Tile(boolean isSolid, int x, int y, int width, int height, String imageName) {
         this.isSolid = isSolid;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.imageView = new ImageView(new Image(Graphics.getGraphicUrl(imageName)));
+        this.imageView.setX(x);
+        this.imageView.setY(y);
+        this.imageView.setFitHeight(height);
+        this.imageView.setFitWidth(width);   
+        this.hitbox = new Rectangle(x , y, width, height);
+        this.hitboxNode = hitbox;
+    }
+
+    public Tile(boolean isSolid, int x, int y, int width, int height) {
+        this.isSolid = isSolid;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height; 
         this.hitbox = new Rectangle(x , y, width, height);
         this.hitboxNode = hitbox;
         this.hitbox.setFill(Color.BLACK);
 
     }
 
-    public double getX() {
+    //#region getter & setter
+    public int getX() {
         return x;
     }
     
-    public double getY() {
+    public int getY() {
         return y;
     }
 
-    public void setX(double x) {
+    public void setX(int x) {
         this.x = x;
+        this.hitbox.setX(x);
+        this.imageView.setX(x);
     }
 
-    public void setY(double y) {
+    public void setY(int y) {
         this.y = y;
+        this.hitbox.setY(y);
+        this.imageView.setY(y);
     }
 
     public void setSolid(boolean isSolid) {
@@ -80,4 +106,17 @@ public class Tile {
     public Node getHitboxNode() {
         return hitboxNode;
     }
+
+    public void setImageView(ImageView image) {
+        this.imageView = image;
+    }
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+
+
+
+    //#endregion
 }

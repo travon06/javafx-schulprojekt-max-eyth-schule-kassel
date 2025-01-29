@@ -3,9 +3,14 @@ package models.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import goal.Finish;
+import graphics.Graphics;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import models.CollisionDetection;
 import models.Inventory;
 import models.Item;
@@ -16,34 +21,54 @@ public class Player {
     private final Inventory inventory;
     private double health;
     private double maxHealth;
-    private double speed;
+    private double normalSpeed;
     private double sprintSpeed;
-    private double x;
-    private double y;
+    private int x;
+    private int y;
     private int collectRange;
     private Rectangle hitbox;
     private Node hitboxNode;
+    private ImageView image;
+    private double speed;
     
-    public Player(double health, double speed, double sprintSpeed, int collectRange, Rectangle hitbox, double startX, double startY) {
+    public Player(double health, double normalSpeed, double sprintSpeed, int collectRange, Rectangle hitbox, int startX, int startY) {
         this.inventory = new Inventory(3);
         this.health = health;
         this.maxHealth = health;
-        this.speed = speed;
+        this.normalSpeed = normalSpeed;
         this.sprintSpeed = sprintSpeed;
+        this.speed = normalSpeed;
         this.collectRange = collectRange;
         this.x = startX;
         this.y = startY;
         this.hitbox = hitbox;
+        this.hitbox.setVisible(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("PLAYER_SHOW_HITBOX")));
         this.hitbox.setX(startX);
         this.hitbox.setY(startY);
         this.hitboxNode = this.hitbox;
-    }
+        this.image = new ImageView(new Image(Graphics.getGraphicUrl("playerGreen")));
+        this.image.setFitHeight(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOUNDS")));
+        this.image.setFitWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOUNDS")));
+        this.image.setPreserveRatio(true);
+        this.hitbox.setVisible(true);
+     }
     
-    public List<Item> collectItem(Pane rootPane, ArrayList<Item> items, Item nearestItem, KeyboardListener keyboardListener) {
-        keyboardListener.setCollectItemPressed(false);
+    public List<Item> collectItem(Pane rootPane, ArrayList<Item> items, ArrayList<Item> itemsToCollect, Item nearestItem, KeyboardListener keyboardListener, Finish finish) {
+        keyboardListener.setInteractPressed(false);
         if(this.inventory.addItem(nearestItem)) {
-            rootPane.getChildren().remove(nearestItem.getNode());
+            rootPane.getChildren().removeAll(nearestItem.getNode(), nearestItem.getImageView());
             items.remove(nearestItem);
+            if(itemsToCollect.contains(nearestItem))  {
+                itemsToCollect.remove(nearestItem);
+            }
+            System.out.println(finish.getGoal());
+            if(finish.getGoal().equals("COLLECT_ITEMS")) {
+                for(Item item : finish.getItemsToCollect()) {
+                    if(item.getName().equals(nearestItem.getName())) {
+                        System.out.println("penis");
+                    }
+                }
+            }
         }
         System.out.println(this.inventory);
 
@@ -55,19 +80,34 @@ public class Player {
     }
 
     public void updatePlayerPosition(Rectangle playerRectangle, List<Rectangle> collisionRectangles, KeyboardListener keyboardListener) {
-        double originalX = this.getX();
-        double originalY = this.getY();
+        int originalX = this.getX();
+        int originalY = this.getY();
         double speed = this.getSpeed();
     
         // Bewege den Spieler
-        if (keyboardListener.getRightPressed()) this.moveRight(speed);
-        if (keyboardListener.getLeftPressed()) this.moveLeft(speed);
-        if (keyboardListener.getDownPressed()) this.moveDown(speed);
-        if (keyboardListener.getUpPressed()) this.moveUp(speed);
+        if (keyboardListener.getRightPressed()) {
+            this.moveRight(speed);
+            this.image.setRotate(270);
+
+        }
+        if (keyboardListener.getLeftPressed()) {
+            this.moveLeft(speed);
+            this.image.setRotate(90);
+        }
+        if (keyboardListener.getDownPressed()) {
+            this.moveDown(speed);
+            this.image.setRotate(0);
+
+
+        }
+        if (keyboardListener.getUpPressed()) {
+            this.moveUp(speed);
+            this.image.setRotate(180);
+        } 
     
         // Aktualisiere die Position des Spieler-Rechtecks
-        playerRectangle.setX(this.getX());
-        playerRectangle.setY(this.getY());
+        this.setX(this.getX());
+        this.setY(this.getY());
     
         // Kollisionsprüfung und Rücksetzen der Position
         if(!keyboardListener.getGodMode()) {
@@ -85,8 +125,8 @@ public class Player {
         }
     
         // Visuelle Darstellung nach Rücksetzung
-        playerRectangle.setX(this.getX());
-        playerRectangle.setY(this.getY());
+        this.setX(this.getX());
+        this.setY(this.getY());
     }
  
     // movement methods
@@ -120,7 +160,7 @@ public class Player {
     } 
     
     public void addSpeed(double amount) {
-        this.speed += amount;
+        this.normalSpeed += amount;
     }
     
     //#region getter & setter 
@@ -149,28 +189,41 @@ public class Player {
         }
     }
 
-    public double getSpeed() {
-        return this.speed;
+    public double getNormalSpeed() {
+        return this.normalSpeed;
+    }
+
+    public void setNormalSpeed(double speed) {
+        this.normalSpeed = speed;
     }
 
     public void setSpeed(double speed) {
         this.speed = speed;
     }
 
-    public double getX() {
+    public double getSpeed() {
+        return speed;
+    }
+
+    public int getX() {
         return this.x;
     }
 
-    public double getY() {
+    public int getY() {
         return this.y;
     }
 
-    public void setX(double newX) {
-        this.x = newX;
+    public void setX(int x) {
+        this.x = x;
+        this.image.setX(x - (Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOUNDS")) / 4));
+        this.hitbox.setX(x);
     }
 
-    public void setY(double newY) {
-        this.y = newY;
+    public void setY(int y) {
+        this.y = y;
+        this.image.setY(y - (Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOUNDS")) / 4));
+        this.hitbox.setY(y);
+
     }
 
     public int getCollectRange() {
@@ -205,5 +258,12 @@ public class Player {
         return hitboxNode;
     }
 
+    public void setImage(ImageView image) {
+        this.image = image;
+    }
+
+    public ImageView getImage() {
+        return image;
+    }
     //#endregion
 }

@@ -1,10 +1,13 @@
 package models.Screens;
 
+import java.util.ArrayList;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import language.Texts;
 import levels.Level;
 import utils.config.ConfigArguments;
 
@@ -17,7 +20,7 @@ public class GameoverScreen {
     private Button retryButton;
     private Scene scene;
 
-    public GameoverScreen(Stage stage, String mapName) {
+    public GameoverScreen(Stage stage, String mapName, ArrayList<Level> levels) {
         this.rootPane = new Pane();
         this.stage = stage;
         this.scene = new Scene(
@@ -30,12 +33,12 @@ public class GameoverScreen {
         this.messageLabel.setId("messageLabel");
         messageLabel.layoutXProperty().bind(rootPane.widthProperty().subtract(messageLabel.widthProperty()).divide(2));
         messageLabel.layoutYProperty().bind(rootPane.heightProperty().subtract(messageLabel.heightProperty()).divide(2).subtract(100));
-        this.retryButton = new Button("Retry");
+        this.retryButton = new Button(Texts.getTextByName("gameoverScreenRetryButton").getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")));
         this.retryButton.setId("retryButton");
         retryButton.layoutXProperty().bind(rootPane.widthProperty().subtract(retryButton.widthProperty()).divide(2));
         retryButton.layoutYProperty().bind(rootPane.heightProperty().subtract(retryButton.heightProperty()).divide(2));
         this.retryButton.setOnAction(event ->{
-            Level level = new Level(stage, mapName);
+            Level level = new Level(stage, mapName, levels);
             level.start();
         });
         this.scene.getStylesheets().add(getClass().getResource("../../style/gameoverScreen.css").toExternalForm());
