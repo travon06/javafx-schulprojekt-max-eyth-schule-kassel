@@ -13,7 +13,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import models.CollisionDetection;
 import models.Inventory;
-import models.Item;
+import items.Item;
 import utils.config.ConfigArguments;
 import utils.keyboard.KeyboardListener;
 

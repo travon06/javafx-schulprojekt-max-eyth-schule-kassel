@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import items.Item;
 
 public class Inventory {
     private final int size;

@@ -14,11 +14,11 @@ public class TextReader {
             String data = Files.readString(absolutePath);
             data = data.replaceAll("\\s", "");
 
-            String[] texts = data.split(";");
+            String[] texts = data.split("\\}");
 
             for(String text : texts) {
-                String name = text.split(":")[0];
-                String languages = text.split(":")[1].replace("{", "").replace("}", "");
+                String name = text.split("\\{")[0];
+                String languages = text.split("\\{")[1];
                 String en = "";
                 String de = "";
                 String ne = "";

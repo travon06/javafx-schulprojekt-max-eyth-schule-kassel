@@ -37,14 +37,6 @@ public class App extends Application {
 
         currentLevel = levels.get(0);
         currentLevel.start();
-        
-        // String mapName = "flevel1";
-        // String mapToTrigger = mapName;
-        // Stage levelStage = new Stage();
-        // Level level = new Level(levelStage, mapName, mapToTrigger);
-        // levelStage.setTitle(mapName);
-        // level.addFPSCounter();
-        // level.start();
     
         AnimationTimer timer = new AnimationTimer() {
             @Override

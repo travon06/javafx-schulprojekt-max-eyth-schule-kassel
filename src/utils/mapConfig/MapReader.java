@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import goal.Finish;
 import language.Texts;
-import models.Item;
+import items.Item;
 import models.entities.Policeman;
 import models.tiles.Tile;
 import utils.Waypoint;

@@ -3,7 +3,7 @@ package HUD;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import language.Texts;
-import models.Item;
+import items.Item;
 import utils.config.ConfigArguments;
 import utils.keyboard.Keybindings;
 

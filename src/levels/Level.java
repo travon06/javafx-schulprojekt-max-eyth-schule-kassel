@@ -14,7 +14,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import language.Texts;
 import models.CollisionDetection;
-import models.Item;
+import items.Item;
 import models.Screens.GameoverScreen;
 import models.entities.Player;
 import models.entities.Policeman;

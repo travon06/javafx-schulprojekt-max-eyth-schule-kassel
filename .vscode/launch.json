@@ -8,7 +8,7 @@
             "type": "java",
             "name": "TextReader",
             "request": "launch",
-            "mainClass": "language.TextReader",
+            "mainClass": "App.java",
             "projectName": "project_15f4b383"
         },
         {

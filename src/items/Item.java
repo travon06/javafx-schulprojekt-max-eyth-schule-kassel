@@ -1,4 +1,4 @@
-package models;
+package items;
 
 import graphics.Graphics;
 import javafx.scene.Node;

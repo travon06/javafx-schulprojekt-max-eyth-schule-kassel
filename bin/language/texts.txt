@@ -1,47 +1,48 @@
-gameoverScreenRetryButton:{
+gameoverScreenRetryButton {
     EN(Retry)
     DE(Neu_Versuchen)
     NE(opnieuw_proberen)
-};
-gameoverScreenMessageLabel:{
-    En(You_got_caugth!)
+}
+
+gameoverScreenMessageLabel {
+    EN(You_got_caugth!)
     DE(Du_wurdest_erwischt!)
     NE(Je_bent_betrapt!)
-};
-key:{
+}
+key {
     EN(Key)
     DE(Schlüssel)
     NE(Sleutel)
-};
-energyDrink:{
+} 
+energyDrink {
     EN(Energy_Drink)
     DE(Energy_Drink)
     NE(Energiedrankje)
-};
-HUDGoalLabelUnfinished:{
+} 
+HUDGoalLabelUnfinished {
     EN(Collect_the_following_items_to_proceed_to_the_next_level)
     DE(Sammel_folgende_Gegenstände_ein_um_zum_nächsten_level_fortzufahren)
     NE(Verzamel_de_volgende_items_om_naar_het_volgende_level_te_gaan)
-};
-HUDGoalLabelFinished:{
+} 
+HUDGoalLabelFinished {
     EN(You_collected_all_items,_you_can_now_proceed_to_the_next_level)
     DE(Du_hast_alle_Gegenstände_eingesammelt,_du_kannst_nun_zum_nächsten_Level_fortfahren)
     NE(Je_hebt_alle_items_verzameld,_nu_kun_je_doorgaan_naar_het_volgende_level)
-};
-ineractLabelCollectItemP1:{
+} 
+ineractLabelCollectItemP1 {
     EN(Press)
     DE(Drücke)
     NE(Druk)
-};
-ineractLabelCollectItemP2:{
+} 
+ineractLabelCollectItemP2 {
     EN(to_collect)
     DE(um)
     NE(om)
-};
-ineractLabelCollectItemP3:{
+} 
+ineractLabelCollectItemP3 {
     DE(einzusammeln)
     NE(te_verzamelen)
-};
+} 
 
 
 
