@@ -4,11 +4,12 @@ import graphics.Graphics;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import models.entities.Player;
 
-public class Item {
+public abstract class Item {
     private final String name;
-    private final int size;
     private final Rectangle hitbox;
     private boolean isAccessible;
     private int x;
@@ -16,9 +17,8 @@ public class Item {
     private Node node;
     private ImageView imageView;
 
-    public Item(String name, int size, int startX, int startY) {
+    public Item(String name, int startX, int startY) {
         this.name = formatName(name);
-        this.size = size;
         this.isAccessible = false;
         this.hitbox = new Rectangle(25, 25);
         this.x = startX;
@@ -28,9 +28,8 @@ public class Item {
         this.node = this.hitbox;
     }
 
-    public Item(String name, int size, int startX, int startY, String imageName) {
+    public Item(String name, int startX, int startY, String imageName) {
         this.name = formatName(name);
-        this.size = size;
         this.isAccessible = false;
         this.hitbox = new Rectangle(25, 25);
         this.node = this.hitbox;
@@ -51,13 +50,11 @@ public class Item {
         return String.format("%s(%d | %d)", this.name, this.x, this.y);
     }
 
+    public abstract void use(Pane pane, Player player);
+
     //#region getter & setter
     public String getName() {
         return this.name;
-    }
-
-    public int getSize() {
-        return this.size;
     }
 
     public boolean getIsAccessible() {

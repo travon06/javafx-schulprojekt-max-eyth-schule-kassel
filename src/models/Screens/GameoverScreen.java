@@ -33,7 +33,7 @@ public class GameoverScreen {
         this.messageLabel.setId("messageLabel");
         messageLabel.layoutXProperty().bind(rootPane.widthProperty().subtract(messageLabel.widthProperty()).divide(2));
         messageLabel.layoutYProperty().bind(rootPane.heightProperty().subtract(messageLabel.heightProperty()).divide(2).subtract(100));
-        this.retryButton = new Button(Texts.getTextByName("gameoverScreenRetryButton").getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")));
+        this.retryButton = new Button(Texts.getTextByName("gameoverScreenRetryButton").getTextInLanguage());
         this.retryButton.setId("retryButton");
         retryButton.layoutXProperty().bind(rootPane.widthProperty().subtract(retryButton.widthProperty()).divide(2));
         retryButton.layoutYProperty().bind(rootPane.heightProperty().subtract(retryButton.heightProperty()).divide(2));

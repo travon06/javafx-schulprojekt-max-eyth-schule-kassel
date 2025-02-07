@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 import HUD.HUD;
 import goal.Finish;
-import graphics.Graphic;
-import graphics.Graphics;
+import items.Item;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -14,7 +13,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import language.Texts;
 import models.CollisionDetection;
-import items.Item;
 import models.Screens.GameoverScreen;
 import models.entities.Player;
 import models.entities.Policeman;
@@ -41,10 +39,11 @@ public class Level {
     private ArrayList<Item> itemsToCollect;
     private boolean finished;
     private ArrayList<Level> levels;
+    private boolean isAvailable;
     
     public Level(Stage stage, String mapName, ArrayList<Level> levels) {
- 
-        this.stage = stage;
+        this.isAvailable = true;
+        this.stage = stage; 
         this.stage.setResizable(false);
         this.levels = levels;
         this.mapName = mapName;
@@ -163,19 +162,22 @@ public class Level {
             @Override
             public void handle(long now) {
                 for(Policeman policeman : policemen) {
-                    if(CollisionDetection.checkCollisionWithPoliceman(player, policeman) && !keyboardListener.getGodMode()) {
+                    if(CollisionDetection.checkCollisionWithPoliceman(player, policeman) && player.getVissible() && !keyboardListener.getGodMode()) {
                         this.stop();
                         GameoverScreen gmScreen = new GameoverScreen(stage, mapName, levels);
-                        gmScreen.setDeathMessage(Texts.getTextByName("gameoverScreenMessageLabel").getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")));
+                        gmScreen.setDeathMessage(Texts.getTextByName("gameoverScreenMessageLabel").getTextInLanguage());
                     }
                     
                 }
                 
-                if(keyboardListener.getShiftPressed()) {
+                if(keyboardListener.getShiftPressed() && player.getBoosted()) {
+                    player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOOSTED_SPRINT_SPEED")));
+                } else if(keyboardListener.getShiftPressed() && !player.getBoosted()) {
                     player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_SPRINT_SPEED")));
+                } else if (!keyboardListener.getShiftPressed() && player.getBoosted()) {
+                    player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOOSTED_SPEED")));
                 } else {
                     player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_SPEED")));
-
                 }
                 
                 player.updatePlayerPosition(
@@ -192,6 +194,7 @@ public class Level {
                 }
 
                 if(itemInRange && keyboardListener.getInteractPressed()) {
+                    nearestItem.use(rootPane, player);
                     player.collectItem(rootPane, items, finish.getItemsToCollect(), nearestItem, keyboardListener, finish);
                 }
 
@@ -200,7 +203,7 @@ public class Level {
                 }
 
                 if(finish.getAccessible()) {
-                    hud.getGoalLabel().setText(Texts.getTextByName("HUDGoalLabelFinished").getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")));
+                    hud.getGoalLabel().setText(Texts.getTextByName("HUDGoalLabelFinished").getTextInLanguage());
                     if(CollisionDetection.checkCollisionWithFinish(player, finish) && keyboardListener.getInteractPressed()) {
                         finished = true;
                         // this.stop();
@@ -226,7 +229,7 @@ public class Level {
         boolean exitOnEnter = Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("ENABLE_EXIT_ON_ENTER"));
         boolean allowCollectItem = Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("ENABLE_COLLECT_ITEM"));
         
-        this.keyboardListener.handleKeyboardInputs(player, enablePlayerMovement, exitOnEnter, allowCollectItem);
+        this.keyboardListener.handleKeyboardInputs(player, enablePlayerMovement, exitOnEnter, allowCollectItem, levels);
     
         this.stage.setScene(this.scene);
         this.stage.setTitle(this.mapName);
@@ -354,7 +357,7 @@ public class Level {
     }
 
     private String formatItemToCollectLabelMessage() {
-        String goalString = Texts.getTextByName("HUDGoalLabelUnfinished").getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")) + ": (";
+        String goalString = Texts.getTextByName("HUDGoalLabelUnfinished").getTextInLanguage() + ": (";
 
         for(int i = 0; i < finish.getItemsToCollect().size(); i++) {
             goalString += finish.getItemsToCollect().get(i).getName();
@@ -492,5 +495,22 @@ public class Level {
     public void setPolicemen(ArrayList<Policeman> policemen) {
         this.policemen = policemen;
     }
+
+    public void setAvailable(boolean isAvailable) {
+        this.isAvailable = isAvailable;
+    }
+
+    public boolean getAvailable() {
+        return this.isAvailable;
+    }
+
+    public ArrayList<Level> getLevels() {
+        return levels;
+    }
+    public void setLevels(ArrayList<Level> levels) {
+        this.levels = levels;
+    }
+
+    
     //#endregion
 }

@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import items.Key;
 import java.util.ArrayList;
 
 import goal.Finish;
 import language.Texts;
+import items.Coat;
+import items.EnergyDrink;
 import items.Item;
 import models.entities.Policeman;
 import models.tiles.Tile;
@@ -17,6 +20,7 @@ import utils.config.ConfigArguments;
 public class MapReader {
 
     public final static ArrayList<String> MAPS = MapReader.getMaps();
+    public final static ArrayList<String> MAPNAMES = MapReader.readMapNames();
 
     public static ArrayList<Tile> readTiles(String mapName) {
         ArrayList<Tile> tiles = new ArrayList<>(); 
@@ -170,24 +174,76 @@ public class MapReader {
 
                             String[] itemArguments = item.split(",");
 
-                            if(itemArguments.length == 4) {
-                                items.add(new Item(
-                                    Texts.getTextByName(itemArguments[0]).getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")), 
-                                    Integer.parseInt(itemArguments[1]), 
-                                    Integer.parseInt(itemArguments[2]), 
-                                    Integer.parseInt(itemArguments[3])
-                                ));
-                            } else if (itemArguments.length == 5) {
-                                items.add(new Item(
-                                    Texts.getTextByName(itemArguments[0]).getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")), 
-                                    Integer.parseInt(itemArguments[1]), 
-                                    Integer.parseInt(itemArguments[2]), 
-                                    Integer.parseInt(itemArguments[3]),
-                                    itemArguments[4]
-                                ));
-                            } else {
-                                throw new Error("Ilegal Item format");
-                            }
+
+                            if(itemArguments[0].equals("key")) {
+                                if(itemArguments.length == 3) {
+                                    items.add(new Key(
+                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2])
+                                    ));
+                                } else if (itemArguments.length == 4) {
+                                    items.add(new Key(
+                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2]), 
+                                        itemArguments[3]
+                                    ));
+                                } else {
+                                    throw new Error("Ilegal Item format");
+                                }
+                            } else if(itemArguments[0].equals("energyDrink")) {
+                                if(itemArguments.length == 3) {
+                                    items.add(new EnergyDrink(
+                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2])
+                                    ));
+                                } else if (itemArguments.length == 4) {
+                                    items.add(new EnergyDrink(
+                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2]), 
+                                        itemArguments[3]
+                                    ));
+                                } else {
+                                    throw new Error("Ilegal Item format");
+                                }
+                            } else if(itemArguments[0].equals("coat")) {
+                                if(itemArguments.length == 3) {
+                                    items.add(new Coat(
+                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2])
+                                    ));
+                                } else if (itemArguments.length == 4) {
+                                    items.add(new Coat(
+                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2]), 
+                                        itemArguments[3]
+                                    ));
+                                } else {
+                                    throw new Error("Ilegal Item format");
+                                }
+                            } else if(itemArguments[0].equals("lock")) {
+                                if(itemArguments.length == 3) {
+                                    items.add(new Coat(
+                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2])
+                                    ));
+                                } else if (itemArguments.length == 4) {
+                                    items.add(new Coat(
+                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2]), 
+                                        itemArguments[3]
+                                    ));
+                                } else {
+                                    throw new Error("Ilegal Item format");
+                                }
+                            } 
 
                         }
                     }
@@ -272,7 +328,7 @@ public class MapReader {
                 String data = Files.readString(absoluteMapsPath);
                 data = data.replaceAll("\\s", ""); // Remove all whitespaces
 
-                for(String map : data.split("!mapEnd")) {
+                for(String map : data.split("!mapEnd&")) {
                     maps.add(map);
 
                 }
@@ -330,7 +386,7 @@ public class MapReader {
 
                         for(Item item : itemsInMap) {
                             for(String itemToCollectName : itemsToCollectNames) {
-                                if(item.getName().equals(Texts.getTextByName(itemToCollectName).getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")))) {
+                                if(item.getName().equals(Texts.getTextByName(itemToCollectName).getTextInLanguage())) {
                                     itemsToCollect.add(item);
                                 }
                             }
@@ -344,7 +400,31 @@ public class MapReader {
         return itemsToCollect;
     }
 
-    // public static void main(String[] args) {
-    //     MapReader.getMaps();
-    // }
+    public static ArrayList<String> readMapNames() {
+        ArrayList<String> mapNames = new ArrayList<>();
+        Path mapsPath = Paths.get("src/utils/mapConfig/maps.txt");
+        Path absoluteMapsPath = mapsPath.toAbsolutePath();
+    
+        if (Files.exists(absoluteMapsPath)) {
+            try {
+                String data = Files.readString(absoluteMapsPath);
+                data = data.replaceAll("\\s", ""); // Remove all whitespaces
+
+                for(String line : data.split("&")) {
+                    if(line.startsWith("!map:")) {
+                        mapNames.add(line.split(":")[1]);
+                    }
+
+                }
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid number format in obstacles data!");
+            }
+        } else {
+            System.err.println(String.format("File: '%s' does not exist!", absoluteMapsPath.toString()));
+        }
+        return mapNames;
+    }
 }

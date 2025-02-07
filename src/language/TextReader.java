@@ -22,7 +22,7 @@ public class TextReader {
                 String en = "";
                 String de = "";
                 String ne = "";
-
+                String schw = "";
 
                 for(String language : languages.split("\\)")) {
                     if(language.startsWith("EN")) {
@@ -36,9 +36,12 @@ public class TextReader {
                     if(language.startsWith("NE")) {
                         ne = language.split("\\(")[1];
                     }
+                    if(language.startsWith("SCHW")) {
+                        schw = language.split("\\(")[1];
+                    }
                 }
 
-                Texts.getTexts().add(new Text(name, formatText(en), formatText(de), formatText(ne)));
+                Texts.getTexts().add(new Text(name, formatText(en), formatText(de), formatText(ne), formatText(schw)));
 
             }        
         } catch (IOException e) {

@@ -39,11 +39,11 @@ public class HUD {
         if(!this.collectibleLabel.isVisible() ||!nearesItem.getName().equals(lastNearestItemName)) {
             String interactBind = Keybindings.getKeybindingValue("INTERACT");
             this.collectibleLabel.setText(String.format("%s %s %s '%s' %s",
-                Texts.getTextByName("ineractLabelCollectItemP1").getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")),
+                Texts.getTextByName("ineractLabelCollectItemP1").getTextInLanguage(),
                 interactBind, 
-                Texts.getTextByName("ineractLabelCollectItemP2").getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE")),
+                Texts.getTextByName("ineractLabelCollectItemP2").getTextInLanguage(),
                 nearesItem.getName(),
-                Texts.getTextByName("ineractLabelCollectItemP3").getTextInLanguage(ConfigArguments.getConfigArgumentValue("LANGUAGE"))
+                Texts.getTextByName("ineractLabelCollectItemP3").getTextInLanguage()
             ));
             this.collectibleLabel.setVisible(true);
         }

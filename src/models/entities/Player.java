@@ -30,9 +30,13 @@ public class Player {
     private Node hitboxNode;
     private ImageView image;
     private double speed;
+    private boolean boosted;
+    private boolean vissible;
     
     public Player(double health, double normalSpeed, double sprintSpeed, int collectRange, Rectangle hitbox, int startX, int startY) {
         this.inventory = new Inventory(3);
+        this.boosted = false;
+        this.vissible = true;
         this.health = health;
         this.maxHealth = health;
         this.normalSpeed = normalSpeed;
@@ -50,7 +54,7 @@ public class Player {
         this.image.setFitHeight(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOUNDS")));
         this.image.setFitWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOUNDS")));
         this.image.setPreserveRatio(true);
-        this.hitbox.setVisible(true);
+        this.hitbox.setVisible(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("PLAYER_SHOW_HITBOX")));
      }
     
     public List<Item> collectItem(Pane rootPane, ArrayList<Item> items, ArrayList<Item> itemsToCollect, Item nearestItem, KeyboardListener keyboardListener, Finish finish) {
@@ -264,6 +268,22 @@ public class Player {
 
     public ImageView getImage() {
         return image;
+    }
+
+    public void setBoosted(boolean boosted) {
+        this.boosted = boosted;
+    }
+
+    public boolean getBoosted() {
+        return this.boosted;
+    }
+
+    public void setVissible(boolean vissible) {
+        this.vissible = vissible;
+    }
+
+    public boolean getVissible() {
+        return this.vissible;
     }
     //#endregion
 }

@@ -4,3 +4,6 @@ bank=bank.png;
 playerGreen=playerGreen.png;
 key=key1.png;
 policeman=policeman.png;
+energyDrink=energyDrink.png;
+lock=lock.png;
+coat=coat2.png;

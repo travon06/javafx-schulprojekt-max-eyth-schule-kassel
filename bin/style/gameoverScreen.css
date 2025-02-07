@@ -2,11 +2,11 @@
     -fx-pref-height: 50px;
     -fx-pref-width: 240px;
     -fx-font-family: arial;
-    -fx-font-size: 2em;
+    -fx-font-size: 1em;
 }
 
 #messageLabel {
     -fx-font-weight: bold;
-    -fx-font-size: 5em;
+    -fx-font-size: 1em;
 }
 

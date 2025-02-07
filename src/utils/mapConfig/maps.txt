@@ -13,13 +13,13 @@
 !policemenWaypoints:{
     [(115,474);(640,474)]
     [(627,198);(70,198)]
-}&
+}& 
 !items:
-    (energyDrink,1,100,474,copperRooftop);
-    (key,1,479,330,key)&
+    (coat,100,474,coat);
+    (key,479,330,key)&
 !finish:(0,0,COLLECT_ITEMS)&
 !itemsToCollect:key&
-!mapEnd
+!mapEnd&
 
 !map:flevel2&
 !playerStartCoordinates:385,630&
@@ -40,5 +40,77 @@
     (700,500,50,50,copperRooftop)&
 !finish:(385,0,COLLECT_ITEMS)&
 !itemsToCOllect:key&
-!mapEnd
+!mapEnd&
 
+!map:flevel2&
+!playerStartCoordinates:385,630&
+!tiles:
+    border;
+    (700,500,50,50,copperRooftop)&
+!finish:(385,0,COLLECT_ITEMS)&
+!itemsToCOllect:key&
+!mapEnd&
+!map:flevel2&
+!playerStartCoordinates:385,630&
+!tiles:
+    border;
+    (700,500,50,50,copperRooftop)&
+!finish:(385,0,COLLECT_ITEMS)&
+!itemsToCOllect:key&
+!mapEnd&
+!map:flevel2&
+!playerStartCoordinates:385,630&
+!tiles:
+    border;
+    (700,500,50,50,copperRooftop)&
+!finish:(385,0,COLLECT_ITEMS)&
+!itemsToCOllect:key&
+!mapEnd&
+!map:flevel2&
+!playerStartCoordinates:385,630&
+!tiles:
+    border;
+    (700,500,50,50,copperRooftop)&
+!finish:(385,0,COLLECT_ITEMS)&
+!itemsToCOllect:key&
+!mapEnd&
+!map:flevel2&
+!playerStartCoordinates:385,630&
+!tiles:
+    border;
+    (700,500,50,50,copperRooftop)&
+!finish:(385,0,COLLECT_ITEMS)&
+!itemsToCOllect:key&
+!mapEnd&
+!map:flevel2&
+!playerStartCoordinates:385,630&
+!tiles:
+    border;
+    (700,500,50,50,copperRooftop)&
+!finish:(385,0,COLLECT_ITEMS)&
+!itemsToCOllect:key&
+!mapEnd&
+!map:flevel2&
+!playerStartCoordinates:385,630&
+!tiles:
+    border;
+    (700,500,50,50,copperRooftop)&
+!finish:(385,0,COLLECT_ITEMS)&
+!itemsToCOllect:key&
+!mapEnd&
+!map:flevel2&
+!playerStartCoordinates:385,630&
+!tiles:
+    border;
+    (700,500,50,50,copperRooftop)&
+!finish:(385,0,COLLECT_ITEMS)&
+!itemsToCOllect:key&
+!mapEnd&
+!map:flevel2&
+!playerStartCoordinates:385,630&
+!tiles:
+    border;
+    (700,500,50,50,copperRooftop)&
+!finish:(385,0,COLLECT_ITEMS)&
+!itemsToCOllect:key&
+!mapEnd&

@@ -14,6 +14,6 @@ public class Graphic {
     }
 
     public String getUrl() {
-        return url;
+            return url;
     }
 }

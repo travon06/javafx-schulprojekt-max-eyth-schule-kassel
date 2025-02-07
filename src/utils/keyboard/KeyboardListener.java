@@ -1,8 +1,12 @@
 package utils.keyboard;
 
+import java.util.ArrayList;
+
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+import levels.Level;
+import models.Screens.LevelSelection;
 import models.entities.Player;
 import utils.config.ConfigArguments;
 
@@ -29,7 +33,7 @@ public class KeyboardListener {
         this.stage = stage;
     }
 
-    public void handleKeyboardInputs(Player player, boolean playerMovement, boolean exitOnEnter, boolean allowCollectItem) {
+    public void handleKeyboardInputs(Player player, boolean playerMovement, boolean exitOnEnter, boolean allowCollectItem, ArrayList<Level> levels) {
         this.scene.setOnKeyPressed(event -> {
             if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("CONSOLE_KEYBOARD_OUTPUT"))) {
                 System.out.println(String.format("Key pressed: %s", event.getCode().toString()));
