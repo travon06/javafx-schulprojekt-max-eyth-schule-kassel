@@ -3,6 +3,7 @@ package models.Screens;
 import java.util.ArrayList;
 
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
@@ -38,7 +39,7 @@ public class LevelSelection {
         this.flowPane.setMaxWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) * 2 / 3);
         this.flowPane.setHgap(10);
         this.flowPane.setVgap(10);
-        flowPane.setStyle("-fx-background-color: lightblue;");
+        this.flowPane.setStyle("-fx-background-color: lightblue;"); // Test Hintergrundfarbe
 
         for(Level level : levels) {
             Button button = new Button(level.getMapName());
@@ -53,8 +54,8 @@ public class LevelSelection {
             this.buttons.add(button);
             this.flowPane.getChildren().add(button);
         }
+        this.flowPane.setAlignment(Pos.CENTER);
         this.rootPane.getChildren().add(flowPane);
-
         this.stage.setScene(this.scene);
         this.stage.setTitle("§§§§§§§§§§§§§§§§§§§");
         this.stage.show();

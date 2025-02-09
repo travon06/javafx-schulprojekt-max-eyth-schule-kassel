@@ -33,13 +33,12 @@ public class App extends Application {
             String mapName = MapReader.MAPS.get(i).split(":")[1].split("&")[0];
             Level level = new Level(primaryStage, mapName, levels);
             level.addFPSCounter();
-            levels.add(level); 
-        } 
+            levels.add(level);
+        }
 
         StartScreen startScreen = new StartScreen(primaryStage, levels);
-        System.out.println(LocalDateTime.now());
 
-        
+
 
         // currentLevel = levels.get(0);
         // currentLevel.start();

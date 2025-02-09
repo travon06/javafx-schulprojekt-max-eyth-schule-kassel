@@ -86,6 +86,30 @@ buttonOptions {
     SCHW(Stell_ein_du_Bastard)
 }
 
+keyBindsButton {
+    EN(Keybinds)
+    DE(Tastenbelegung)
+    NE(Sleutelbinder)
+    SCHW(Schlüssel_Zuweisungsoperator_veränderungsoption)
+}
 
+englisch {
+    EN(English)
+    DE(Englisch)
+    NE(Engels)
+    SCHW(American)
+}
 
+deutsch {
+    EN(German)
+    DE(Deutsch)
+    NE(Duits)
+    SCHW(Chuck)
+}
 
+niederländisch {
+    EN(Dutch)
+    DE(Niederländisch)
+    NE(Nederlands)
+    SCHW(Joost_Klein)
+}
