@@ -39,7 +39,7 @@ public class LevelSelection {
         this.flowPane.setMaxWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) * 2 / 3);
         this.flowPane.setHgap(10);
         this.flowPane.setVgap(10);
-        this.flowPane.setStyle("-fx-background-color: lightblue;"); // Test Hintergrundfarbe
+        // this.flowPane.setStyle("-fx-background-color: lightblue;"); // Test Hintergrundfarbe
 
         for(Level level : levels) {
             Button button = new Button(level.getMapName());

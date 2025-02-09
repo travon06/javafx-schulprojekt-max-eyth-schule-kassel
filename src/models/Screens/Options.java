@@ -45,7 +45,7 @@ public class Options {
         );
 
         this.keyBindsButton.setOnAction(event -> {
-            ChangeKeyBinds changeKeyBinds = new ChangeKeyBinds(this.stage);
+            ChangeKeyBinds changeKeyBinds = new ChangeKeyBinds(this.stage); 
         });
 
         this.comboBox.getItems().addAll(en, de, ne);
