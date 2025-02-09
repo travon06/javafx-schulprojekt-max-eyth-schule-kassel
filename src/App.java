@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import graphics.GraphicReader;
@@ -36,6 +37,7 @@ public class App extends Application {
         } 
 
         StartScreen startScreen = new StartScreen(primaryStage, levels);
+        System.out.println(LocalDateTime.now());
 
         
 
