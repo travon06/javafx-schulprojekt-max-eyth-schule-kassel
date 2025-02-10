@@ -1,6 +1,8 @@
 package items;
 
+import graphics.Graphics;
 import javafx.animation.AnimationTimer;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import models.entities.Player;
 import utils.config.ConfigArguments;

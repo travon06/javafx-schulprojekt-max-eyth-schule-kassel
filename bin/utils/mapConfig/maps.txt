@@ -1,4 +1,4 @@
-!map:flevel1&
+!map:level1&
 !playerStartCoordinates:385,630&
 !tiles:border;
     (0,551,369,50,copperRooftop);
@@ -18,10 +18,10 @@
     (coat,100,474,coat);
     (key,479,330,key)&
 !finish:(0,0,COLLECT_ITEMS)&
-!itemsToCollect:key&
+!itemsToCollect:key;coat&
 !mapEnd&
 
-!map:flevel2&
+!map:level2&
 !playerStartCoordinates:385,630&
 !tiles:
     border;
@@ -39,7 +39,43 @@
     (650,500,50,50,copperRooftop);
     (700,500,50,50,copperRooftop)&
 !finish:(385,0,COLLECT_ITEMS)&
-!itemsToCOllect:key&
+!itemsToCollect:key&
+!mapEnd&
+
+!map:Vorschau&
+!playerStartCoordinates:300,300&
+!tiles:
+    border;
+    (0,70,50,50,copperRooftop);
+    (50,70,50,50,copperRooftop);
+    (100,70,50,50,copperRooftop);
+    (150,70,50,50,copperRooftop);
+    (200,70,50,50,copperRooftop);
+    (0,170,50,50,ironRooftop);
+    (50,170,50,50,ironRooftop);
+    (100,170,50,50,ironRooftop);
+    (150,170,50,50,ironRooftop);
+    (200,170,50,50,ironRooftop);
+    (false,300,250,50,50,streetUp);
+    (false,300,300,50,50,streetUp);
+    (false,300,350,50,50,streetUp);
+    (false,300,400,50,50,streetUp);
+    (false,300,450,50,50,streetUp);
+    (false,300,500,50,50,streetUp);
+    (false,300,550,50,50,streetUp);
+    (false,300,600,50,50,streetUp);
+    (false,300,650,50,50,streetUp);
+    (false,300,700,50,50,streetUp)&
+!items:
+    (coat,550,100,coat);
+    (energyDrink,550,200,energyDrink);
+    (key,550,300,key)&
+!policemen:
+    (50,500,2)&
+!policemenWaypoints:
+    [(50,500);(500,500)]&
+!finish:(385,0,COLLECT_ITEMS)&
+!itemsToCollect:coat;energyDrink;key&
 !mapEnd&
 
 !map:flevel2&
@@ -48,15 +84,7 @@
     border;
     (700,500,50,50,copperRooftop)&
 !finish:(385,0,COLLECT_ITEMS)&
-!itemsToCOllect:key&
-!mapEnd&
-!map:flevel2&
-!playerStartCoordinates:385,630&
-!tiles:
-    border;
-    (700,500,50,50,copperRooftop)&
-!finish:(385,0,COLLECT_ITEMS)&
-!itemsToCOllect:key&
+!itemsToCollect:key&
 !mapEnd&
 !map:flevel2&
 !playerStartCoordinates:385,630&

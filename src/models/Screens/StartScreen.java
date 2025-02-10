@@ -2,22 +2,16 @@ package models.Screens;
 
 import java.util.ArrayList;
 
-import graphics.Graphic;
-import graphics.Graphics;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import language.Text;
-import language.TextReader;
 import language.Texts;
 import levels.Level;
 import utils.config.ConfigArguments;
-import utils.keyboard.KeyboardListener;
 
 public class StartScreen {
 
@@ -29,7 +23,7 @@ public class StartScreen {
     private Pane rootPane;
     private VBox buBox;
 
-    public StartScreen(Stage stage, ArrayList<Level> levels) {
+    public StartScreen(Stage stage) {
         this.buBox = new VBox(40);
         this.buttonLevelSelection = new Button(Texts.getTextByName("buttonLevelSelection").getTextInLanguage());
         this.buttonOptions = new Button(Texts.getTextByName("buttonOptions").getTextInLanguage());
@@ -43,10 +37,10 @@ public class StartScreen {
         );
 
         this.buttonLevelSelection.setOnAction(event -> {
-            LevelSelection levelSelection = new LevelSelection(levels, stage);
+            LevelSelection levelSelection = new LevelSelection(stage);
         });
         this.buttonOptions.setOnAction(event -> {
-            Options options = new Options(stage);
+            Options options = new Options(new Stage());
         });
         this.buttonExit.setOnAction(event -> {
             stage.close();

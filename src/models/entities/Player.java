@@ -5,15 +5,15 @@ import java.util.List;
 
 import goal.Finish;
 import graphics.Graphics;
+import items.Item;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 import models.CollisionDetection;
 import models.Inventory;
-import items.Item;
+import models.tiles.Tile;
 import utils.config.ConfigArguments;
 import utils.keyboard.KeyboardListener;
 
@@ -83,7 +83,7 @@ public class Player {
         return items;
     }
 
-    public void updatePlayerPosition(Rectangle playerRectangle, List<Rectangle> collisionRectangles, KeyboardListener keyboardListener) {
+    public void updatePlayerPosition(Rectangle playerRectangle, List<Tile> collisionRectangles, KeyboardListener keyboardListener) {
         int originalX = this.getX();
         int originalY = this.getY();
         double speed = this.getSpeed();
@@ -115,13 +115,13 @@ public class Player {
     
         // Kollisionsprüfung und Rücksetzen der Position
         if(!keyboardListener.getGodMode()) {
-            for (Rectangle collisionRectangle : collisionRectangles) {
-                if (CollisionDetection.checkCollisionRight(playerRectangle, collisionRectangle, true) ||
-                    CollisionDetection.checkCollisionLeft(playerRectangle, collisionRectangle, true)) {
+            for (Tile tile : collisionRectangles) {
+                if (CollisionDetection.checkCollisionRight(playerRectangle, tile.getHitbox(), tile.getIsSolid()) ||
+                    CollisionDetection.checkCollisionLeft(playerRectangle, tile.getHitbox(), tile.getIsSolid())) {
                     this.setX(originalX);
                 }
-                if (CollisionDetection.checkCollisionBottom(playerRectangle, collisionRectangle, true) ||
-                    CollisionDetection.checkCollisionTop(playerRectangle, collisionRectangle, true)) {
+                if (CollisionDetection.checkCollisionBottom(playerRectangle, tile.getHitbox(), tile.getIsSolid()) ||
+                    CollisionDetection.checkCollisionTop(playerRectangle, tile.getHitbox(), tile.getIsSolid())) {
                     this.setY(originalY);
                 }
             }

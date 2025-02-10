@@ -44,8 +44,20 @@ public class MapReader {
 
                             obstacles[i] = obstacles[i].replace("(", "").replace(")", "");
                             String[] obstacleArguments = obstacles[i].split(",");
-    
-                            if (obstacleArguments.length == 5) { // Ensure 4 arguments
+
+                            Boolean isBool = obstacleArguments[0].equalsIgnoreCase("true") || obstacleArguments[0].equalsIgnoreCase("false");
+
+
+                            if (isBool && obstacleArguments.length == 6){
+                                tiles.add(new Tile(
+                                    Boolean.parseBoolean(obstacleArguments[0]), // isSolid
+                                    Integer.parseInt(obstacleArguments[1]), // x
+                                    Integer.parseInt(obstacleArguments[2]), // y
+                                    Integer.parseInt(obstacleArguments[3]), // width
+                                    Integer.parseInt(obstacleArguments[4]),  // height
+                                    obstacleArguments[5] // image
+                                ));
+                            } else if (!isBool && obstacleArguments.length == 5) { // Ensure 4 arguments
                                 tiles.add(new Tile(
                                     true,
                                     Integer.parseInt(obstacleArguments[0]), // x
@@ -54,7 +66,15 @@ public class MapReader {
                                     Integer.parseInt(obstacleArguments[3]),  // height
                                     obstacleArguments[4] // image
                                 ));
-                            } else if (obstacleArguments.length == 4){
+                            } else if (isBool && obstacleArguments.length == 5){
+                                tiles.add(new Tile(
+                                    Boolean.parseBoolean(obstacleArguments[0]), // isSolid
+                                    Integer.parseInt(obstacleArguments[1]), // x
+                                    Integer.parseInt(obstacleArguments[2]), // y
+                                    Integer.parseInt(obstacleArguments[3]), // width
+                                    Integer.parseInt(obstacleArguments[4])  // height
+                                ));
+                            } else if (!isBool && obstacleArguments.length == 4){ 
                                 tiles.add(new Tile(
                                     true,
                                     Integer.parseInt(obstacleArguments[0]), // x
@@ -62,7 +82,7 @@ public class MapReader {
                                     Integer.parseInt(obstacleArguments[2]), // width
                                     Integer.parseInt(obstacleArguments[3])  // height
                                 ));
-                            } else { 
+                            } else {
                                 System.err.println("Invalid obstacle format: " + obstacles[i]);           
                             }
                         }
@@ -203,7 +223,7 @@ public class MapReader {
                                     items.add(new EnergyDrink(
                                         Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
                                         Integer.parseInt(itemArguments[1]), 
-                                        Integer.parseInt(itemArguments[2]), 
+                                        Integer.parseInt(itemArguments[2]),
                                         itemArguments[3]
                                     ));
                                 } else {

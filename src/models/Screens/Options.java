@@ -1,22 +1,11 @@
 package models.Screens;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.List;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import language.Texts;
-import utils.config.ConfigArgument;
 import utils.config.ConfigArguments;
 
 public class Options {
@@ -86,6 +75,7 @@ public class Options {
                 ConfigArguments.getConfigArguments().get(i).setValue(neueSprache);
             }
         }
+        System.out.println("Sprache geändert: " + neueSprache);
         return neueSprache;
     }
     

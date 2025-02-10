@@ -11,19 +11,19 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import levels.Level;
 import utils.config.ConfigArguments;
+import utils.mapConfig.MapReader;
 
 public class LevelSelection {
-    
-    private ArrayList<Level> levels;
+    private ArrayList<String> mapNames;
     private Stage stage;
     private Scene scene;
     private Pane rootPane;
     private ArrayList<Button> buttons;
     private FlowPane flowPane;
 
-    public LevelSelection(ArrayList<Level> levels, Stage stage) {
+    public LevelSelection(Stage stage) {
+        this.mapNames = MapReader.readMapNames();
         this.flowPane = new FlowPane();
-        this.levels = levels;
         this.stage = stage;
         this.rootPane = new Pane();
         this.buttons = new ArrayList<>();
@@ -39,17 +39,13 @@ public class LevelSelection {
         this.flowPane.setMaxWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) * 2 / 3);
         this.flowPane.setHgap(10);
         this.flowPane.setVgap(10);
-        this.flowPane.setStyle("-fx-background-color: lightblue;"); // Test Hintergrundfarbe
 
-        for(Level level : levels) {
-            Button button = new Button(level.getMapName());
+        for(String mapName : mapNames) {
+            Button button = new Button(mapName);
             button.setOnAction(event -> {
+                Level level = new Level(stage, mapName);
                 level.start();
             });
-
-            if(!level.getAvailable()) {
-                button.setDisable(true);
-            }
     
             this.buttons.add(button);
             this.flowPane.getChildren().add(button);
@@ -70,14 +66,6 @@ public class LevelSelection {
 
     public ArrayList<Button> getButtons() {
         return buttons;
-    }
-
-    public void setLevels(ArrayList<Level> levels) {
-        this.levels = levels;
-    }
-
-    public ArrayList<Level> getLevels() {
-        return levels;
     }
 
     public void setRootPane(Pane rootPane) {

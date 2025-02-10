@@ -19,28 +19,25 @@ public class CollisionDetection {
         return finish.getHitbox().getBoundsInParent().intersects(player.getHitbox().getBoundsInParent());
     }
 
-    // Prüft, ob zwei Bereiche überlappen (allgemeine Hilfsmethode)
     private static boolean isOverlapping(double min1, double max1, double min2, double max2) {
         return max1 > min2 && min1 < max2;
     }
 
-    // Allgemeine Methode zur Kollisionsprüfung je nach Seite
     public static boolean checkCollision(String side, Rectangle player, Rectangle block, boolean blockIsSolid) {
-        if (!blockIsSolid) return false; // Nicht feste Blöcke ignorieren
+        if (!blockIsSolid) {
+            return false;
+        }
 
-        // Spieler-Positionen
         double playerLeft = player.getX();
         double playerRight = player.getX() + player.getWidth();
         double playerTop = player.getY();
         double playerBottom = player.getY() + player.getHeight();
 
-        // Block-Positionen
         double blockLeft = block.getX();
         double blockRight = block.getX() + block.getWidth();
         double blockTop = block.getY();
         double blockBottom = block.getY() + block.getHeight();
 
-        // Kollision prüfen
         boolean collision = false;
         switch (side.toLowerCase()) {
             case "right":
@@ -64,7 +61,6 @@ public class CollisionDetection {
                 break;
         }
 
-        // Optional: Konsolenausgabe bei Kollision
         if (collision) {
             logCollision(side);
         }
@@ -72,14 +68,12 @@ public class CollisionDetection {
         return collision;
     }
 
-    // Hilfsmethode für Konsolenausgabe
     private static void logCollision(String side) {
         if (Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("CONSOLE_COLLISION_OUTPUT"))) {
             System.out.println("Collision on the " + side + " side");
         }
     }
 
-    // Shortcut-Methoden für jede Richtung
     public static boolean checkCollisionRight(Rectangle player, Rectangle block, boolean blockIsSolid) {
         return checkCollision("right", player, block, blockIsSolid);
     }

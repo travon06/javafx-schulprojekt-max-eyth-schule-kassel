@@ -20,7 +20,7 @@ public class GameoverScreen {
     private Button retryButton;
     private Scene scene;
 
-    public GameoverScreen(Stage stage, String mapName, ArrayList<Level> levels) {
+    public GameoverScreen(Stage stage, String mapName) {
         this.rootPane = new Pane();
         this.stage = stage;
         this.scene = new Scene(
@@ -38,7 +38,7 @@ public class GameoverScreen {
         retryButton.layoutXProperty().bind(rootPane.widthProperty().subtract(retryButton.widthProperty()).divide(2));
         retryButton.layoutYProperty().bind(rootPane.heightProperty().subtract(retryButton.heightProperty()).divide(2));
         this.retryButton.setOnAction(event ->{
-            Level level = new Level(stage, mapName, levels);
+            Level level = new Level(stage, mapName);
             level.start();
         });
         this.scene.getStylesheets().add(getClass().getResource("../../style/gameoverScreen.css").toExternalForm());

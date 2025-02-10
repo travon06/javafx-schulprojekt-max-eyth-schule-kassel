@@ -6,7 +6,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 
 public class Tile {
     private boolean isSolid;
@@ -17,7 +16,6 @@ public class Tile {
     private int width;
     private int height;
     private ImageView imageView;
-    private Rotate rotate;
 
     public Tile(boolean isSolid, int x, int y, int width, int height, String imageName) {
         this.isSolid = isSolid;

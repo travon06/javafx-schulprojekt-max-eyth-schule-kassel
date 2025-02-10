@@ -2,22 +2,26 @@ gameoverScreenRetryButton {
     EN(Retry)
     DE(Neu_Versuchen)
     NE(opnieuw_proberen)
+    SCHW(Versuch_doch_nochmal_du_Bastard)
 }
 
 gameoverScreenMessageLabel {
     EN(You_got_caugth!)
     DE(Du_wurdest_erwischt!)
     NE(Je_bent_betrapt!)
+    SCHW(Imagine_gefangen_werden_du_Opfer)
 }
 key {
     EN(Key)
     DE(Schlüssel)
     NE(Sleutel)
+    SCHW(Schlüssel)
 } 
 energyDrink {
     EN(Energy_Drink)
     DE(Energy_Drink)
     NE(Energiedrankje)
+    SCHW(Koffein_Eimer)
 }
 coat {
     EN(Coat)
@@ -32,33 +36,39 @@ lock {
 }
 HUDGoalLabelUnfinished {
     EN(Collect_the_following_items_to_proceed_to_the_next_level)
-    DE(Sammle_folgende_Gegenstände_ein_um_zum_nächsten_level_fortzufahren)
+    DE(Sammel_folgende_Gegenstände_ein_um_zum_nächsten_level_fortzufahren)
     NE(Verzamel_de_volgende_items_om_naar_het_volgende_level_te_gaan)
+    SCHW(Du_Hurensohn_sammel_jetzt_die_Gegenstände_ein_du_laufende_Behinderung)
 } 
 HUDGoalLabelFinished {
     EN(You_collected_all_items,_you_can_now_proceed_to_the_next_level)
     DE(Du_hast_alle_Gegenstände_eingesammelt,_du_kannst_nun_zum_nächsten_Level_fortfahren)
     NE(Je_hebt_alle_items_verzameld,_nu_kun_je_doorgaan_naar_het_volgende_level)
+    SCHW(Keine_Ahnung_wie_du_das_geschafft_hast_du_altes_Mistvieh)
 } 
 ineractLabelCollectItemP1 {
     EN(Press)
     DE(Drücke)
     NE(Druk)
+    SCHW(Drück)
 } 
 ineractLabelCollectItemP2 {
     EN(to_collect)
     DE(um)
     NE(om)
+    SCHW(um)
 } 
 ineractLabelCollectItemP3 {
     DE(einzusammeln)
     NE(te_verzamelen)
+    SCHW(verdammt_nochmal_einzusammeln_du_Grobmotorischer_Hurensohn)
 } 
 
 buttonLevelSelection {
     EN(Level)
     DE(Level)
     NE(Level)
+    SCHW(Wähl_doch_jetz_endlich_das_scheiß_Level_aus_du_dummer_Bastard)
 
 }
 
@@ -66,34 +76,40 @@ buttonExit {
     EN(Exit)
     DE(Verlassen)
     NE(Vertrekken)
+    SCHW(Verpiss_dich_endlich)
 }
 
 buttonOptions {
     EN(Options)
     DE(Optionen)
     NE(Opties)
+    SCHW(Stell_ein_du_Bastard)
 }
 
 keyBindsButton {
     EN(Keybinds)
     DE(Tastenbelegung)
     NE(Sleutelbinder)
+    SCHW(Schlüssel_Zuweisungsoperator_veränderungsoption)
 }
 
 englisch {
     EN(English)
     DE(Englisch)
     NE(Engels)
+    SCHW(American)
 }
 
 deutsch {
     EN(German)
     DE(Deutsch)
     NE(Duits)
+    SCHW(Chuck)
 }
 
 niederländisch {
     EN(Dutch)
     DE(Niederländisch)
     NE(Nederlands)
+    SCHW(Joost_Klein)
 }

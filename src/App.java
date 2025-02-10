@@ -1,4 +1,3 @@
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import graphics.GraphicReader;
@@ -6,7 +5,6 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import language.TextReader;
 import levels.Level;
-import models.Screens.LevelSelection;
 import models.Screens.StartScreen;
 import utils.config.ConfigReader;
 import utils.keyboard.KeybindingReader;
@@ -28,15 +26,15 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        ArrayList<Level> levels = new ArrayList<>();
-        for(int i = 0; i < MapReader.MAPS.size(); i++) {
-            String mapName = MapReader.MAPS.get(i).split(":")[1].split("&")[0];
-            Level level = new Level(primaryStage, mapName, levels);
-            level.addFPSCounter();
-            levels.add(level);
-        }
+        // ArrayList<Level> levels = new ArrayList<>();
+        // for(int i = 0; i < MapReader.MAPS.size(); i++) {
+        //     String mapName = MapReader.MAPS.get(i).split(":")[1].split("&")[0];
+        //     Level level = new Level(primaryStage, mapName);
+        //     level.addFPSCounter();
+        //     levels.add(level);
+        // }
 
-        StartScreen startScreen = new StartScreen(primaryStage, levels);
+        StartScreen startScreen = new StartScreen(primaryStage);
 
 
 

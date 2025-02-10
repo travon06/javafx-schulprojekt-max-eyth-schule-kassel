@@ -1,6 +1,7 @@
 package levels;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import HUD.HUD;
 import goal.Finish;
@@ -38,14 +39,12 @@ public class Level {
     private Finish finish;
     private ArrayList<Item> itemsToCollect;
     private boolean finished;
-    private ArrayList<Level> levels;
     private boolean isAvailable;
     
-    public Level(Stage stage, String mapName, ArrayList<Level> levels) {
+    public Level(Stage stage, String mapName) {
         this.isAvailable = true;
         this.stage = stage; 
         this.stage.setResizable(false);
-        this.levels = levels;
         this.mapName = mapName;
         this.finished = false;
         this.rootPane = new Pane();
@@ -146,13 +145,7 @@ public class Level {
     //#endregion
 
     public void start() {
-        
-        ArrayList<Rectangle> tileHitboxes = new ArrayList<>();
-
-        for(Tile tile : tiles) {
-            tileHitboxes.add(tile.getHitbox());
-        }
-
+    
         if(finish.getGoal().equals("COLLECT_ITEMS")) {
             hud.getGoalLabel().setText(formatItemToCollectLabelMessage());
         }
@@ -164,7 +157,7 @@ public class Level {
                 for(Policeman policeman : policemen) {
                     if(CollisionDetection.checkCollisionWithPoliceman(player, policeman) && player.getVissible() && !keyboardListener.getGodMode()) {
                         this.stop();
-                        GameoverScreen gmScreen = new GameoverScreen(stage, mapName, levels);
+                        GameoverScreen gmScreen = new GameoverScreen(stage, mapName);
                         gmScreen.setDeathMessage(Texts.getTextByName("gameoverScreenMessageLabel").getTextInLanguage());
                     }
                     
@@ -182,7 +175,7 @@ public class Level {
                 
                 player.updatePlayerPosition(
                     (Rectangle) rootPane.lookup("#playerRectangle"),
-                    tileHitboxes,
+                    tiles,
                     keyboardListener
                 );
 
@@ -229,7 +222,7 @@ public class Level {
         boolean exitOnEnter = Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("ENABLE_EXIT_ON_ENTER"));
         boolean allowCollectItem = Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("ENABLE_COLLECT_ITEM"));
         
-        this.keyboardListener.handleKeyboardInputs(player, enablePlayerMovement, exitOnEnter, allowCollectItem, levels);
+        this.keyboardListener.handleKeyboardInputs(player, enablePlayerMovement, exitOnEnter, allowCollectItem);
     
         this.stage.setScene(this.scene);
         this.stage.setTitle(this.mapName);
@@ -503,14 +496,6 @@ public class Level {
     public boolean getAvailable() {
         return this.isAvailable;
     }
-
-    public ArrayList<Level> getLevels() {
-        return levels;
-    }
-    public void setLevels(ArrayList<Level> levels) {
-        this.levels = levels;
-    }
-
     
     //#endregion
 }

@@ -1,13 +1,10 @@
 package models.Screens;
 
-import java.awt.event.KeyEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import utils.config.ConfigArguments;
-
-import javax.imageio.plugins.tiff.TIFFTagSet;
 
 public class ChangeKeyBinds {
 
