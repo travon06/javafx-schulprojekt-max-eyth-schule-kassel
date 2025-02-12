@@ -46,11 +46,4 @@ public class ConfigReader {
         return line.split("=")[1].trim();  // Trim to remove any surrounding whitespace
     }
 
-    // Optionally, add a main method for testing
-    // public static void main(String[] args) {
-    //     readConfig();
-    //     for (ConfigArgument configArgument : ConfigArguments.getConfigArguments()) {
-    //         System.out.println(String.format("%s=%s", configArgument.getArgument(), configArgument.getValue()));
-    //     }
-    // }
 }
