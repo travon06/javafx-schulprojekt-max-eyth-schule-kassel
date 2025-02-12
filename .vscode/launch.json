@@ -9,15 +9,7 @@
             "name": "Launch App.java",
             "request": "launch",
             "mainClass": "App",
-            "projectName": "project_15f4b383",
-            "vmArgs": "--module-path ./lib/javafx-sdk-23/lib --add-modules javafx.controls,javafx.fxml"
-        },
-        {
-            "type": "java",
-            "name": "Launch App.java",
-            "request": "launch",
-            "mainClass": "App",
-            "projectName": "project_15f4b383",
+            "projectName": "javafx-schulprojekt-max-eyth-schule-kassel_17535b26",
             "vmArgs": "--module-path ./lib/javafx-sdk-23/lib --add-modules javafx.controls,javafx.fxml"
         }
     ]

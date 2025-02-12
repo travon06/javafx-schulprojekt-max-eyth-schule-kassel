@@ -2,7 +2,7 @@ package utils.keyboard;
 
 public class Keybinding {
     private final String argument;
-    private final String value;
+    private String value;
 
     public Keybinding(String argument, String value) {
         this.argument = argument;
@@ -15,5 +15,9 @@ public class Keybinding {
 
     public String getValue() {
         return this.value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

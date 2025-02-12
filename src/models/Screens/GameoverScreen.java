@@ -41,7 +41,7 @@ public class GameoverScreen {
             Level level = new Level(stage, mapName);
             level.start();
         });
-        this.scene.getStylesheets().add(getClass().getResource("../../style/gameoverScreen.css").toExternalForm());
+        this.scene.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
         this.rootPane.getChildren().addAll(messageLabel, retryButton);
         this.stage.setScene(scene);
     }

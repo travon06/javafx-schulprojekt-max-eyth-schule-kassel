@@ -2,6 +2,8 @@ package models.Screens;
 
 import java.util.ArrayList;
 
+import com.sun.prism.paint.Color;
+
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -35,10 +37,11 @@ public class LevelSelection {
         Platform.runLater(() -> {
             double width = flowPane.getWidth();
             this.flowPane.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
+            this.flowPane.setLayoutY(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) * 1 / 6);
         });
-        this.flowPane.setMaxWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) * 2 / 3);
-        this.flowPane.setHgap(10);
-        this.flowPane.setVgap(10);
+        this.flowPane.setPrefWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) * 5 / 6);
+        this.flowPane.setHgap(20);
+        this.flowPane.setVgap(30);
 
         for(String mapName : mapNames) {
             Button button = new Button(mapName);
@@ -46,16 +49,16 @@ public class LevelSelection {
                 Level level = new Level(stage, mapName);
                 level.start();
             });
-    
             this.buttons.add(button);
             this.flowPane.getChildren().add(button);
         }
         this.flowPane.setAlignment(Pos.CENTER);
+        this.rootPane.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
         this.rootPane.getChildren().add(flowPane);
         this.stage.setScene(this.scene);
         this.stage.setTitle("§§§§§§§§§§§§§§§§§§§");
         this.stage.show();
-        
+        // this.flowPane.setStyle("-fx-background-color:blue");
     }
 
     //#region getter & setter

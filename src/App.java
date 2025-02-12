@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import language.TextReader;
 import levels.Level;
+import models.Screens.ChangeKeyBinds;
 import models.Screens.StartScreen;
 import utils.config.ConfigReader;
 import utils.keyboard.KeybindingReader;
@@ -34,6 +35,7 @@ public class App extends Application {
         //     levels.add(level);
         // }
 
+        // ChangeKeyBinds changeKeyBinds = new ChangeKeyBinds(primaryStage);
         StartScreen startScreen = new StartScreen(primaryStage);
 
 

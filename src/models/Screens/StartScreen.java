@@ -2,10 +2,13 @@ package models.Screens;
 
 import java.util.ArrayList;
 
+import graphics.Graphics;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -21,15 +24,19 @@ public class StartScreen {
     private Stage stage;
     private Scene scene;
     private Pane rootPane;
-    private VBox buBox;
+    private VBox vBox;
+    private ImageView backgroundImageView;
 
     public StartScreen(Stage stage) {
-        this.buBox = new VBox(40);
+        this.vBox = new VBox(40);
         this.buttonLevelSelection = new Button(Texts.getTextByName("buttonLevelSelection").getTextInLanguage());
         this.buttonOptions = new Button(Texts.getTextByName("buttonOptions").getTextInLanguage());
         this.buttonExit = new Button(Texts.getTextByName("buttonExit").getTextInLanguage());
         this.stage = stage;
         this.rootPane = new Pane();
+        this.backgroundImageView = new ImageView(new Image(Graphics.getGraphicUrl("background")));
+        this.backgroundImageView.setFitWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")));
+        this.backgroundImageView.setFitHeight(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")));
         this.scene = new Scene(
             this.rootPane, 
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")), 
@@ -40,25 +47,26 @@ public class StartScreen {
             LevelSelection levelSelection = new LevelSelection(stage);
         });
         this.buttonOptions.setOnAction(event -> {
-            Options options = new Options(new Stage());
+            Options options = new Options(stage);
         });
         this.buttonExit.setOnAction(event -> {
             stage.close();
         });
         
         Platform.runLater(() -> {
-            double width = buBox.getWidth();
-            this.buBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
+            double width = vBox.getWidth();
+            this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
         });
         Platform.runLater(() -> {
-            double height = buBox.getHeight();
-            this.buBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 2) - 100);
+            double height = vBox.getHeight();
+            this.vBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 2) - 100);
         });
         
-        this.buBox.getChildren().addAll(buttonLevelSelection, buttonOptions, buttonExit);
-        this.rootPane.getStylesheets().add(getClass().getResource("../../style/startScreen.css").toExternalForm());
-        this.rootPane.getChildren().addAll(buBox);
-        this.buBox.setAlignment(Pos.CENTER);
+        this.vBox.getChildren().addAll(buttonLevelSelection, buttonOptions, buttonExit);
+        this.vBox.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
+        this.vBox.setAlignment(Pos.CENTER);
+        this.rootPane.getChildren().addAll(backgroundImageView, vBox);
+        this.stage.setResizable(false);
         this.stage.setScene(this.scene);
         this.stage.setTitle("§§§§§§§§§§§§§§§§§§§");
         this.stage.show();

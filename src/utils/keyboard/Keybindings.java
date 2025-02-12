@@ -18,4 +18,12 @@ public class Keybindings {
 
         throw new Error(String.format("The Argument: %s does not exist!", argument));
     }
+
+    public static void setKeybindingValue(String argument, String value) {
+        for(Keybinding keybinding : Keybindings.getKeybindings()) {
+            if(keybinding.getArgument().equals(argument)) {
+                keybinding.setValue(value);
+            }
+        }
+    }
 }

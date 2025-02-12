@@ -1,0 +1,83 @@
+#messageLabel { /*Hier noch etwas für allgemeine Texte nicht nur für das messageLabel*/
+    -fx-font-weight: bold;
+    -fx-font-size: 1em;
+}
+
+.button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-color: #1F141A;
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #2A3B5F;
+    -fx-border-width: 2px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #2A3B5F;
+}
+
+.button:pressed {
+    -fx-background-color: #18233D;
+    -fx-translate-y: 2px;
+}
+
+/* Stil für die gesamte ComboBox */
+.combo-box {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-color: #1F141A;
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #2A3B5F;
+    -fx-border-width: 2px;
+    -fx-cursor: hand;
+}
+
+/* Stil für das geöffnete Dropdown-Menü */
+.combo-box .list-view {
+    -fx-background-color: #1F141A;
+    -fx-border-color: #2A3B5F;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+}
+
+/* Stil für die einzelnen Einträge im Dropdown */
+.combo-box .list-cell {
+    -fx-background-color: #1F141A;
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* Stil für markierte Einträge */
+.combo-box .list-cell:hover {
+    -fx-background-color: #2A3B5F;
+}
+
+.combo-box .list-cell:selected {
+    -fx-background-color: #18233D;
+    -fx-text-fill: white;
+}
+
+/* Stil für den Dropdown-Pfeil */
+.combo-box .arrow-button {
+    -fx-background-color: #1F141A;
+    -fx-border-radius: 0 8px 8px 0;
+    -fx-border-color: #2A3B5F;
+    -fx-border-width: 2px;
+}
+
+.combo-box .arrow {
+    -fx-background-color: white;
+}
+
+.combo-box:pressed {
+    -fx-background-color: #18233D;
+    -fx-translate-y: 2px;
+}
