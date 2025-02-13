@@ -16,6 +16,7 @@ public class Options {
     private Scene scene;
     private Pane rootPane;
     private Button keyBindsButton;
+    private Button buttonExit;
     private ComboBox<String> comboBox;
     private String en;
     private String de;
@@ -24,6 +25,7 @@ public class Options {
     
     public Options(Stage stage) {
         this.keyBindsButton = new Button(Texts.getTextByName("keyBindsButton").getTextInLanguage());
+        this.buttonExit = new Button(Texts.getTextByName("buttonExit").getTextInLanguage());
         this.rootPane = new Pane();
         this.stage = stage;
         this.comboBox = new ComboBox<>();
@@ -31,7 +33,8 @@ public class Options {
         this.en = Texts.getTextByName("englisch").getTextInLanguage();
         this.de = Texts.getTextByName("deutsch").getTextInLanguage();
         this.ne = Texts.getTextByName("niederländisch").getTextInLanguage();
-        
+        this.comboBox.getItems().addAll(en, de, ne);
+        this.comboBox.setValue(getLanguageForComboBox());
         this.scene = new Scene(
             this.rootPane,
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")), 
@@ -42,20 +45,24 @@ public class Options {
             ChangeKeyBinds changeKeyBinds = new ChangeKeyBinds(stage);
         });
 
-        this.comboBox.getItems().addAll(en, de, ne);
-        this.comboBox.setValue(getLanguageForComboBox());
+        this.buttonExit.setOnAction(event -> {
+            StartScreen startScreen = new StartScreen(stage);
+        });
+
         comboBox.setOnAction(event -> {
             getLanguage(this.comboBox.getValue());
         });
 
+
+
         Platform.runLater(() -> {
             double width = vBox.getWidth();
-            this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
             double height = vBox.getHeight();
+            this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
             this.vBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 2) - 100);
         });
 
-        this.vBox.getChildren().addAll(keyBindsButton, comboBox);
+        this.vBox.getChildren().addAll(keyBindsButton, comboBox, buttonExit);
         this.rootPane.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
         this.vBox.setAlignment(Pos.CENTER);
         this.rootPane.getChildren().addAll(vBox);

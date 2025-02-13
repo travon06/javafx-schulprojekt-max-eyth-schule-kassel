@@ -59,7 +59,6 @@ buttonLevelSelection {
     EN(Level)
     DE(Level)
     NE(Level)
-
 }
 
 buttonExit {
@@ -96,4 +95,10 @@ niederländisch {
     EN(Dutch)
     DE(Niederländisch)
     NE(Nederlands)
+}
+
+buttonQuit {
+    EN(Quit)
+    DE(Spiel Verlassen)
+    NE(Ontslag nemen)
 }

@@ -69,7 +69,6 @@ buttonLevelSelection {
     DE(Level)
     NE(Level)
     SCHW(Wähl_doch_jetz_endlich_das_scheiß_Level_aus_du_dummer_Bastard)
-
 }
 
 buttonExit {
@@ -112,4 +111,11 @@ niederländisch {
     DE(Niederländisch)
     NE(Nederlands)
     SCHW(Joost_Klein)
+}
+
+buttonQuit {
+    EN(Quit)
+    DE(Spiel Verlassen)
+    NE(Ontslag nemen)
+    SCHW(Töte Dich)
 }

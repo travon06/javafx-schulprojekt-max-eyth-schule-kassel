@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import language.Texts;
 import levels.Level;
 import utils.config.ConfigArguments;
 import utils.mapConfig.MapReader;
@@ -21,6 +22,7 @@ public class LevelSelection {
     private Scene scene;
     private Pane rootPane;
     private ArrayList<Button> buttons;
+    private Button buttonExit;
     private FlowPane flowPane;
 
     public LevelSelection(Stage stage) {
@@ -29,6 +31,7 @@ public class LevelSelection {
         this.stage = stage;
         this.rootPane = new Pane();
         this.buttons = new ArrayList<>();
+        this.buttonExit = new Button(Texts.getTextByName("buttonExit").getTextInLanguage());
         this.scene = new Scene(
             this.rootPane, 
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")), 
@@ -38,6 +41,12 @@ public class LevelSelection {
             double width = flowPane.getWidth();
             this.flowPane.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
             this.flowPane.setLayoutY(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) * 1 / 6);
+        });
+        Platform.runLater(() -> {
+            double width = this.buttonExit.getWidth();
+            double height = this.flowPane.getLayoutY() + this.flowPane.getHeight();
+            this.buttonExit.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
+            this.buttonExit.setLayoutY(height + (Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height - this.buttonExit.getHeight()) / 2 );
         });
         this.flowPane.setPrefWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) * 5 / 6);
         this.flowPane.setHgap(20);
@@ -50,11 +59,15 @@ public class LevelSelection {
                 level.start();
             });
             this.buttons.add(button);
-            this.flowPane.getChildren().add(button);
+            this.flowPane.getChildren().addAll(button);
         }
+        this.buttonExit.setOnAction(event -> {
+            StartScreen startScreen = new StartScreen(stage);
+        });
+
         this.flowPane.setAlignment(Pos.CENTER);
         this.rootPane.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
-        this.rootPane.getChildren().add(flowPane);
+        this.rootPane.getChildren().addAll(flowPane, buttonExit);
         this.stage.setScene(this.scene);
         this.stage.setTitle("§§§§§§§§§§§§§§§§§§§");
         this.stage.show();

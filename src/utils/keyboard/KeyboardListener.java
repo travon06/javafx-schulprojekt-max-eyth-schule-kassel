@@ -28,7 +28,8 @@ public class KeyboardListener {
     private final String WALK_RIGHT = Keybindings.getKeybindingValue("WALK_RIGHT");
     private final String INTERACT = Keybindings.getKeybindingValue("INTERACT");
     private final String GET_COORDINATES = Keybindings.getKeybindingValue("GET_COORDIANTES");
-    private final String TOGGLE_GOD_MODE = Keybindings.getKeybindingValue("TOGGLE_GOD_MODE");    
+    private final String TOGGLE_GOD_MODE = Keybindings.getKeybindingValue("TOGGLE_GOD_MODE");
+    private final String ESCAPE = Keybindings.getKeybindingValue("ESCAPE");
     public KeyboardListener(Stage stage, Scene scene) {
         this.scene = scene;
         this.stage = stage;
@@ -60,6 +61,8 @@ public class KeyboardListener {
                 this.getCoordinates = true;
             } else if (keyPressed.equalsIgnoreCase(this.TOGGLE_GOD_MODE)) {
                 this.godMode = !this.godMode;
+            } else if (event.getCode() == (KeyCode.ESCAPE)) {
+                LevelSelection levelSelection = new LevelSelection(stage);
             }
 
         });
