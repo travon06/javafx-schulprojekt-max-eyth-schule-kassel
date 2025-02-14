@@ -1,7 +1,9 @@
 package models.Screens;
 
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -51,6 +53,7 @@ public class Options {
 
         comboBox.setOnAction(event -> {
             getLanguage(this.comboBox.getValue());
+            Options options = new Options(stage);
         });
 
 
@@ -71,7 +74,7 @@ public class Options {
         this.stage.show();
     }
 
-    public String getLanguage(String comboBoxWert) {
+    public void getLanguage(String comboBoxWert) {
         String neueSprache;
         switch(comboBoxWert) {
             case "English":
@@ -93,7 +96,6 @@ public class Options {
                 ConfigArguments.getConfigArguments().get(i).setValue(neueSprache);
             }
         }
-        return neueSprache;
     }
 
     public String getLanguageForComboBox() {
@@ -105,5 +107,4 @@ public class Options {
         }
         return "English";
     }
-    
 }

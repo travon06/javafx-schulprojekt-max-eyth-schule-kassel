@@ -29,7 +29,6 @@ public class KeyboardListener {
     private final String INTERACT = Keybindings.getKeybindingValue("INTERACT");
     private final String GET_COORDINATES = Keybindings.getKeybindingValue("GET_COORDIANTES");
     private final String TOGGLE_GOD_MODE = Keybindings.getKeybindingValue("TOGGLE_GOD_MODE");
-    private final String ESCAPE = Keybindings.getKeybindingValue("ESCAPE");
     public KeyboardListener(Stage stage, Scene scene) {
         this.scene = scene;
         this.stage = stage;

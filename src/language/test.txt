@@ -119,3 +119,9 @@ buttonQuit {
     NE(Ontslag nemen)
     SCHW(Töte Dich)
 }
+
+WALK_UP {
+    EN(Walk Up)
+    DE(Hochlaufen)
+    NE(Test)
+}
