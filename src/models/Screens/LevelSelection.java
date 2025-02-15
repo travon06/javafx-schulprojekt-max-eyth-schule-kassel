@@ -24,6 +24,7 @@ public class LevelSelection {
     private ArrayList<Button> buttons;
     private Button buttonExit;
     private FlowPane flowPane;
+    private static ArrayList<Boolean> levelDisabled = new ArrayList<>();
 
     public LevelSelection(Stage stage) {
         this.rootPane = new Pane();
@@ -52,15 +53,22 @@ public class LevelSelection {
         this.flowPane.setHgap(20);
         this.flowPane.setVgap(30);
 
-        for(String mapName : mapNames) {
-            Button button = new Button(mapName);
-            button.setOnAction(event -> {
-                Level level = new Level(stage, mapName);
-                level.start();
-            });
-            this.buttons.add(button);
-            this.flowPane.getChildren().addAll(button);
+
+        while(true) {
+            int i = 0;
+            for(String mapName : mapNames) {
+                Button button = new Button(mapName);
+                button.setOnAction(event -> {
+                    Level level = new Level(stage, mapName);
+                    level.start();
+                });
+                button.setDisable(getDisabledButton(i));
+                this.buttons.add(button);
+                this.flowPane.getChildren().addAll(button);
+            }
+            break;
         }
+        this.buttons.get(0).setDisable(false);
         this.buttonExit.setOnAction(event -> {
             StartScreen startScreen = new StartScreen(stage);
         });
@@ -75,6 +83,19 @@ public class LevelSelection {
     }
 
     //#region getter & setter
+
+    public static void disableButton(boolean disable, int index) {
+        while(levelDisabled.size() <= index) {
+            levelDisabled.add(true);
+        }
+        levelDisabled.set(index, disable);
+    }
+    public static boolean getDisabledButton(int index) {
+        while(levelDisabled.size() <= index) {
+            levelDisabled.add(true);
+        }
+        return levelDisabled.get(index);
+    }
 
     public void setButtons(ArrayList<Button> buttons) {
         this.buttons = buttons;

@@ -20,6 +20,7 @@ public class KeyboardListener {
     private boolean interactPressed = false;
     private boolean getCoordinates = false;
     private boolean godMode = false;
+    private boolean escPressed = false;
     private Scene scene;
     private Stage stage;
     private final String WALK_UP = Keybindings.getKeybindingValue("WALK_UP");
@@ -61,7 +62,8 @@ public class KeyboardListener {
             } else if (keyPressed.equalsIgnoreCase(this.TOGGLE_GOD_MODE)) {
                 this.godMode = !this.godMode;
             } else if (event.getCode() == (KeyCode.ESCAPE)) {
-                LevelSelection levelSelection = new LevelSelection(stage);
+                this.escPressed = true;
+                //LevelSelection levelSelection = new LevelSelection(stage);
             }
 
         });
@@ -86,6 +88,10 @@ public class KeyboardListener {
             }
         });
 
+    }
+
+    public boolean getEscPressed() {
+        return this.escPressed;
     }
 
     public  void setUpPressed(boolean upPressed) {

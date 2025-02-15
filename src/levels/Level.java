@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import language.Texts;
 import models.CollisionDetection;
 import models.Screens.GameoverScreen;
+import models.Screens.LevelSelection;
 import models.entities.Player;
 import models.entities.Policeman;
 import models.fpsCounter.FPSCounter;
@@ -161,6 +162,11 @@ public class Level {
                         gmScreen.setDeathMessage(Texts.getTextByName("gameoverScreenMessageLabel").getTextInLanguage());
                     }
                     
+                }
+
+                if(keyboardListener.getEscPressed()) {
+                    this.stop();
+                    LevelSelection levelSelection = new LevelSelection(stage);
                 }
                 
                 if(keyboardListener.getShiftPressed() && player.getBoosted()) {
