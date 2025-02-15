@@ -223,7 +223,7 @@ public class Level {
         boolean allowCollectItem = Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("ENABLE_COLLECT_ITEM"));
         
         this.keyboardListener.handleKeyboardInputs(player, enablePlayerMovement, exitOnEnter, allowCollectItem);
-    
+        
         this.stage.setScene(this.scene);
         this.stage.setTitle(this.mapName);
         this.stage.show();

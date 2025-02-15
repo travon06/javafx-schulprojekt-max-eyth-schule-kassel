@@ -26,15 +26,15 @@ public class LevelSelection {
     private FlowPane flowPane;
 
     public LevelSelection(Stage stage) {
+        this.rootPane = new Pane();
         this.mapNames = MapReader.readMapNames();
         this.flowPane = new FlowPane();
         this.stage = stage;
-        this.rootPane = new Pane();
         this.buttons = new ArrayList<>();
         this.buttonExit = new Button(Texts.getTextByName("buttonExit").getTextInLanguage());
         this.scene = new Scene(
-            this.rootPane, 
-            Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")), 
+            this.rootPane,
+            Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")),
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"))
         );
         Platform.runLater(() -> {
