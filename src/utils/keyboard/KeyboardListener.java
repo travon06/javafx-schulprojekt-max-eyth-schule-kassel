@@ -63,7 +63,6 @@ public class KeyboardListener {
                 this.godMode = !this.godMode;
             } else if (event.getCode() == (KeyCode.ESCAPE)) {
                 this.escPressed = true;
-                //LevelSelection levelSelection = new LevelSelection(stage);
             }
 
         });
