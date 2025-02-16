@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import language.Texts;
 import models.CollisionDetection;
 import models.Screens.GameoverScreen;
+import models.Screens.LevelSelection;
 import models.entities.Player;
 import models.entities.Policeman;
 import models.fpsCounter.FPSCounter;
@@ -161,6 +162,11 @@ public class Level {
                     }
                     
                 }
+
+                if(keyboardListener.getEscPressed()) {
+                    this.stop();
+                    LevelSelection levelSelection = new LevelSelection(stage);
+                }
                 
                 if(keyboardListener.getSprintPressed() && player.getBoosted()) {
                     player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOOSTED_SPRINT_SPEED")));
@@ -221,7 +227,7 @@ public class Level {
         boolean allowCollectItem = Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("ENABLE_COLLECT_ITEM"));
         
         this.keyboardListener.handleKeyboardInputs(player, enablePlayerMovement, exitOnEnter, allowCollectItem);
-    
+        
         this.stage.setScene(this.scene);
         this.stage.setTitle(this.mapName);
         this.stage.show();

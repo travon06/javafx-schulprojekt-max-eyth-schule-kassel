@@ -59,7 +59,6 @@ buttonLevelSelection {
     EN(Level)
     DE(Level)
     NE(Level)
-
 }
 
 buttonExit {
@@ -96,4 +95,52 @@ niederländisch {
     EN(Dutch)
     DE(Niederländisch)
     NE(Nederlands)
+}
+
+buttonQuit {
+    EN(Quit)
+    DE(Spiel_verlassen)
+    NE(Ontslag_nemen)
+}
+
+WALK_UP {
+    EN(Walk_up)
+    DE(Nach_oben)
+    NE(Loop_naar_boven)
+}
+
+WALK_LEFT {
+    EN(Walk_left)
+    DE(Nach_links)
+    NE(Loop_links)
+}
+
+WALK_DOWN {
+    EN(Walk_down)
+    DE(Nach_unten)
+    NE(Loop_naar_beneden)
+}
+
+WALK_RIGHT {
+    EN(Walk_right)
+    DE(Nach_rechts)
+    NE(Loop_rechts)
+}
+
+INTERACT {
+    EN(Interact)
+    DE(Interagieren)
+    NE(Interageren)
+}
+
+GET_COORDIANTES {
+    EN(Get_coordinates)
+    DE(Koordinaten)
+    NE(Coördinaten_krijgen)
+}
+
+TOGGLE_GOD_MODE {
+    EN(Toggle_God_mode)
+    DE(God_mode)
+    NE(Schakel_de_god-modus_in)
 }

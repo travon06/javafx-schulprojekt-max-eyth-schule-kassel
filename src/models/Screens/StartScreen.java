@@ -20,7 +20,7 @@ public class StartScreen {
 
     private Button buttonLevelSelection;
     private Button buttonOptions;
-    private Button buttonExit;
+    private Button buttonQuit;
     private Stage stage;
     private Scene scene;
     private Pane rootPane;
@@ -31,7 +31,7 @@ public class StartScreen {
         this.vBox = new VBox(40);
         this.buttonLevelSelection = new Button(Texts.getTextByName("buttonLevelSelection").getTextInLanguage());
         this.buttonOptions = new Button(Texts.getTextByName("buttonOptions").getTextInLanguage());
-        this.buttonExit = new Button(Texts.getTextByName("buttonExit").getTextInLanguage());
+        this.buttonQuit = new Button(Texts.getTextByName("buttonQuit").getTextInLanguage());
         this.stage = stage;
         this.rootPane = new Pane();
         this.backgroundImageView = new ImageView(new Image(Graphics.getGraphicUrl("background")));
@@ -39,7 +39,7 @@ public class StartScreen {
         this.backgroundImageView.setFitHeight(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")));
         this.scene = new Scene(
             this.rootPane, 
-            Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")), 
+            Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")),
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"))
         );
 
@@ -49,7 +49,7 @@ public class StartScreen {
         this.buttonOptions.setOnAction(event -> {
             Options options = new Options(new Stage());
         });
-        this.buttonExit.setOnAction(event -> {
+        this.buttonQuit.setOnAction(event -> {
             stage.close();
         });
         
@@ -62,7 +62,7 @@ public class StartScreen {
             this.vBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 2) - 100);
         });
         
-        this.vBox.getChildren().addAll(buttonLevelSelection, buttonOptions, buttonExit);
+        this.vBox.getChildren().addAll(buttonLevelSelection, buttonOptions, buttonQuit);
         this.vBox.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
         this.vBox.setAlignment(Pos.CENTER);
         this.rootPane.getChildren().addAll(backgroundImageView, vBox);

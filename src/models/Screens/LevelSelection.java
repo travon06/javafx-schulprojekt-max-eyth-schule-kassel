@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import language.Texts;
 import levels.Level;
 import utils.config.ConfigArguments;
 import utils.mapConfig.MapReader;
@@ -21,17 +22,20 @@ public class LevelSelection {
     private Scene scene;
     private Pane rootPane;
     private ArrayList<Button> buttons;
+    private Button buttonExit;
     private FlowPane flowPane;
+    private static ArrayList<Boolean> levelDisabled = new ArrayList<>();
 
     public LevelSelection(Stage stage) {
+        this.rootPane = new Pane();
         this.mapNames = MapReader.readMapNames();
         this.flowPane = new FlowPane();
         this.stage = stage;
-        this.rootPane = new Pane();
         this.buttons = new ArrayList<>();
+        this.buttonExit = new Button(Texts.getTextByName("buttonExit").getTextInLanguage());
         this.scene = new Scene(
-            this.rootPane, 
-            Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")), 
+            this.rootPane,
+            Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")),
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"))
         );
         Platform.runLater(() -> {
@@ -39,10 +43,15 @@ public class LevelSelection {
             this.flowPane.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
             this.flowPane.setLayoutY(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) * 1 / 6);
         });
+        Platform.runLater(() -> {
+            double width = this.buttonExit.getWidth();
+            double height = this.flowPane.getLayoutY() + this.flowPane.getHeight();
+            this.buttonExit.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
+            this.buttonExit.setLayoutY(height + (Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height - this.buttonExit.getHeight()) / 2 );
+        });
         this.flowPane.setPrefWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) * 5 / 6);
         this.flowPane.setHgap(20);
         this.flowPane.setVgap(30);
-
         // for(String mapName : mapNames) {
         //     Button button = new Button(mapName);
         //     button.setOnAction(event -> {
@@ -53,20 +62,28 @@ public class LevelSelection {
         //     this.flowPane.getChildren().add(button);
         // }
 
-        for(int i = 0; i < mapNames.size(); i++) {
-            String mapName = mapNames.get(i);
-            Button button = new Button(mapName);
-            button.setOnAction(event -> {
-                Level level = new Level(stage, mapName, MapReader.getNextLevel(mapName));
-                level.addFPSCounter();
-                level.start();
-            });
-            this.buttons.add(button);
-            this.flowPane.getChildren().add(button);
+        while(true) {
+            int i = 0;
+            for(String mapName : mapNames) {
+                Button button = new Button(mapName);
+                button.setOnAction(event -> {
+                    Level level = new Level(stage, mapName, MapReader.getNextLevel(mapName));
+                    level.start();
+                });
+                button.setDisable(getDisabledButton(i));
+                this.buttons.add(button);
+                this.flowPane.getChildren().addAll(button);
+            }
+            break;
         }
+        this.buttons.get(0).setDisable(false);
+        this.buttonExit.setOnAction(event -> {
+            StartScreen startScreen = new StartScreen(stage);
+        });
+
         this.flowPane.setAlignment(Pos.CENTER);
         this.rootPane.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
-        this.rootPane.getChildren().add(flowPane);
+        this.rootPane.getChildren().addAll(flowPane, buttonExit);
         this.stage.setScene(this.scene);
         this.stage.setTitle("§§§§§§§§§§§§§§§§§§§");
         this.stage.show();
@@ -74,6 +91,19 @@ public class LevelSelection {
     }
 
     //#region getter & setter
+
+    public static void disableButton(boolean disable, int index) {
+        while(levelDisabled.size() <= index) {
+            levelDisabled.add(true);
+        }
+        levelDisabled.set(index, disable);
+    }
+    public static boolean getDisabledButton(int index) {
+        while(levelDisabled.size() <= index) {
+            levelDisabled.add(true);
+        }
+        return levelDisabled.get(index);
+    }
 
     public void setButtons(ArrayList<Button> buttons) {
         this.buttons = buttons;
