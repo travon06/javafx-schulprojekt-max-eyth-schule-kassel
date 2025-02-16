@@ -39,11 +39,9 @@ public class Level {
     private Finish finish;
     private ArrayList<Item> itemsToCollect;
     private boolean finished;
-    private boolean isAvailable;
     private String mapNameToTrigger;
     
     public Level(Stage stage, String mapName, String mapNameToTrigger) {
-        this.isAvailable = true;
         this.stage = stage; 
         this.stage.setResizable(false);
         this.mapName = mapName;
@@ -487,15 +485,6 @@ public class Level {
     }
     public void setPolicemen(ArrayList<Policeman> policemen) {
         this.policemen = policemen;
-    }
-
-    public void setAvailable(boolean isAvailable) {
-        this.isAvailable = isAvailable;
-    }
-
-    public boolean getAvailable() {
-        return this.isAvailable;
-    }
-    
+    }    
     //#endregion
 }
