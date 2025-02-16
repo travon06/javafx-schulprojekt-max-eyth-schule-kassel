@@ -144,3 +144,9 @@ TOGGLE_GOD_MODE {
     DE(God_mode)
     NE(Schakel_de_god-modus_in)
 }
+
+SPRINT {
+    EN(Sprint)
+    DE(Sprinten)
+    NE(loopen)
+}

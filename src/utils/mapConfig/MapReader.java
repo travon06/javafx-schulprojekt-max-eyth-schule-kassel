@@ -46,44 +46,106 @@ public class MapReader {
                             String[] obstacleArguments = obstacles[i].split(",");
 
                             Boolean isBool = obstacleArguments[0].equalsIgnoreCase("true") || obstacleArguments[0].equalsIgnoreCase("false");
+                            int tileBounds = Integer.parseInt(ConfigArguments.getConfigArgumentValue("TILE_BOUNDS"));
 
-
-                            if (isBool && obstacleArguments.length == 6){
-                                tiles.add(new Tile(
-                                    Boolean.parseBoolean(obstacleArguments[0]), // isSolid
-                                    Integer.parseInt(obstacleArguments[1]), // x
-                                    Integer.parseInt(obstacleArguments[2]), // y
-                                    Integer.parseInt(obstacleArguments[3]), // width
-                                    Integer.parseInt(obstacleArguments[4]),  // height
-                                    obstacleArguments[5] // image
-                                ));
-                            } else if (!isBool && obstacleArguments.length == 5) { // Ensure 4 arguments
-                                tiles.add(new Tile(
-                                    true,
-                                    Integer.parseInt(obstacleArguments[0]), // x
-                                    Integer.parseInt(obstacleArguments[1]), // y
-                                    Integer.parseInt(obstacleArguments[2]), // width
-                                    Integer.parseInt(obstacleArguments[3]),  // height
-                                    obstacleArguments[4] // image
-                                ));
-                            } else if (isBool && obstacleArguments.length == 5){
-                                tiles.add(new Tile(
-                                    Boolean.parseBoolean(obstacleArguments[0]), // isSolid
-                                    Integer.parseInt(obstacleArguments[1]), // x
-                                    Integer.parseInt(obstacleArguments[2]), // y
-                                    Integer.parseInt(obstacleArguments[3]), // width
-                                    Integer.parseInt(obstacleArguments[4])  // height
-                                ));
-                            } else if (!isBool && obstacleArguments.length == 4){ 
-                                tiles.add(new Tile(
-                                    true,
-                                    Integer.parseInt(obstacleArguments[0]), // x
-                                    Integer.parseInt(obstacleArguments[1]), // y
-                                    Integer.parseInt(obstacleArguments[2]), // width
-                                    Integer.parseInt(obstacleArguments[3])  // height
-                                ));
-                            } else {
-                                System.err.println("Invalid obstacle format: " + obstacles[i]);           
+                            if (isBool && obstacleArguments.length == 6) {
+                                if (Integer.parseInt(obstacleArguments[3]) % tileBounds != 0 || Integer.parseInt(obstacleArguments[4]) % tileBounds != 0) {
+                                    throw new Error("idk");
+                                } else {
+                                    int startX = Integer.parseInt(obstacleArguments[1]);
+                                    int startY = Integer.parseInt(obstacleArguments[2]) + tileBounds;
+                                    int x = startX;
+                                    int y = startY;
+                            
+                                    for (int j = 0; j < Integer.parseInt(obstacleArguments[3]) / tileBounds; j++) {
+                                        for (int k = 0; k < Integer.parseInt(obstacleArguments[4]) / tileBounds; k++) {
+                                            tiles.add(new Tile(
+                                                Boolean.parseBoolean(obstacleArguments[0]),
+                                                x,
+                                                y,
+                                                tileBounds,
+                                                tileBounds,
+                                                obstacleArguments[5]
+                                            ));
+                                            y += tileBounds;
+                                        }
+                                        x += tileBounds;
+                                        y = startY;
+                                    }
+                                }
+                            } else if (!isBool && obstacleArguments.length == 5) {
+                                if (Integer.parseInt(obstacleArguments[2]) % tileBounds != 0 || Integer.parseInt(obstacleArguments[3]) % tileBounds != 0) {
+                                    throw new Error("idk");
+                                } else {
+                                    int startX = Integer.parseInt(obstacleArguments[0]);
+                                    int startY = Integer.parseInt(obstacleArguments[1]) + tileBounds;
+                                    int x = startX;
+                                    int y = startY;
+                            
+                                    for (int j = 0; j < Integer.parseInt(obstacleArguments[2]) / tileBounds; j++) {
+                                        for (int k = 0; k < Integer.parseInt(obstacleArguments[3]) / tileBounds; k++) {
+                                            tiles.add(new Tile(
+                                                true,
+                                                x,
+                                                y,
+                                                tileBounds,
+                                                tileBounds,
+                                                obstacleArguments[4]
+                                            ));
+                                            y += tileBounds;
+                                        }
+                                        x += tileBounds;
+                                        y = startY;
+                                    }
+                                }
+                            } else if (isBool && obstacleArguments.length == 5) {
+                                if (Integer.parseInt(obstacleArguments[2]) % tileBounds != 0 || Integer.parseInt(obstacleArguments[3]) % tileBounds != 0) {
+                                    throw new Error("idk");
+                                } else {
+                                    int startX = Integer.parseInt(obstacleArguments[1]);
+                                    int startY = Integer.parseInt(obstacleArguments[2]) + tileBounds;
+                                    int x = startX;
+                                    int y = startY;
+                            
+                                    for (int j = 0; j < Integer.parseInt(obstacleArguments[3]) / tileBounds; j++) {
+                                        for (int k = 0; k < Integer.parseInt(obstacleArguments[4]) / tileBounds; k++) {
+                                            tiles.add(new Tile(
+                                                Boolean.parseBoolean(obstacleArguments[0]),
+                                                x,
+                                                y,
+                                                tileBounds,
+                                                tileBounds
+                                            ));
+                                            y += tileBounds;
+                                        }
+                                        x += tileBounds;
+                                        y = startY;
+                                    }
+                                }
+                            } else if (!isBool && obstacleArguments.length == 4) {
+                                if (Integer.parseInt(obstacleArguments[2]) % tileBounds != 0 || Integer.parseInt(obstacleArguments[3]) % tileBounds != 0) {
+                                    throw new Error("idk");
+                                } else {
+                                    int startX = Integer.parseInt(obstacleArguments[0]);
+                                    int startY = Integer.parseInt(obstacleArguments[1]) + tileBounds;
+                                    int x = startX;
+                                    int y = startY;
+                            
+                                    for (int j = 0; j < Integer.parseInt(obstacleArguments[2]) / tileBounds; j++) {
+                                        for (int k = 0; k < Integer.parseInt(obstacleArguments[3]) / tileBounds; k++) {
+                                            tiles.add(new Tile(
+                                                true,
+                                                x,
+                                                y,
+                                                tileBounds,
+                                                tileBounds
+                                            ));
+                                            y += tileBounds;
+                                        }
+                                        x += tileBounds;
+                                        y = startY;
+                                    }
+                                }
                             }
                         }
                     }

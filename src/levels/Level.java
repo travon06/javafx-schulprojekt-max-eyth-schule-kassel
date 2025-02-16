@@ -204,6 +204,9 @@ public class Level {
                     hud.getGoalLabel().setText(Texts.getTextByName("HUDGoalLabelFinished").getTextInLanguage());
                     if(CollisionDetection.checkCollisionWithFinish(player, finish) && keyboardListener.getInteractPressed()) {
                         finished = true;
+                        for(int i = 0; i < LevelSelection.getMapNames().size(); i++) {
+                            LevelSelection.disableButton(false, LevelSelection.getMapNames().indexOf(mapName) +1);
+                        }
                         this.stop();
                         Level newLewel = new Level(stage, mapNameToTrigger, MapReader.getNextLevel(mapNameToTrigger));
                         newLewel.addFPSCounter();

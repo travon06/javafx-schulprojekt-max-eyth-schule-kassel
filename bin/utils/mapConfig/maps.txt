@@ -1,144 +1,32 @@
+!map:newMapReaderTest&
+!playerStartCoordinates:385,630&
+!tiles:
+    (false,0,100,300,50);
+    (false,0,200,500,50,copperRooftop);
+    (0,400,300,50);
+    (0,500,100,50,copperRooftop)&
+!finish:(385,0,COLLECT_ITEMS)&
+!itemsToCOllect:key&
+!mapEnd&
 !map:level1&
-!playerStartCoordinates:385,630&
-!tiles:border;
-    (0,551,369,50,copperRooftop);
-    (460,551,331,50);
-    (0,287,215,150);
-    (291,287,130,150);
-    (421,387,150,50);
-    (551,287,170,150);
-    (0,116,552,50);
-    (650,116,178,50)&
-!policemen:(115,474,2);(627,198,3)&
-!policemenWaypoints:{
-    [(115,474);(640,474)]
-    [(627,198);(70,198)]
-}& 
+!playerStartCoordinates:660,650&
+!tiles:
+    border;
+    (0,500,800,50);
+    (900,500,400,50)&
+!finish:(385,20,COLLECT_ITEMS)&
 !items:
-    (coat,100,474,coat);
-    (key,479,330,key)&
-!finish:(0,0,COLLECT_ITEMS)&
-!itemsToCollect:key;coat&
+    (energyDrink,150,500,energyDrink)&
+!itemsToCollect:energyDrink&
 !mapEnd&
-
 !map:level2&
-!playerStartCoordinates:385,630&
+!playerStartCoordinates:1100,385&
 !tiles:
     border;
-    (0,500,50,50,copperRooftop);
-    (50,500,50,50,copperRooftop);
-    (100,500,50,50,copperRooftop);
-    (150,500,50,50,copperRooftop);
-    (200,500,50,50,copperRooftop);
-    (350,500,50,50,copperRooftop);
-    (400,500,50,50,copperRooftop);
-    (450,500,50,50,copperRooftop);
-    (500,500,50,50,copperRooftop);
-    (550,500,50,50,copperRooftop);
-    (600,500,50,50,copperRooftop);
-    (650,500,50,50,copperRooftop);
-    (700,500,50,50,copperRooftop)&
-!finish:(385,0,COLLECT_ITEMS)&
-!itemsToCollect:key&
-!mapEnd&
-
-!map:Vorschau&
-!playerStartCoordinates:300,300&
-!tiles:
-    border;
-    (0,70,50,50,copperRooftop);
-    (50,70,50,50,copperRooftop);
-    (100,70,50,50,copperRooftop);
-    (150,70,50,50,copperRooftop);
-    (200,70,50,50,copperRooftop);
-    (0,170,50,50,ironRooftop);
-    (50,170,50,50,ironRooftop);
-    (100,170,50,50,ironRooftop);
-    (150,170,50,50,ironRooftop);
-    (200,170,50,50,ironRooftop);
-    (false,300,250,50,50,streetUp);
-    (false,300,300,50,50,streetUp);
-    (false,300,350,50,50,streetUp);
-    (false,300,400,50,50,streetUp);
-    (false,300,450,50,50,streetUp);
-    (false,300,500,50,50,streetUp);
-    (false,300,550,50,50,streetUp);
-    (false,300,600,50,50,streetUp);
-    (false,300,650,50,50,streetUp);
-    (false,300,700,50,50,streetUp)&
+    (0,1050,800,50);
+    (900,1050,400,50)&
+!finish:(385,20,COLLECT_ITEMS)&
 !items:
-    (coat,550,100,coat);
-    (energyDrink,550,200,energyDrink);
-    (key,550,300,key)&
-!policemen:
-    (50,500,2)&
-!policemenWaypoints:
-    [(50,500);(500,500)]&
-!finish:(385,0,COLLECT_ITEMS)&
-!itemsToCollect:coat;energyDrink;key&
-!mapEnd&
-
-!map:level3&
-!playerStartCoordinates:385,630&
-!tiles:
-    border;
-    (700,500,50,50,copperRooftop)&
-!finish:(385,0,COLLECT_ITEMS)&
-!itemsToCollect:key&
-!mapEnd&
-!map:level4&
-!playerStartCoordinates:385,630&
-!tiles:
-    border;
-    (700,500,50,50,copperRooftop)&
-!finish:(385,0,COLLECT_ITEMS)&
-!itemsToCOllect:key&
-!mapEnd&
-!map:level5&
-!playerStartCoordinates:385,630&
-!tiles:
-    border;
-    (700,500,50,50,copperRooftop)&
-!finish:(385,0,COLLECT_ITEMS)&
-!itemsToCOllect:key&
-!mapEnd&
-!map:level6&
-!playerStartCoordinates:385,630&
-!tiles:
-    border;
-    (700,500,50,50,copperRooftop)&
-!finish:(385,0,COLLECT_ITEMS)&
-!itemsToCOllect:key&
-!mapEnd&
-!map:level8&
-!playerStartCoordinates:385,630&
-!tiles:
-    border;
-    (700,500,50,50,copperRooftop)&
-!finish:(385,0,COLLECT_ITEMS)&
-!itemsToCOllect:key&
-!mapEnd&
-!map:level9&
-!playerStartCoordinates:385,630&
-!tiles:
-    border;
-    (700,500,50,50,copperRooftop)&
-!finish:(385,0,COLLECT_ITEMS)&
-!itemsToCOllect:key&
-!mapEnd&
-!map:level10&
-!playerStartCoordinates:385,630&
-!tiles:
-    border;
-    (700,500,50,50,copperRooftop)&
-!finish:(385,0,COLLECT_ITEMS)&
-!itemsToCOllect:key&
-!mapEnd&
-!map:level11&
-!playerStartCoordinates:385,630&
-!tiles:
-    border;
-    (700,500,50,50,copperRooftop)&
-!finish:(385,0,COLLECT_ITEMS)&
-!itemsToCOllect:key&
+    (energyDrink,150,970,energyDrink)&
+!itemsToCollect:energyDrink&
 !mapEnd&

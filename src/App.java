@@ -6,7 +6,9 @@ import javafx.stage.Stage;
 import language.TextReader;
 import levels.Level;
 import models.Screens.ChangeKeyBinds;
+import models.Screens.LevelSelection;
 import models.Screens.StartScreen;
+import utils.config.ConfigArguments;
 import utils.config.ConfigReader;
 import utils.keyboard.KeybindingReader;
 import utils.mapConfig.MapReader;
@@ -36,7 +38,11 @@ public class App extends Application {
         // }
 
         // ChangeKeyBinds changeKeyBinds = new ChangeKeyBinds(primaryStage);
-        StartScreen startScreen = new StartScreen(primaryStage);
+        if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("DEVELOPMENT_MODE"))) {
+            new LevelSelection(primaryStage);
+        } else {
+            new StartScreen(primaryStage);
+        }
 
 
 

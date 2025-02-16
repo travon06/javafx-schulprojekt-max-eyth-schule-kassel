@@ -17,7 +17,7 @@ import utils.config.ConfigArguments;
 import utils.mapConfig.MapReader;
 
 public class LevelSelection {
-    private ArrayList<String> mapNames;
+    private static ArrayList<String> mapNames;
     private Stage stage;
     private Scene scene;
     private Pane rootPane;
@@ -52,30 +52,19 @@ public class LevelSelection {
         this.flowPane.setPrefWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) * 5 / 6);
         this.flowPane.setHgap(20);
         this.flowPane.setVgap(30);
-        // for(String mapName : mapNames) {
-        //     Button button = new Button(mapName);
-        //     button.setOnAction(event -> {
-        //         Level level = new Level(stage, mapName);
-        //         level.start();
-        //     });
-        //     this.buttons.add(button);
-        //     this.flowPane.getChildren().add(button);
-        // }
-
-        while(true) {
-            int i = 0;
-            for(String mapName : mapNames) {
-                Button button = new Button(mapName);
-                button.setOnAction(event -> {
-                    Level level = new Level(stage, mapName, MapReader.getNextLevel(mapName));
-                    level.start();
-                });
-                button.setDisable(getDisabledButton(i));
-                this.buttons.add(button);
-                this.flowPane.getChildren().addAll(button);
-            }
-            break;
+        for(int i = 0; i < this.mapNames.size(); i++) {
+            Button button = new Button(mapNames.get(i));
+            final int index = i;
+            button.setOnAction(event -> {
+                Level level = new Level(stage, mapNames.get(index), MapReader.getNextLevel(mapNames.get(index)));
+                level.start();
+            });
+            if(!Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("DEVELOPMENT_MODE")))
+            button.setDisable(getDisabledButton(i));
+            this.buttons.add(button);
+            this.flowPane.getChildren().addAll(button);
         }
+
         this.buttons.get(0).setDisable(false);
         this.buttonExit.setOnAction(event -> {
             StartScreen startScreen = new StartScreen(stage);
@@ -136,6 +125,16 @@ public class LevelSelection {
     public Stage getStage() {
         return stage;
     }
+
+    public static ArrayList<String> getMapNames() {
+        return LevelSelection.mapNames;
+    }
+
+    public static ArrayList<Boolean> getLevelDisabled() {
+        return levelDisabled;
+    }
+
+
 
     //#endregion
 
