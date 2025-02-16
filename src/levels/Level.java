@@ -40,12 +40,14 @@ public class Level {
     private ArrayList<Item> itemsToCollect;
     private boolean finished;
     private boolean isAvailable;
+    private String mapNameToTrigger;
     
-    public Level(Stage stage, String mapName) {
+    public Level(Stage stage, String mapName, String mapNameToTrigger) {
         this.isAvailable = true;
         this.stage = stage; 
         this.stage.setResizable(false);
         this.mapName = mapName;
+        this.mapNameToTrigger = mapNameToTrigger;
         this.finished = false;
         this.rootPane = new Pane();
         this.scene = new Scene(
@@ -150,7 +152,6 @@ public class Level {
             hud.getGoalLabel().setText(formatItemToCollectLabelMessage());
         }
 
-        
         this.timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -163,11 +164,11 @@ public class Level {
                     
                 }
                 
-                if(keyboardListener.getShiftPressed() && player.getBoosted()) {
+                if(keyboardListener.getSprintPressed() && player.getBoosted()) {
                     player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOOSTED_SPRINT_SPEED")));
-                } else if(keyboardListener.getShiftPressed() && !player.getBoosted()) {
+                } else if(keyboardListener.getSprintPressed() && !player.getBoosted()) {
                     player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_SPRINT_SPEED")));
-                } else if (!keyboardListener.getShiftPressed() && player.getBoosted()) {
+                } else if (!keyboardListener.getSprintPressed() && player.getBoosted()) {
                     player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOOSTED_SPEED")));
                 } else {
                     player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_SPEED")));
@@ -199,11 +200,10 @@ public class Level {
                     hud.getGoalLabel().setText(Texts.getTextByName("HUDGoalLabelFinished").getTextInLanguage());
                     if(CollisionDetection.checkCollisionWithFinish(player, finish) && keyboardListener.getInteractPressed()) {
                         finished = true;
-                        // this.stop();
-                        // System.out.println("jasdofjsbdc");
-                        // Level nextLevel = levels.get(levels.indexOf(2)+1);
-                        // nextLevel.addFPSCounter();
-                        // nextLevel.start();
+                        this.stop();
+                        Level newLewel = new Level(stage, mapNameToTrigger, MapReader.getNextLevel(mapNameToTrigger));
+                        newLewel.addFPSCounter();
+                        newLewel.start();
 
                     }
                 }

@@ -78,7 +78,7 @@
 !itemsToCollect:coat;energyDrink;key&
 !mapEnd&
 
-!map:flevel2&
+!map:level3&
 !playerStartCoordinates:385,630&
 !tiles:
     border;
@@ -86,7 +86,7 @@
 !finish:(385,0,COLLECT_ITEMS)&
 !itemsToCollect:key&
 !mapEnd&
-!map:flevel2&
+!map:level4&
 !playerStartCoordinates:385,630&
 !tiles:
     border;
@@ -94,7 +94,7 @@
 !finish:(385,0,COLLECT_ITEMS)&
 !itemsToCOllect:key&
 !mapEnd&
-!map:flevel2&
+!map:level5&
 !playerStartCoordinates:385,630&
 !tiles:
     border;
@@ -102,7 +102,7 @@
 !finish:(385,0,COLLECT_ITEMS)&
 !itemsToCOllect:key&
 !mapEnd&
-!map:flevel2&
+!map:level6&
 !playerStartCoordinates:385,630&
 !tiles:
     border;
@@ -110,7 +110,7 @@
 !finish:(385,0,COLLECT_ITEMS)&
 !itemsToCOllect:key&
 !mapEnd&
-!map:flevel2&
+!map:level8&
 !playerStartCoordinates:385,630&
 !tiles:
     border;
@@ -118,7 +118,7 @@
 !finish:(385,0,COLLECT_ITEMS)&
 !itemsToCOllect:key&
 !mapEnd&
-!map:flevel2&
+!map:level9&
 !playerStartCoordinates:385,630&
 !tiles:
     border;
@@ -126,7 +126,7 @@
 !finish:(385,0,COLLECT_ITEMS)&
 !itemsToCOllect:key&
 !mapEnd&
-!map:flevel2&
+!map:level10&
 !playerStartCoordinates:385,630&
 !tiles:
     border;
@@ -134,7 +134,7 @@
 !finish:(385,0,COLLECT_ITEMS)&
 !itemsToCOllect:key&
 !mapEnd&
-!map:flevel2&
+!map:level11&
 !playerStartCoordinates:385,630&
 !tiles:
     border;

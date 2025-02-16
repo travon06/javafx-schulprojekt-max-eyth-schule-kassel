@@ -16,7 +16,7 @@ public class KeyboardListener {
     private boolean downPressed = false;
     private boolean leftPressed = false;
     private boolean rightPressed = false;
-    private boolean shiftPressed = false;
+    private boolean sprintPressed = false;
     private boolean interactPressed = false;
     private boolean getCoordinates = false;
     private boolean godMode = false;
@@ -28,7 +28,8 @@ public class KeyboardListener {
     private final String WALK_RIGHT = Keybindings.getKeybindingValue("WALK_RIGHT");
     private final String INTERACT = Keybindings.getKeybindingValue("INTERACT");
     private final String GET_COORDINATES = Keybindings.getKeybindingValue("GET_COORDIANTES");
-    private final String TOGGLE_GOD_MODE = Keybindings.getKeybindingValue("TOGGLE_GOD_MODE");    
+    private final String TOGGLE_GOD_MODE = Keybindings.getKeybindingValue("TOGGLE_GOD_MODE");  
+    private final String SPRINT = Keybindings.getKeybindingValue("SPRINT");
     public KeyboardListener(Stage stage, Scene scene) {
         this.scene = scene;
         this.stage = stage;
@@ -50,8 +51,8 @@ public class KeyboardListener {
                 if (playerMovement) this.downPressed = true;
             } else if (keyPressed.equalsIgnoreCase(this.WALK_RIGHT)) {
                 if (playerMovement) this.rightPressed = true;
-            } else if (keyPressed.equalsIgnoreCase(KeyCode.SHIFT.getName())) {
-                if (playerMovement) this.shiftPressed = true;
+            } else if (keyPressed.equalsIgnoreCase(this.SPRINT)) {
+                if (playerMovement) this.sprintPressed = true;
             } else if (keyPressed.equalsIgnoreCase(KeyCode.ENTER.getName())) {
                 if (exitOnEnter) this.stage.close();
             } else if (keyPressed.equalsIgnoreCase(INTERACT)) {
@@ -75,8 +76,8 @@ public class KeyboardListener {
                 this.downPressed = false;
             } else if (keyPressed.equalsIgnoreCase(this.WALK_RIGHT)) {
                 this.rightPressed = false;
-            } else if (keyPressed.equalsIgnoreCase(KeyCode.SHIFT.getName())) {
-                this.shiftPressed = false;
+            } else if (keyPressed.equalsIgnoreCase(this.SPRINT)) {
+                this.sprintPressed = false;
             } else if (keyPressed.equalsIgnoreCase(this.INTERACT)) {
                 this.interactPressed = false;
             } else if (keyPressed.equalsIgnoreCase(this.GET_COORDINATES)) {
@@ -134,12 +135,12 @@ public class KeyboardListener {
         return this.stage;
     }
 
-    public  void setShiftPressed(boolean shiftPressed) {
-        this.shiftPressed = shiftPressed;
+    public  void setSprinttPressed(boolean shiftPressed) {
+        this.sprintPressed = shiftPressed;
     }
 
-    public  boolean getShiftPressed() {
-        return this.shiftPressed;
+    public  boolean getSprintPressed() {
+        return this.sprintPressed;
     }
 
     public  boolean getInteractPressed() {

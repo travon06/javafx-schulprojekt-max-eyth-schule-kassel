@@ -275,8 +275,6 @@ public class MapReader {
 
     public static ArrayList<Waypoint> readWaypoints(String mapName, int policemanIndex) {
         ArrayList<Waypoint> waypoints = new ArrayList<>();
-
-
         for(String map : MapReader.MAPS) {
             if(map.startsWith(String.format("!map:%s", mapName))) {
                 String[] arguments = map.split("&");
@@ -446,5 +444,16 @@ public class MapReader {
             System.err.println(String.format("File: '%s' does not exist!", absoluteMapsPath.toString()));
         }
         return mapNames;
+    }
+
+    public static String getNextLevel(String levelBefore) {
+        for(int i = 0; i < MapReader.MAPNAMES.size(); i++) {
+            if(levelBefore.equals(MapReader.MAPNAMES.get(i))) {
+                if(i < MapReader.MAPNAMES.size()) {
+                return MapReader.MAPNAMES.get(i + 1);
+                }
+            }
+        }
+        return null;
     }
 }

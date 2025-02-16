@@ -43,10 +43,22 @@ public class LevelSelection {
         this.flowPane.setHgap(20);
         this.flowPane.setVgap(30);
 
-        for(String mapName : mapNames) {
+        // for(String mapName : mapNames) {
+        //     Button button = new Button(mapName);
+        //     button.setOnAction(event -> {
+        //         Level level = new Level(stage, mapName);
+        //         level.start();
+        //     });
+        //     this.buttons.add(button);
+        //     this.flowPane.getChildren().add(button);
+        // }
+
+        for(int i = 0; i < mapNames.size(); i++) {
+            String mapName = mapNames.get(i);
             Button button = new Button(mapName);
             button.setOnAction(event -> {
-                Level level = new Level(stage, mapName);
+                Level level = new Level(stage, mapName, MapReader.getNextLevel(mapName));
+                level.addFPSCounter();
                 level.start();
             });
             this.buttons.add(button);

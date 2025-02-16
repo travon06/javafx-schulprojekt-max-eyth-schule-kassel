@@ -19,8 +19,9 @@ public class ChangeKeyBinds {
     private String newButtonBind;
 
     public ChangeKeyBinds(Stage stage) {
-        this.buttonWalkUp = new Button("W");
-        this.buttonTest = new Button();
+        this.buttonWalkUp = new Button(Keybindings.getKeybindingValue("WALK_UP"));
+        this.buttonWalkUp.setPrefWidth(50);
+        this.buttonTest = new Button("Test");
         this.rootPane = new Pane();
         this.stage = stage;
         this.vBox = new VBox();

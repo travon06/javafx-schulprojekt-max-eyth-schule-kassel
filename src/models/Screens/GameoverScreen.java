@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import language.Texts;
 import levels.Level;
 import utils.config.ConfigArguments;
+import utils.mapConfig.MapReader;
 
 
 public class GameoverScreen {
@@ -38,7 +39,7 @@ public class GameoverScreen {
         retryButton.layoutXProperty().bind(rootPane.widthProperty().subtract(retryButton.widthProperty()).divide(2));
         retryButton.layoutYProperty().bind(rootPane.heightProperty().subtract(retryButton.heightProperty()).divide(2));
         this.retryButton.setOnAction(event ->{
-            Level level = new Level(stage, mapName);
+            Level level = new Level(stage, mapName, MapReader.getNextLevel(mapName));
             level.start();
         });
         this.scene.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
