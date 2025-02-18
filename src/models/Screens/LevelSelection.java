@@ -56,7 +56,9 @@ public class LevelSelection {
             Button button = new Button(mapNames.get(i));
             final int index = i;
             button.setOnAction(event -> {
+                button.setDisable(true);
                 Level level = new Level(stage, mapNames.get(index), MapReader.getNextLevel(mapNames.get(index)));
+                level.addFPSCounter();
                 level.start();
             });
             if(!Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("DEVELOPMENT_MODE")))
@@ -80,7 +82,6 @@ public class LevelSelection {
     }
 
     //#region getter & setter
-
     public static void disableButton(boolean disable, int index) {
         while(levelDisabled.size() <= index) {
             levelDisabled.add(true);
