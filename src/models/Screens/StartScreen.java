@@ -47,7 +47,7 @@ public class StartScreen {
             LevelSelection levelSelection = new LevelSelection(stage);
         });
         this.buttonOptions.setOnAction(event -> {
-            Options options = new Options(new Stage());
+            Options options = new Options(stage);
         });
         this.buttonQuit.setOnAction(event -> {
             stage.close();
@@ -68,7 +68,7 @@ public class StartScreen {
         this.rootPane.getChildren().addAll(backgroundImageView, vBox);
         this.stage.setResizable(false);
         this.stage.setScene(this.scene);
-        this.stage.setTitle("§§§§§§§§§§§§§§§§§§§§<m");
+        this.stage.setTitle(Texts.getTextByName("StartScreen").getTextInLanguage());
         this.stage.show();
     }
     

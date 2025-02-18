@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 import graphics.GraphicReader;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -11,14 +9,7 @@ import models.Screens.StartScreen;
 import utils.config.ConfigArguments;
 import utils.config.ConfigReader;
 import utils.keyboard.KeybindingReader;
-import utils.mapConfig.MapReader;
-
 public class App extends Application {
-
-    private Level currentLevel;
-    private Level nextLevel;
-    private Level temp;
-
     static {
         // load configurations
         ConfigReader.readConfig();
@@ -29,41 +20,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // ArrayList<Level> levels = new ArrayList<>();
-        // for(int i = 0; i < MapReader.MAPS.size(); i++) {
-        //     String mapName = MapReader.MAPS.get(i).split(":")[1].split("&")[0];
-        //     Level level = new Level(primaryStage, mapName);
-        //     level.addFPSCounter();
-        //     levels.add(level);
-        // }
-
-        // ChangeKeyBinds changeKeyBinds = new ChangeKeyBinds(primaryStage);
         if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("DEVELOPMENT_MODE"))) {
             new LevelSelection(primaryStage);
         } else {
             new StartScreen(primaryStage);
         }
 
-
-
-        // currentLevel = levels.get(0);
-        // currentLevel.start();
-    
-        // AnimationTimer timer = new AnimationTimer() {
-        //     @Override
-        //     public void handle(long now) {
-        //         if(currentLevel.getFinished()) {
-        //             nextLevel = levels.get(levels.indexOf(currentLevel) + 1);
-        //             nextLevel.start();
-        //             temp = currentLevel;
-        //             temp.stop();
-        //             currentLevel = nextLevel;
-        //         }
-        //     }
-        // };
-
-        // timer.start();
-        
+        StartScreen startScreen = new StartScreen(primaryStage);
 
     }
 

@@ -2,24 +2,26 @@
 !playerStartCoordinates:660,650&
 !tiles:
     border;
-    (0,500,800,50,copperRooftop);
-    (900,500,400,50,copperRooftop);
-    (0,250,150,150,copperRooftop);
-    (270,250,600,150,copperRooftop);
-    (870,350,150,50,copperRooftop);
-    (1020,250,300,150,copperRooftop);
-    (0,100,800,50,copperRooftop);
-    (950,100,400,50,copperRooftop)&
+    (0,500,800,50);
+    (900,500,400,50);
+    (0,250,150,150);
+    (270,250,600,150);
+    (870,350,150,50);
+    (1020,250,300,150);
+    (0,100,800,50);
+    (950,100,400,50)&
 !finish:(385,20,COLLECT_ITEMS)&
 !items:
-    (energyDrink,110,500,energyDrink);
+    (energyDrink,50,485,energyDrink);
     (coat,934,341,coat)&
-!itemsToCollect:energyDrink&
 !policemen:(116,472,3)&
 !policemenWaypoints:{
-    [(116,472);(1178,472)]
+    [(115,474);(1050,474)]
 }&
+!goal:635,50;
 !mapEnd&
+
+
 !map:level2&
 !playerStartCoordinates:1100,385&
 !tiles:
