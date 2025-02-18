@@ -1,21 +1,19 @@
 package models.Screens;
 
-import java.util.ArrayList;
-
-import com.sun.glass.ui.PlatformFactory;
-
+import graphics.Graphics;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import language.Texts;
 import utils.config.ConfigArguments;
 import utils.keyboard.Keybinding;
-import utils.keyboard.KeybindingReader;
 import utils.keyboard.Keybindings;
 
 public class ChangeKeyBinds {
@@ -27,14 +25,17 @@ public class ChangeKeyBinds {
     private VBox vBox;
     private VBox vBoxText;
     private String newButtonBind;
+    private ImageView backgroundImageView;
 
     public ChangeKeyBinds(Stage stage) {
-
         this.buttonExit = new Button(Texts.getTextByName("buttonExit").getTextInLanguage());
         this.rootPane = new Pane();
         this.stage = stage;
         this.vBox = new VBox(20);
         this.vBoxText = new VBox(20);
+        this.backgroundImageView = new ImageView(new Image(Graphics.getGraphicUrl("background")));
+        this.backgroundImageView.setFitWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")));
+        this.backgroundImageView.setFitHeight(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")));
         this.scene = new Scene(
             this.rootPane,
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")), 
@@ -75,9 +76,9 @@ public class ChangeKeyBinds {
 
         this.scene.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
         this.vBox.setAlignment(Pos.CENTER);
-        this.rootPane.getChildren().addAll(vBoxText, vBox, buttonExit);
+        this.rootPane.getChildren().addAll(backgroundImageView, vBoxText, vBox, buttonExit);
         this.stage.setScene(this.scene);
-        this.stage.setTitle("§§§§§§§§§§§§§§§§§§§");
+        this.stage.setTitle(Texts.getTextByName("ChangeKeyBindsScreen").getTextInLanguage());
         this.stage.show();
     }
 

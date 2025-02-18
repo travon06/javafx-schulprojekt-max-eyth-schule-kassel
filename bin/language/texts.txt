@@ -144,3 +144,33 @@ TOGGLE_GOD_MODE {
     DE(God_mode)
     NE(Schakel_de_god-modus_in)
 }
+
+SPRINT {
+    EN(Sprint)
+    DE(Sprinten)
+    NE(loopen)
+}
+
+OptionsScreen {
+    EN(Options)
+    DE(Optionen)
+    NE(Opties)
+}
+
+StartScreen {
+    EN(STEAL_IT)
+    DE(STEAL_IT)
+    NE(STEAL_IT)
+}
+
+LevelSelectionScreen {
+    EN(Level_selection)
+    DE(Levelauswahl)
+    NE(Niveau_selectie)
+}
+
+ChangeKeyBindsScreen {
+    EN(Keybinds)
+    DE(Tastenanschläge)
+    NE(Sleutelhangers)
+}

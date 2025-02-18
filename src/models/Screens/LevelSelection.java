@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 import com.sun.prism.paint.Color;
 
+import graphics.Graphics;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -25,6 +28,7 @@ public class LevelSelection {
     private Button buttonExit;
     private FlowPane flowPane;
     private static ArrayList<Boolean> levelDisabled = new ArrayList<>();
+    private ImageView backgroundImageView;
 
     public LevelSelection(Stage stage) {
         this.rootPane = new Pane();
@@ -33,6 +37,9 @@ public class LevelSelection {
         this.stage = stage;
         this.buttons = new ArrayList<>();
         this.buttonExit = new Button(Texts.getTextByName("buttonExit").getTextInLanguage());
+        this.backgroundImageView = new ImageView(new Image(Graphics.getGraphicUrl("background")));
+        this.backgroundImageView.setFitWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")));
+        this.backgroundImageView.setFitHeight(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")));
         this.scene = new Scene(
             this.rootPane,
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")),
@@ -52,15 +59,6 @@ public class LevelSelection {
         this.flowPane.setPrefWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) * 5 / 6);
         this.flowPane.setHgap(20);
         this.flowPane.setVgap(30);
-        // for(String mapName : mapNames) {
-        //     Button button = new Button(mapName);
-        //     button.setOnAction(event -> {
-        //         Level level = new Level(stage, mapName);
-        //         level.start();
-        //     });
-        //     this.buttons.add(button);
-        //     this.flowPane.getChildren().add(button);
-        // }
 
         while(true) {
             int i = 0;
@@ -68,6 +66,7 @@ public class LevelSelection {
                 Button button = new Button(mapName);
                 button.setOnAction(event -> {
                     Level level = new Level(stage, mapName, MapReader.getNextLevel(mapName));
+                    level.addFPSCounter();
                     level.start();
                 });
                 button.setDisable(getDisabledButton(i));
@@ -83,9 +82,9 @@ public class LevelSelection {
 
         this.flowPane.setAlignment(Pos.CENTER);
         this.rootPane.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
-        this.rootPane.getChildren().addAll(flowPane, buttonExit);
+        this.rootPane.getChildren().addAll(backgroundImageView, flowPane, buttonExit);
         this.stage.setScene(this.scene);
-        this.stage.setTitle("§§§§§§§§§§§§§§§§§§§");
+        this.stage.setTitle(Texts.getTextByName("LevelSelectionScreen").getTextInLanguage());
         this.stage.show();
         // this.flowPane.setStyle("-fx-background-color:blue");
     }

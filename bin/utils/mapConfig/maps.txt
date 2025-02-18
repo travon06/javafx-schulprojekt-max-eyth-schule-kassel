@@ -18,7 +18,7 @@
     (coat,100,474,coat);
     (key,479,330,key)&
 !finish:(0,0,COLLECT_ITEMS)&
-!itemsToCollect:key;coat&
+!itemsToCollect:key&
 !mapEnd&
 
 !map:level2&

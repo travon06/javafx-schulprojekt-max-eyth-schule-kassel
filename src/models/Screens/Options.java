@@ -1,5 +1,6 @@
 package models.Screens;
 
+import graphics.Graphics;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -7,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -24,6 +27,7 @@ public class Options {
     private String de;
     private String ne;
     private VBox vBox;
+    private ImageView backgroundImageView;
     
     public Options(Stage stage) {
         this.keyBindsButton = new Button(Texts.getTextByName("keyBindsButton").getTextInLanguage());
@@ -31,12 +35,15 @@ public class Options {
         this.rootPane = new Pane();
         this.stage = stage;
         this.comboBox = new ComboBox<>();
-        this.vBox = new VBox(60);
+        this.vBox = new VBox(40);
         this.en = Texts.getTextByName("englisch").getTextInLanguage();
         this.de = Texts.getTextByName("deutsch").getTextInLanguage();
         this.ne = Texts.getTextByName("niederländisch").getTextInLanguage();
         this.comboBox.getItems().addAll(en, de, ne);
         this.comboBox.setValue(getLanguageForComboBox());
+        this.backgroundImageView = new ImageView(new Image(Graphics.getGraphicUrl("background")));
+        this.backgroundImageView.setFitWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")));
+        this.backgroundImageView.setFitHeight(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")));
         this.scene = new Scene(
             this.rootPane,
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")), 
@@ -56,8 +63,6 @@ public class Options {
             Options options = new Options(stage);
         });
 
-
-
         Platform.runLater(() -> {
             double width = vBox.getWidth();
             double height = vBox.getHeight();
@@ -68,9 +73,13 @@ public class Options {
         this.vBox.getChildren().addAll(keyBindsButton, comboBox, buttonExit);
         this.rootPane.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
         this.vBox.setAlignment(Pos.CENTER);
-        this.rootPane.getChildren().addAll(vBox);
+        this.rootPane.getChildren().addAll(backgroundImageView, vBox);
+        double width = vBox.getWidth();
+        double height = vBox.getHeight();
+        this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
+        this.vBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 2) - 100);
         this.stage.setScene(this.scene);
-        this.stage.setTitle("§§§§§§§§§§§§");
+        this.stage.setTitle(Texts.getTextByName("OptionsScreen").getTextInLanguage());
         this.stage.show();
     }
 
