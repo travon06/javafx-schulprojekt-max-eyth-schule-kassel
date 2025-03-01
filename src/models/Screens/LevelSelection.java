@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import language.TextReader;
 import language.Texts;
 import levels.Level;
 import utils.config.ConfigArguments;
@@ -76,7 +77,7 @@ public class LevelSelection {
         this.rootPane.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
         this.rootPane.getChildren().addAll(flowPane, buttonExit);
         this.stage.setScene(this.scene);
-        this.stage.setTitle("§§§§§§§§§§§§§§§§§§§");
+        this.stage.setTitle(Texts.getTextByName("LevelSelectionScreen").getTextInLanguage());
         this.stage.show();
         // this.flowPane.setStyle("-fx-background-color:blue");
     }

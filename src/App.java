@@ -2,8 +2,6 @@ import graphics.GraphicReader;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import language.TextReader;
-import levels.Level;
-import models.Screens.ChangeKeyBinds;
 import models.Screens.LevelSelection;
 import models.Screens.StartScreen;
 import utils.config.ConfigArguments;

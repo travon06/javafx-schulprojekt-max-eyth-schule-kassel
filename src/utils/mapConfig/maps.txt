@@ -4,7 +4,7 @@
     border;
     (0,500,800,50);
     (900,500,400,50);
-    (0,250,150,150);
+    (0,250,150,250);
     (270,250,600,150);
     (870,350,150,50);
     (1020,250,300,150);
@@ -12,24 +12,51 @@
     (950,100,400,50)&
 !finish:(385,20,COLLECT_ITEMS)&
 !items:
-    (energyDrink,50,485,energyDrink);
+    (energyDrink,202,366,energyDrink);
     (coat,934,341,coat)&
-!policemen:(116,472,3)&
+!policemen:(201,472,3);(724,77,10);(66,225,5)&
 !policemenWaypoints:{
-    [(115,474);(1050,474)]
+    [(201,474);(1000,474)]
+    [(724,77);(980,77)]
+    [(66,225);(1170,225)]
 }&
 !goal:635,50;
 !mapEnd&
 
-
-!map:level2&
-!playerStartCoordinates:1100,385&
+!map:$$$$$$&
+!playerStartCoordinates:660,650&
 !tiles:
     border;
-    (0,1050,800,50);
-    (900,1050,400,50)&
+    (0,500,800,50);
+    (900,500,400,50);
+    (0,250,150,250);
+    (270,250,600,150);
+    (870,350,150,50);
+    (1020,250,300,150);
+    (0,100,800,50);
+    (950,100,400,50)&
 !finish:(385,20,COLLECT_ITEMS)&
 !items:
-    (energyDrink,150,970,energyDrink)&
-!itemsToCollect:energyDrink&
+    (energyDrink,202,366,energyDrink);
+    (coat,934,341,coat)&
+!goal:635,50;&
+!mapEnd&
+
+!map:$$$$$$$$$&
+!playerStartCoordinates:660,650&
+!tiles:
+    border;
+    (0,500,800,50);
+    (900,500,400,50);
+    (0,250,150,250);
+    (270,250,600,150);
+    (870,350,150,50);
+    (1020,250,300,150);
+    (0,100,800,50);
+    (950,100,400,50)&
+!finish:(385,20,COLLECT_ITEMS)&
+!items:
+    (energyDrink,202,366,energyDrink);
+    (coat,934,341,coat)&
+!goal:635,50;&
 !mapEnd&

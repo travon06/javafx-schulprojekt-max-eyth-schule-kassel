@@ -62,6 +62,7 @@ public class Player {
         if(this.inventory.addItem(nearestItem)) {
             rootPane.getChildren().removeAll(nearestItem.getNode(), nearestItem.getImageView());
             items.remove(nearestItem);
+            System.out.println("removed: " + nearestItem);
             if(itemsToCollect.contains(nearestItem))  {
                 itemsToCollect.remove(nearestItem);
             }
