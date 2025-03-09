@@ -84,3 +84,42 @@
     -fx-border-width: 2px;
     -fx-effect: dropshadow(three-pass-box, black, 5, 0, 2, 2); /* Schwarzer Schatten */
 }
+
+/* Stil für den gesamten Slider */
+.slider {
+    -fx-background-color: transparent; /* Der Slider selbst hat keinen Hintergrund */
+}
+
+/* Stil für die Schiene des Sliders */
+.slider .track {
+    -fx-background-color: #1F141A; /* Dunkle Hintergrundfarbe */
+    -fx-border-color: #2A3B5F; /* Blaue Umrandung */
+    -fx-border-width: 2px; /* Dicke der Umrandung */
+    -fx-background-radius: 8px; /* Abgerundete Ecken */
+    -fx-border-radius: 8px; /* Abgerundete Ecken der Umrandung */
+}
+
+/* Stil für den Regler-Knopf (Thumb) */
+.slider .thumb {
+    -fx-background-color: #2A3B5F; /* Weiße Farbe für den Knopf */
+    -fx-background-radius: 100%; /* Der Knopf wird kreisförmig */
+    -fx-pref-width: 16px; /* Breite des Knopfes */
+    -fx-pref-height: 16px; /* Höhe des Knopfes */
+    -fx-cursor: hand; /* Mauszeiger wechselt zu einer Hand, wenn man darüber fährt */
+}
+
+/* Stil für den Regler-Knopf, wenn die Maus darüberfährt */
+.slider .thumb:hover {
+    -fx-background-color: #2A3B5F; /* Der Knopf wird blau */
+}
+
+/* Stil für den Regler-Knopf, wenn er gedrückt wird */
+.slider .thumb:pressed {
+    -fx-background-color: rgb(54, 79, 136); /* Dunkleres Blau beim Klicken */
+}
+
+/* Stil für den gefüllten Bereich (von links bis zum Knopf) */
+.slider .fill {
+    -fx-background-color: #2A3B5F; /* Blaue Farbe für den aktiven Bereich */
+    -fx-background-radius: 8px; /* Abgerundete Kanten für einen flüssigen Look */
+}

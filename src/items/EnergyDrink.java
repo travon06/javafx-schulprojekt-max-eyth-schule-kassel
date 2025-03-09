@@ -24,7 +24,7 @@ public class EnergyDrink extends Item {
         String soundPath = new File("src/sounds/drinkEnergy.mp3").toURI().toString();
         Media sound = new Media(soundPath);
         mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setVolume(1.0);
+        mediaPlayer.setVolume(ConfigArguments.getVolume());
     }
 
     @Override

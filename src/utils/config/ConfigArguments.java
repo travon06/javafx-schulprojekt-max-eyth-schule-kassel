@@ -15,4 +15,16 @@ public class ConfigArguments {
         }
         throw new IllegalArgumentException("ConfigArgument '" + argument + "' does not exist");
     }
+
+    public static void setConfigArgumentValue(String argument, String value) {
+        for(ConfigArgument configArgument: ConfigArguments.configArguments) {
+            if(configArgument.getArgument().equals(argument)) {
+                configArgument.setValue(value);      
+            }
+        }
+    }
+
+    public static double getVolume() {
+        return Double.parseDouble(getConfigArgumentValue("VOLUME")) / 100;
+    }
 }

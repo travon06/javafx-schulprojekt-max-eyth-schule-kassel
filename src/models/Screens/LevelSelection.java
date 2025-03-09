@@ -53,7 +53,7 @@ public class LevelSelection {
         this.flowPane.setPrefWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) * 5 / 6);
         this.flowPane.setHgap(20);
         this.flowPane.setVgap(30);
-        for(int i = 0; i < this.mapNames.size(); i++) {
+        for(int i = 0; i < this.mapNames.size() - 1; i++) {
             Button button = new Button(mapNames.get(i));
             final int index = i;
             button.setOnAction(event -> {

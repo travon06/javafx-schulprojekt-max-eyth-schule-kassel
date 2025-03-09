@@ -6,10 +6,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import language.Texts;
 import utils.config.ConfigArguments;
@@ -26,6 +28,7 @@ public class ChangeKeyBinds {
     private VBox vBoxText;
     private String newButtonBind;
     private ImageView backgroundImageView;
+    private GaussianBlur blur;
 
     public ChangeKeyBinds(Stage stage) {
         this.buttonExit = new Button(Texts.getTextByName("buttonExit").getTextInLanguage());
@@ -36,6 +39,8 @@ public class ChangeKeyBinds {
         this.backgroundImageView = new ImageView(new Image(Graphics.getGraphicUrl("background")));
         this.backgroundImageView.setFitWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")));
         this.backgroundImageView.setFitHeight(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")));
+        this.blur = new GaussianBlur(30);
+        this.backgroundImageView.setEffect(blur);
         this.scene = new Scene(
             this.rootPane,
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")), 

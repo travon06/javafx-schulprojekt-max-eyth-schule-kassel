@@ -31,7 +31,7 @@ public class Coat extends Item {
         String soundPath = new File("src/sounds/sus.mp3").toURI().toString();
         Media sound = new Media(soundPath);
         mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setVolume(1.0);
+        mediaPlayer.setVolume(ConfigArguments.getVolume());
     }
 
     @Override
