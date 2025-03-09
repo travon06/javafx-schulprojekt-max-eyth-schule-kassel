@@ -5,13 +5,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import items.Key;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import java.util.ArrayList;
 
 import goal.Finish;
+import graphics.GraphicReader;
+import graphics.Graphics;
 import language.Texts;
 import items.Coat;
 import items.EnergyDrink;
 import items.Item;
+import models.Gate;
 import models.entities.Policeman;
 import models.tiles.Tile;
 import utils.Waypoint;
@@ -23,7 +29,9 @@ public class MapReader {
     public final static ArrayList<String> MAPNAMES = MapReader.readMapNames();
 
     public static ArrayList<Tile> readTiles(String mapName) {
-        ArrayList<Tile> tiles = new ArrayList<>(); 
+        ArrayList<Tile> tiles = new ArrayList<>();
+
+        initializeBackground(tiles);
     
         for (String map : MapReader.MAPS) {
             if (map.startsWith(String.format("!map:%s", mapName))) {
@@ -153,6 +161,18 @@ public class MapReader {
             }
         }
         return tiles;
+    }
+
+    private static void initializeBackground(ArrayList<Tile> tiles) {
+        int screenWidth = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH"));
+        int screenHeight = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"));
+        int tileBounds = 50;
+
+        for(int i = 0; i < screenWidth; i += tileBounds) {
+            for(int j = 0; j < screenHeight; j += tileBounds) {
+                tiles.add(new Tile(false, i, j, tileBounds, tileBounds, "gras"));
+            }
+        }
     }
 
     private static void initializeBorder(ArrayList<Tile> tiles) {
@@ -450,6 +470,38 @@ public class MapReader {
             }
         }
         return finish;
+    }
+
+    public static ArrayList<Gate> readGates(String mapName) {
+        ArrayList<Gate> gates = new ArrayList<>();
+
+        for(String map : MapReader.MAPS) {
+            if(map.startsWith(String.format("!map:%s", mapName))) {
+                String[] arguments = map.split("&");
+    
+    
+                for(String argument : arguments) { 
+                    if(argument.startsWith("!gates")) {
+                        argument = argument.split(":")[1];
+
+                        String[] gateStrings = argument.split(";");
+
+                        for(String gateString : gateStrings) {
+                            String[] gateArguments = gateString.split(",");
+
+                            gates.add(new Gate(
+                                Integer.parseInt(gateArguments[0]),
+                                Integer.parseInt(gateArguments[1]),
+                                Integer.parseInt(ConfigArguments.getConfigArgumentValue("GATE_WIDTH")), 
+                                Integer.parseInt(ConfigArguments.getConfigArgumentValue("GATE_HEIGHT")),
+                                new ImageView(new Image(Graphics.getGraphicUrl(ConfigArguments.getConfigArgumentValue("GATE_GRAPHIC_CLOSED"))))
+                            ));
+                        }
+                    }
+                }   
+            }
+        }
+        return gates;
     }
 
     public static ArrayList<Item> readItemsToCollect(String mapName, ArrayList<Item> itemsInMap) {

@@ -3,6 +3,7 @@ package HUD;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import language.Texts;
+import models.Gate;
 import items.Item;
 import utils.config.ConfigArguments;
 import utils.keyboard.Keybindings;
@@ -10,47 +11,72 @@ import utils.keyboard.Keybindings;
 public class HUD {
 
     private Pane rootPane;
-    private Label collectibleLabel;
+    private Label messageLabel;
+    private Label messageLabel2;
     private Label goalLabel;
 
     public HUD(Pane rootPane) {
         this.rootPane = rootPane;
 
-        this.collectibleLabel = new Label();
-        this.collectibleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.2em;");
-        this.collectibleLabel.setVisible(false);
-        this.collectibleLabel.layoutXProperty().bind(rootPane.widthProperty().subtract(collectibleLabel.widthProperty()).divide(2));
-        this.collectibleLabel.layoutYProperty().bind(rootPane.heightProperty().subtract(collectibleLabel.heightProperty()).divide(2).subtract(200));
+        this.messageLabel = new Label();
+        this.messageLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.2em;");
+        this.messageLabel.setVisible(false);
+        this.messageLabel.layoutXProperty().bind(rootPane.widthProperty().subtract(messageLabel.widthProperty()).divide(2));
+        this.messageLabel.layoutYProperty().bind(rootPane.heightProperty().subtract(messageLabel.heightProperty()).divide(2).subtract(200));
+
+        this.messageLabel2 = new Label();
+        this.messageLabel2.setStyle("-fx-font-weight: bold; -fx-font-size: 1.2em;");
+        this.messageLabel2.setVisible(false);
+        this.messageLabel2.layoutXProperty().bind(rootPane.widthProperty().subtract(messageLabel2.widthProperty()).divide(2));
+        this.messageLabel2.layoutYProperty().bind(rootPane.heightProperty().subtract(messageLabel2.heightProperty()).divide(2).subtract(200));
         
         this.goalLabel = new Label();
         this.goalLabel.layoutXProperty().bind(rootPane.widthProperty().subtract(goalLabel.widthProperty()).divide(2));
         this.goalLabel.layoutYProperty().bind(rootPane.heightProperty().subtract(goalLabel.heightProperty()).divide(2).subtract(300));
         this.goalLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.2em;");
-        this.rootPane.getChildren().addAll(this.collectibleLabel, this.goalLabel);
+        this.rootPane.getChildren().addAll(this.messageLabel, this.messageLabel2, this.goalLabel);
 
-    } 
+    }
+    
+    public void printGateMessage(Gate gate) {
+
+        if(gate.getOpen()) {
+            return;
+        };
+        
+        if(gate.getAccessible()) {
+            this.messageLabel2.setText("kann auf");
+        } else {
+            this.messageLabel2.setText("brauchst schlüssel");
+        }
+        this.messageLabel2.setVisible(true);
+    }
+
+    public void hideGateMessage() {
+        this.messageLabel2.setVisible(false);
+    }
 
     public void printItemCollectable(Item nearesItem) {
         String lastNearestItemName = "";
-        if(!this.collectibleLabel.getText().isBlank()) {
-            lastNearestItemName = this.collectibleLabel.getText().split("'")[1];
+        if(!this.messageLabel.getText().isBlank()) {
+            lastNearestItemName = this.messageLabel.getText().split("'")[1];
         }
    
-        if(!this.collectibleLabel.isVisible() ||!nearesItem.getName().equals(lastNearestItemName)) {
+        if(!this.messageLabel.isVisible() ||!nearesItem.getName().equals(lastNearestItemName)) {
             String interactBind = Keybindings.getKeybindingValue("INTERACT");
-            this.collectibleLabel.setText(String.format("%s %s %s '%s' %s",
+            this.messageLabel.setText(String.format("%s %s %s '%s' %s",
                 Texts.getTextByName("ineractLabelCollectItemP1").getTextInLanguage(),
                 interactBind, 
                 Texts.getTextByName("ineractLabelCollectItemP2").getTextInLanguage(),
                 nearesItem.getName(),
                 Texts.getTextByName("ineractLabelCollectItemP3").getTextInLanguage()
             ));
-            this.collectibleLabel.setVisible(true);
+            this.messageLabel.setVisible(true);
         }
     }
 
     public void hideItemCollectable() {
-        this.collectibleLabel.setVisible(false);
+        this.messageLabel.setVisible(false);
     }
 
     public void setRootPane(Pane rootPane) {
@@ -61,12 +87,12 @@ public class HUD {
         return rootPane;
     }
 
-    public void setCollectibleLabel(Label collectibleLabel) {
-        this.collectibleLabel = collectibleLabel;
+    public void setmessageLabel(Label messageLabel) {
+        this.messageLabel = messageLabel;
     }
 
-    public Label getCollectibleLabel() {
-        return collectibleLabel;
+    public Label getmessageLabel() {
+        return messageLabel;
     }
 
     public void setGoalLabel(Label goalLabel) {

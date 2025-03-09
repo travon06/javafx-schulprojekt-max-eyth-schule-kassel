@@ -5,15 +5,21 @@ import java.util.Scanner;
 
 import HUD.HUD;
 import goal.Finish;
+import graphics.Graphics;
 import items.Item;
+import items.Key;
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Bounds;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import language.Texts;
 import models.CollisionDetection;
+import models.Gate;
 import models.Screens.GameoverScreen;
 import models.Screens.LevelSelection;
 import models.entities.Player;
@@ -41,6 +47,7 @@ public class Level {
     private ArrayList<Item> itemsToCollect;
     private boolean finished;
     private String mapNameToTrigger;
+    private ArrayList<Gate> gates;
     
     public Level(Stage stage, String mapName, String mapNameToTrigger) {
         this.stage = stage; 
@@ -59,11 +66,23 @@ public class Level {
             this.policemen = initializePoliceman(rootPane, mapName);
             this.finish = initializeGoal(rootPane);
             this.itemsToCollect = initializeItemsToCollect();
-            this.player = initializePlayer(this.rootPane);    
+            this.player = initializePlayer(this.rootPane);
+            initializeGates(rootPane);    
             if(this.policemen.size() > 0) {
                 for(int i = 0; i < this.policemen.size(); i++) {
                     this.policemen.get(i).getWaypoints().addAll(MapReader.readWaypoints(mapName, i));
                 }
+            }
+
+            ArrayList<Item> keys = new ArrayList<>();
+            for(Item item : items) {
+                if(item instanceof Key) {
+                    keys.add(item);
+                }
+            }
+
+            for(int i = 0; i < gates.size(); i++) {
+                gates.get(i).setOpeningKey((Key) keys.get(i));
             }
             this.keyboardListener = new KeyboardListener(this.stage, this.scene);
             
@@ -133,6 +152,13 @@ public class Level {
         return player;
     }
 
+    private void initializeGates(Pane pane) {
+        this.gates = MapReader.readGates(mapName);
+        for(Gate gate : gates) {
+            pane.getChildren().addAll(gate.getHitbox(), gate.getImageView());
+        }
+    }
+
     private Finish initializeGoal(Pane pane) {
         this.finish = MapReader.readFinish(mapName);
         pane.getChildren().addAll(finish.getHitbox());
@@ -163,6 +189,26 @@ public class Level {
                     
                 }
 
+
+                
+
+
+                for (Gate gate : gates) {
+                    double distance = player.getHitbox().getBoundsInParent().getMinX() - gate.getHitbox().getBoundsInParent().getMinX();
+                    distance = Math.hypot(distance, player.getHitbox().getBoundsInParent().getMinY() - gate.getHitbox().getBoundsInParent().getMinY());
+                
+                    if (distance <= 100) {
+                        hud.printGateMessage(gate);
+                        if(keyboardListener.getInteractPressed() && gate.getAccessible()) {
+                            gate.setOpen(true);
+                            gate.setImageView(new ImageView(new Image(Graphics.getGraphicUrl(ConfigArguments.getConfigArgumentValue("GATE_GRAPHIC_OPEN")))));
+                        }
+                    } else {
+                        hud.hideGateMessage();
+                    }
+                }
+                
+
                 if(keyboardListener.getEscPressed()) {
                     this.stop();
                     LevelSelection levelSelection = new LevelSelection(stage);
@@ -180,6 +226,7 @@ public class Level {
                 
                 player.updatePlayerPosition(
                     (Rectangle) rootPane.lookup("#playerRectangle"),
+                    gates,
                     tiles,
                     keyboardListener
                 );
@@ -191,9 +238,20 @@ public class Level {
                     hud.hideItemCollectable();
                 }
 
+            
+
+
+
                 if(itemInRange && keyboardListener.getInteractPressed()) {
-                    nearestItem.use(rootPane, player);
+                    nearestItem.use(rootPane, player, gates);
                     player.collectItem(rootPane, items, finish.getItemsToCollect(), nearestItem, keyboardListener, finish);
+                    if(nearestItem instanceof Key) {
+                        for(Gate gate : gates) {
+                            if(gate.getOpeningKey() == nearestItem) {
+                                gate.setAccessible(true);
+                            }
+                        }
+                    }
                 }
 
                 if(keyboardListener.getGetCoordinates()) {

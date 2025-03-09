@@ -1,11 +1,14 @@
 package items;
 
+import java.util.ArrayList;
+
 import graphics.Graphics;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import models.Gate;
 import models.entities.Player;
 
 public abstract class Item {
@@ -50,7 +53,7 @@ public abstract class Item {
         return String.format("%s(%d | %d)", this.name, this.x, this.y);
     }
 
-    public abstract void use(Pane pane, Player player);
+    public abstract void use(Pane pane, Player player, ArrayList<Gate> gates);
 
     //#region getter & setter
     public String getName() {

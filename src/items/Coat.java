@@ -1,13 +1,24 @@
 package items;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import models.Gate;
 import models.entities.Player;
 import utils.config.ConfigArguments;
 
 public class Coat extends Item {
+    private MediaPlayer mediaPlayer;
     public Coat(String name, int x, int y) {
         super(name, x, y);
+        String soundPath = new File("src/sounds/sus.mp3").toURI().toString();
+        Media sound = new Media(soundPath);
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setVolume(1.0);
 
     }
 
@@ -17,12 +28,17 @@ public class Coat extends Item {
         this.getImageView().setFitHeight(this.getHitbox().getHeight() * 2);
         this.getImageView().setX(this.getHitbox().getX() - this.getHitbox().getWidth() / 2);
         this.getImageView().setY(this.getHitbox().getY() - this.getHitbox().getHeight() / 2);
+        String soundPath = new File("src/sounds/sus.mp3").toURI().toString();
+        Media sound = new Media(soundPath);
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setVolume(1.0);
     }
 
     @Override
-    public void use(Pane pane, Player player) {
+    public void use(Pane pane, Player player, ArrayList<Gate> gates) {
         player.setVissible(false);
         player.getImage().setOpacity(0.5);
+        mediaPlayer.play();
             
         AnimationTimer timer = new AnimationTimer() {
             private long startTime = -1;    

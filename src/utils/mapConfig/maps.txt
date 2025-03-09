@@ -13,14 +13,16 @@
 !finish:(385,20,COLLECT_ITEMS)&
 !items:
     (energyDrink,202,366,energyDrink);
-    (coat,934,341,coat)&
+    (coat,934,341,coat);
+    (key,660,650,key)&
 !policemen:(201,472,3);(724,77,10);(66,225,5)&
 !policemenWaypoints:{
     [(201,474);(1000,474)]
     [(724,77);(980,77)]
     [(66,225);(1170,225)]
 }&
-!goal:635,50;
+!gates:800,550&
+!goal:635,50&
 !mapEnd&
 
 !map:$$$$$$&

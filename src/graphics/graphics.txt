@@ -10,3 +10,6 @@ lock=lock.png;
 coat=coat.png;
 streetUp=streetUp.png;
 background=background.png;
+gras=gras.png;
+gateOpen=gateOpen.png;
+gateClosed=gateClosed.png;

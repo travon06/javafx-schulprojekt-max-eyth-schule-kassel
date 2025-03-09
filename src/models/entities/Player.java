@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import models.CollisionDetection;
+import models.Gate;
 import models.Inventory;
 import models.tiles.Tile;
 import utils.config.ConfigArguments;
@@ -62,7 +63,6 @@ public class Player {
         if(this.inventory.addItem(nearestItem)) {
             rootPane.getChildren().removeAll(nearestItem.getNode(), nearestItem.getImageView());
             items.remove(nearestItem);
-            System.out.println("removed: " + nearestItem);
             if(itemsToCollect.contains(nearestItem))  {
                 itemsToCollect.remove(nearestItem);
             }
@@ -84,7 +84,7 @@ public class Player {
         return items;
     }
 
-    public void updatePlayerPosition(Rectangle playerRectangle, List<Tile> collisionRectangles, KeyboardListener keyboardListener) {
+    public void updatePlayerPosition(Rectangle playerRectangle, ArrayList<Gate> gates, List<Tile> collisionRectangles, KeyboardListener keyboardListener) {
         int originalX = this.getX();
         int originalY = this.getY();
         double speed = this.getSpeed();
@@ -123,6 +123,17 @@ public class Player {
                 }
                 if (CollisionDetection.checkCollisionBottom(playerRectangle, tile.getHitbox(), tile.getIsSolid()) ||
                     CollisionDetection.checkCollisionTop(playerRectangle, tile.getHitbox(), tile.getIsSolid())) {
+                    this.setY(originalY);
+                }
+            }
+
+            for (Gate gate : gates) {
+                if (CollisionDetection.checkCollisionRight(playerRectangle, gate.getHitbox(), !gate.getOpen()) ||
+                    CollisionDetection.checkCollisionLeft(playerRectangle, gate.getHitbox(), !gate.getOpen())) {
+                    this.setX(originalX);
+                }
+                if (CollisionDetection.checkCollisionBottom(playerRectangle, gate.getHitbox(), !gate.getOpen()) ||
+                    CollisionDetection.checkCollisionTop(playerRectangle, gate.getHitbox(), !gate.getOpen())) {
                     this.setY(originalY);
                 }
             }
