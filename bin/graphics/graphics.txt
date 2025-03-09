@@ -9,4 +9,4 @@ energyDrink=energyDrink.png;
 lock=lock.png;
 coat=coat.png;
 streetUp=streetUp.png;
-background=background.png;
+background=backgroundNoTxt.png;

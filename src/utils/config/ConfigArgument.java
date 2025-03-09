@@ -1,7 +1,7 @@
 package utils.config;
 
 public class ConfigArgument {
-    private final String argument;
+    private String argument;
     private String value;
 
     public ConfigArgument(String argument, String value) {
