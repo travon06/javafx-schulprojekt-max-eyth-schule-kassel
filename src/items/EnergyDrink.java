@@ -17,6 +17,10 @@ public class EnergyDrink extends Item {
     private MediaPlayer mediaPlayer;
     public EnergyDrink(String name, int x, int y) {
         super(name, x, y);
+        String soundPath = new File("src/sounds/drinkEnergy.mp3").toURI().toString();
+        Media sound = new Media(soundPath);
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setVolume(ConfigArguments.getVolume());
     }
 
     public EnergyDrink(String name, int x, int y, String imageName) {

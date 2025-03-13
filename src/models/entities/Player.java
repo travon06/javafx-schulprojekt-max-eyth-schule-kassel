@@ -13,15 +13,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import models.CollisionDetection;
 import models.Gate;
-import models.Inventory;
 import models.tiles.Tile;
 import utils.config.ConfigArguments;
 import utils.keyboard.KeyboardListener;
 
 public class Player {
-    private final Inventory inventory;
-    private double health;
-    private double maxHealth;
     private double normalSpeed;
     private double sprintSpeed;
     private int x;
@@ -34,12 +30,9 @@ public class Player {
     private boolean boosted;
     private boolean vissible;
     
-    public Player(double health, double normalSpeed, double sprintSpeed, int collectRange, Rectangle hitbox, int startX, int startY) {
-        this.inventory = new Inventory(3);
+    public Player(double normalSpeed, double sprintSpeed, int collectRange, Rectangle hitbox, int startX, int startY) {
         this.boosted = false;
         this.vissible = true;
-        this.health = health;
-        this.maxHealth = health;
         this.normalSpeed = normalSpeed;
         this.sprintSpeed = sprintSpeed;
         this.speed = normalSpeed;
@@ -60,22 +53,19 @@ public class Player {
     
     public List<Item> collectItem(Pane rootPane, ArrayList<Item> items, ArrayList<Item> itemsToCollect, Item nearestItem, KeyboardListener keyboardListener, Finish finish) {
         keyboardListener.setInteractPressed(false);
-        if(this.inventory.addItem(nearestItem)) {
-            rootPane.getChildren().removeAll(nearestItem.getNode(), nearestItem.getImageView());
-            items.remove(nearestItem);
-            if(itemsToCollect.contains(nearestItem))  {
-                itemsToCollect.remove(nearestItem);
-            }
-            System.out.println(finish.getGoal());
-            if(finish.getGoal().equals("COLLECT_ITEMS")) {
-                for(Item item : finish.getItemsToCollect()) {
-                    if(item.getName().equals(nearestItem.getName())) {
-                        System.out.println("penis");
-                    }
+        rootPane.getChildren().removeAll(nearestItem.getNode(), nearestItem.getImageView());
+        items.remove(nearestItem);
+        if(itemsToCollect.contains(nearestItem))  {
+            itemsToCollect.remove(nearestItem);
+        }
+        System.out.println(finish.getGoal());
+        if(finish.getGoal().equals("COLLECT_ITEMS")) {
+            for(Item item : finish.getItemsToCollect()) {
+                if(item.getName().equals(nearestItem.getName())) {
+                    System.out.println("penis");
                 }
             }
         }
-        System.out.println(this.inventory);
 
         if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_REMOVED_OUTPUT"))) {
             System.out.println(String.format("nearest Item '%s' got removed", nearestItem.toString()));
@@ -162,19 +152,6 @@ public class Player {
         this.x += speed;
     }
     
-    public boolean addHealth(double amount) {
-        if (amount < 0) {
-            return false;
-        }
-        
-        if (this.health + amount > maxHealth) {
-            this.health = maxHealth;
-        } else {
-            this.health += amount;
-        }
-        return true;
-    } 
-    
     public void addSpeed(double amount) {
         this.normalSpeed += amount;
     }
@@ -189,22 +166,6 @@ public class Player {
     }
     
     // getter and setter methods
-    public Inventory getInventory() {
-        return this.inventory;
-    }
-
-    public double getHealth() {
-        return this.health;
-    }
-    
-    public void setHealth(double health) {
-        if (!(health < 0 || health > maxHealth))  {
-            this.health = health;
-        } else {
-            throw new IllegalArgumentException("health must be higher than 0 and must be lower than maxHealth");
-        }
-    }
-
     public double getNormalSpeed() {
         return this.normalSpeed;
     }
@@ -256,14 +217,6 @@ public class Player {
 
     public Rectangle getHitbox() {
         return hitbox;
-    }
-
-    public void setMaxHealth(double maxHealth) {
-        this.maxHealth = maxHealth;
-    }
-
-    public double getMaxHealth() {
-        return maxHealth;
     }
 
     public void setHitboxNode(Node hitboxNode) {

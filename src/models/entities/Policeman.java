@@ -16,7 +16,6 @@ import utils.Waypoint;
 
 
 public class Policeman {
-    private int health;
     private double speed;
     private int hitboxBounds;
     private Rectangle hitbox;
@@ -29,9 +28,8 @@ public class Policeman {
     private int currentWaypointIndex;
     private ImageView imageView;
 
-    public Policeman(double speed, int health, int hitboxBounds, int startX, int startY, String imageName) {
+    public Policeman(double speed, int hitboxBounds, int startX, int startY, String imageName) {
         this.speed = speed;
-        this.health = health;
         this.hitboxBounds = hitboxBounds;
         this.hitbox = new Rectangle(hitboxBounds, hitboxBounds, Color.DARKBLUE);
         this.hitbox.setVisible(false);
@@ -105,14 +103,6 @@ public class Policeman {
     }
 
     //#region getter & setter
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
     public Rectangle getHitbox() {
         return hitbox;
     }

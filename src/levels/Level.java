@@ -135,7 +135,6 @@ public class Level {
 
     private Player initializePlayer(Pane pane) {
         Player player = new Player(
-                Double.parseDouble(ConfigArguments.getConfigArgumentValue("PLAYER_HEALTH")),
                 Double.parseDouble(ConfigArguments.getConfigArgumentValue("PLAYER_SPEED")),
                 Double.parseDouble(ConfigArguments.getConfigArgumentValue("PLAYER_SPRINT_SPEED")),
                 Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_COLLECT_RANGE")),

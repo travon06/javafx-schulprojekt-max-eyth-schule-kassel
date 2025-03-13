@@ -1,6 +1,8 @@
 package models.Screens;
 
 import graphics.Graphics;
+import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -39,6 +41,7 @@ public class Options {
     private Slider slider;
     private Label labelSound;
     private GaussianBlur blur;
+    private AnimationTimer timer;
     
     public Options(Stage stage) {
         this.keyBindsButton = new Button(Texts.getTextByName("keyBindsButton").getTextInLanguage());
@@ -63,8 +66,20 @@ public class Options {
         this.slider.setMinorTickCount(0);
         this.slider.setSnapToTicks(true);
         this.slider.setBlockIncrement(5);
+        this.timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                ConfigArguments.setConfigArgumentValue("VOLUME", Double.toString(slider.getValue()));
+                labelSound.setText(Integer.toString((int) Double.parseDouble(ConfigArguments.getConfigArgumentValue("VOLUME"))));
+            }
+        };
+
+        this.slider.setOnMousePressed(event -> {
+            this.timer.start();
+        });
 
         this.slider.setOnMouseReleased(event -> {
+            this.timer.stop();
             ConfigArguments.setConfigArgumentValue("VOLUME", Double.toString(this.slider.getValue()));
             this.labelSound.setText(Integer.toString((int) Double.parseDouble(ConfigArguments.getConfigArgumentValue("VOLUME"))));
         });
@@ -95,15 +110,9 @@ public class Options {
             double height = vBox.getHeight();
             this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
             this.vBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 2) - 100);
-        
-            // Berechne die mittige Y-Position des Sliders
             double sliderMidY = slider.localToScene(0, 0).getY() + slider.getHeight() / 2;
-            
-            // Setze die Y-Position des labelSound, sodass es mittig über dem Slider ist
             labelSound.setLayoutY(sliderMidY - labelSound.getHeight() / 2);
-            labelSound.setLayoutX(slider.localToScene(0, 0).getX() - 60);  // Horizontal links vom Slider
-        
-            // Position des labelSound zuweisen
+            labelSound.setLayoutX(slider.localToScene(0, 0).getX() - 60);
             this.labelSound.setText(Integer.toString((int) Double.parseDouble(ConfigArguments.getConfigArgumentValue("VOLUME"))));
         });
         

@@ -45,9 +45,12 @@ public class HUD {
         };
         
         if(gate.getAccessible()) {
-            this.messageLabel2.setText("kann auf");
+            this.messageLabel2.setText(String.format("%s '%s' %s", 
+                                        Texts.getTextByName("hudGateAccessibleP1").getTextInLanguage(),
+                                        Keybindings.getKeybindingValue("INTERACT"),
+                                        Texts.getTextByName("hudGateAccessibleP2").getTextInLanguage()));
         } else {
-            this.messageLabel2.setText("brauchst schlüssel");
+            this.messageLabel2.setText(Texts.getTextByName("hudGateNotAccessible").getTextInLanguage());
         }
         this.messageLabel2.setVisible(true);
     }

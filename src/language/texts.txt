@@ -174,3 +174,22 @@ ChangeKeyBindsScreen {
     DE(Tastenanschläge)
     NE(Sleutelhangers)
 }
+
+hudGateNotAccessible {
+    EN(You_need_a_key_to_open_the_gate)
+    DE(Du_brauchst_einen_Schlüssel_um_das_Tor_zu_öffnen)
+    NE(je_hebt_een_sleutel_nodig_om_de_poort_te_openen)
+}
+
+hudGateAccessibleP1 {
+    EN(Press)
+    DE(Drücke)
+    NE(Druk)
+}
+
+hudGateAccessibleP2 {
+    DE(um_das_Tor_zu_öffnen)
+    EN(to_open_the_gate)
+    NE(om_het_poort_te_openen)
+}
+

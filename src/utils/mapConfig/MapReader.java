@@ -243,7 +243,6 @@ public class MapReader {
 
                             policemen.add(new Policeman(
                                 policemanSpeed, 
-                                Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_HEALTH")),
                                 Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_HITBOX_BOUNDS")),
                                 Integer.parseInt(policemanArguments[0]),
                                 Integer.parseInt(policemanArguments[1]),
