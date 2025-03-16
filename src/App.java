@@ -24,7 +24,7 @@ public class App extends Application {
             new StartScreen(primaryStage);
         }
 
-        StartScreen startScreen = new StartScreen(primaryStage);
+        new StartScreen(primaryStage);
 
     }
 

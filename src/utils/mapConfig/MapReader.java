@@ -11,7 +11,6 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 
 import goal.Finish;
-import graphics.GraphicReader;
 import graphics.Graphics;
 import language.Texts;
 import items.Coat;
@@ -529,6 +528,22 @@ public class MapReader {
             }
         }
         return itemsToCollect;
+    }
+
+    public static boolean readIsLastLevel(String mapName) {
+        boolean isLastLevel = false;
+        for(String map : MapReader.MAPS) {
+            if(map.startsWith(String.format("!map:%s", mapName))) {
+                String[] arguments = map.split("&");
+
+                for(String argument : arguments) {
+                    if(argument.startsWith("!isLastLevel")) {
+                        isLastLevel = true;
+                    }
+                }   
+            }
+        }
+        return isLastLevel;
     }
 
     public static ArrayList<String> readMapNames() {

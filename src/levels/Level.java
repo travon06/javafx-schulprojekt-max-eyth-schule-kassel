@@ -1,7 +1,6 @@
 package levels;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import HUD.HUD;
 import goal.Finish;
@@ -9,8 +8,8 @@ import graphics.Graphics;
 import items.Item;
 import items.Key;
 import javafx.animation.AnimationTimer;
-import javafx.geometry.Bounds;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -19,12 +18,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import language.Texts;
 import models.CollisionDetection;
+import models.CountdownTimer;
 import models.Gate;
+import models.Screens.EndScreen;
 import models.Screens.GameoverScreen;
 import models.Screens.LevelSelection;
 import models.entities.Player;
 import models.entities.Policeman;
-import models.fpsCounter.FPSCounter;
 import models.tiles.Tile;
 import utils.config.ConfigArguments;
 import utils.keyboard.KeyboardListener;
@@ -48,6 +48,12 @@ public class Level {
     private boolean finished;
     private String mapNameToTrigger;
     private ArrayList<Gate> gates;
+    private boolean isLastLevel;
+    private long lastUpdate;
+    private int frameCount;
+    private long lastFpsCheck;
+    private int currentFps;
+    private CountdownTimer countdownTimer;
     
     public Level(Stage stage, String mapName, String mapNameToTrigger) {
         this.stage = stage; 
@@ -56,6 +62,11 @@ public class Level {
         this.mapNameToTrigger = mapNameToTrigger;
         this.finished = false;
         this.rootPane = new Pane();
+        this.lastUpdate = 0;
+        this.frameCount = 0;
+        this.lastFpsCheck = 0;
+        this.currentFps = 0;
+        // this.countdownTimer = new CountdownTimer(new Label());
         this.scene = new Scene(
             this.rootPane, 
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")),
@@ -68,6 +79,7 @@ public class Level {
             this.itemsToCollect = initializeItemsToCollect();
             this.player = initializePlayer(this.rootPane);
             initializeGates(rootPane);    
+            initializeIsLastLevel(mapName);
             if(this.policemen.size() > 0) {
                 for(int i = 0; i < this.policemen.size(); i++) {
                     this.policemen.get(i).getWaypoints().addAll(MapReader.readWaypoints(mapName, i));
@@ -91,9 +103,8 @@ public class Level {
             
         }
         
-    //#region ini functions
+    //#region
     private ArrayList<Tile> initializeTiles(Pane pane, String mapName) {
-        // Hindernisse und Wände hinzufügen
         ArrayList<Tile> tiles = MapReader.readTiles(mapName);
 
         for(Tile tile : tiles) {
@@ -104,6 +115,10 @@ public class Level {
         }
 
         return tiles;
+    }
+
+    private void initializeIsLastLevel(String mapName) {
+        this.isLastLevel = MapReader.readIsLastLevel(mapName);
     }
 
     private ArrayList<Item> intitializeItems(Pane pane, String mapName) {
@@ -168,112 +183,24 @@ public class Level {
         this.finish.setItemsToCollect(MapReader.readItemsToCollect(mapName, items));
         return itemsToCollect;
     }
-    //#endregion
+    //#endregion ini functions
 
     public void start() {
+        // countdownTimer.start();
     
         if(finish.getGoal().equals("COLLECT_ITEMS")) {
             hud.getGoalLabel().setText(formatItemToCollectLabelMessage());
         }
 
+        long nanosPerUpdate = 1_000_000_000L / 150;
         this.timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                for(Policeman policeman : policemen) {
-                    if(CollisionDetection.checkCollisionWithPoliceman(player, policeman) && player.getVissible() && !keyboardListener.getGodMode()) {
-                        this.stop();
-                        GameoverScreen gmScreen = new GameoverScreen(stage, mapName);
-                        gmScreen.setDeathMessage(Texts.getTextByName("gameoverScreenMessageLabel").getTextInLanguage());
-                    }
-                    
+                if (now - lastUpdate >= nanosPerUpdate) {
+                    lastUpdate = now;
+                    update();
+                    trackFps(now);
                 }
-
-
-                
-
-
-                for (Gate gate : gates) {
-                    double distance = player.getHitbox().getBoundsInParent().getMinX() - gate.getHitbox().getBoundsInParent().getMinX();
-                    distance = Math.hypot(distance, player.getHitbox().getBoundsInParent().getMinY() - gate.getHitbox().getBoundsInParent().getMinY());
-                
-                    if (distance <= 100) {
-                        hud.printGateMessage(gate);
-                        if(keyboardListener.getInteractPressed() && gate.getAccessible()) {
-                            gate.setOpen(true);
-                            gate.setImageView(new ImageView(new Image(Graphics.getGraphicUrl(ConfigArguments.getConfigArgumentValue("GATE_GRAPHIC_OPEN")))));
-                        }
-                    } else {
-                        hud.hideGateMessage();
-                    }
-                }
-                
-
-                if(keyboardListener.getEscPressed()) {
-                    this.stop();
-                    LevelSelection levelSelection = new LevelSelection(stage);
-                }
-                
-                if(keyboardListener.getSprintPressed() && player.getBoosted()) {
-                    player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOOSTED_SPRINT_SPEED")));
-                } else if(keyboardListener.getSprintPressed() && !player.getBoosted()) {
-                    player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_SPRINT_SPEED")));
-                } else if (!keyboardListener.getSprintPressed() && player.getBoosted()) {
-                    player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOOSTED_SPEED")));
-                } else {
-                    player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_SPEED")));
-                }
-                
-                player.updatePlayerPosition(
-                    (Rectangle) rootPane.lookup("#playerRectangle"),
-                    gates,
-                    tiles,
-                    keyboardListener
-                );
-
-                Item nearestItem = getNearestItem();
-                if(itemInRange) {
-                    hud.printItemCollectable(nearestItem);
-                } else {
-                    hud.hideItemCollectable();
-                }
-
-            
-
-
-
-                if(itemInRange && keyboardListener.getInteractPressed()) {
-                    nearestItem.use(rootPane, player, gates);
-                    player.collectItem(rootPane, items, finish.getItemsToCollect(), nearestItem, keyboardListener, finish);
-                    if(nearestItem instanceof Key) {
-                        for(Gate gate : gates) {
-                            if(gate.getOpeningKey() == nearestItem) {
-                                gate.setAccessible(true);
-                            }
-                        }
-                    }
-                }
-
-                if(keyboardListener.getGetCoordinates()) {
-                    System.out.println(String.format("Player(%d | %d)", player.getX(), player.getY()));
-                }
-
-                if(finish.getAccessible()) {
-                    hud.getGoalLabel().setText(Texts.getTextByName("HUDGoalLabelFinished").getTextInLanguage());
-                    if(CollisionDetection.checkCollisionWithFinish(player, finish) && keyboardListener.getInteractPressed()) {
-                        finished = true;
-                        for(int i = 0; i < LevelSelection.getMapNames().size(); i++) {
-                            LevelSelection.disableButton(false, LevelSelection.getMapNames().indexOf(mapName) +1);
-                        }
-                        this.stop();
-                        Level newLewel = new Level(stage, mapNameToTrigger, MapReader.getNextLevel(mapNameToTrigger));
-                        newLewel.addFPSCounter();
-                        newLewel.start();
-
-                    }
-                }
-
-                finish.checkState();
-
             }
         };
         timer.start();
@@ -293,29 +220,141 @@ public class Level {
         this.stage.show();
     }
 
+    public void update() {
+        for(Policeman policeman : policemen) {
+            if(CollisionDetection.checkCollisionWithPoliceman(player, policeman) && player.getVissible() && !keyboardListener.getGodMode()) {
+                this.stop();
+                GameoverScreen gmScreen = new GameoverScreen(stage, mapName);
+                gmScreen.setDeathMessage(Texts.getTextByName("gameoverScreenMessageLabel").getTextInLanguage());
+            }
+            
+        }
+        
+        for (Gate gate : gates) {
+            double distance = player.getHitbox().getBoundsInParent().getMinX() - gate.getHitbox().getBoundsInParent().getMinX();
+            distance = Math.hypot(distance, player.getHitbox().getBoundsInParent().getMinY() - gate.getHitbox().getBoundsInParent().getMinY());
+        
+            if (distance <= 100) {
+                hud.printGateMessage(gate);
+                if(keyboardListener.getInteractPressed() && gate.getAccessible()) {
+                    gate.setOpen(true);
+                    rootPane.getChildren().remove(gate.getImageView());
+                    gate.setImageView(new ImageView(new Image(Graphics.getGraphicUrl(ConfigArguments.getConfigArgumentValue("GATE_GRAPHIC_OPEN")))));
+                    gate.getImageView().setX(gate.getX());
+                    gate.getImageView().setY(gate.getY());
+                    rootPane.getChildren().add(gate.getImageView());
+                }
+            } else {
+                hud.hideGateMessage();
+            }
+        }
+        
+
+        if(keyboardListener.getEscPressed()) {
+            this.stop();
+            new LevelSelection(stage);
+        }
+        
+        if(keyboardListener.getSprintPressed() && player.getBoosted()) {
+            player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOOSTED_SPRINT_SPEED")));
+        } else if(keyboardListener.getSprintPressed() && !player.getBoosted()) {
+            player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_SPRINT_SPEED")));
+        } else if (!keyboardListener.getSprintPressed() && player.getBoosted()) {
+            player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOOSTED_SPEED")));
+        } else {
+            player.setSpeed(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_SPEED")));
+        }
+        
+        player.updatePlayerPosition(
+            (Rectangle) rootPane.lookup("#playerRectangle"),
+            gates,
+            tiles,
+            keyboardListener
+        );
+
+        Item nearestItem = getNearestItem();
+        if(itemInRange) {
+            hud.printItemCollectable(nearestItem);
+        } else {
+            hud.hideItemCollectable();
+        }
+
+    
+
+
+
+        if(itemInRange && keyboardListener.getInteractPressed()) {
+            nearestItem.use(rootPane, player, gates);
+            player.collectItem(rootPane, items, finish.getItemsToCollect(), nearestItem, keyboardListener, finish);
+            if(nearestItem instanceof Key) {
+                for(Gate gate : gates) {
+                    if(gate.getOpeningKey() == nearestItem) {
+                        gate.setAccessible(true);
+                    }
+                }
+            }
+        }
+
+        if(keyboardListener.getGetCoordinates()) {
+            System.out.println(String.format("Player(%d | %d)", player.getX(), player.getY()));
+        }
+
+        if(finish.getAccessible()) {
+            hud.getGoalLabel().setText(Texts.getTextByName("HUDGoalLabelFinished").getTextInLanguage());
+            if(CollisionDetection.checkCollisionWithFinish(player, finish) && keyboardListener.getInteractPressed()) {
+                finished = true;
+                if(!isLastLevel) {
+                    for(int i = 0; i < LevelSelection.getMapNames().size(); i++) {
+                        LevelSelection.disableButton(false, LevelSelection.getMapNames().indexOf(mapName) +1);
+                    }
+                    Level newLewel = new Level(this.stage, mapNameToTrigger, MapReader.getNextLevel(mapNameToTrigger));
+                    this.stop();
+                    newLewel.start();
+                    return;
+                } else {
+                    new EndScreen(this.stage);
+                    this.stop();
+                    return;
+                }
+                
+
+            }
+        }
+
+        finish.checkState();
+    }
+
+    private void trackFps(long now) {
+        frameCount++;
+
+        if (now - lastFpsCheck >= 1_000_000_000L) {
+            currentFps = frameCount;
+            frameCount = 0;
+            lastFpsCheck = now;
+            if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("CONSOLE_LOG_FPS"))) {
+                System.out.println("FPS: " + currentFps);
+            }
+            hud.getFpsLabel().setText(String.format("FPS: %d", currentFps));
+        }
+    }
+
     public void stop() {
         if (this.timer != null) {
             this.timer.stop();
             this.timer = null;
         }
     
-        // Stoppe alle Polizisten und lösche sie aus der Szene
         if (policemen != null) {
-            for (Policeman policeman : policemen) {
-                // policeman.stop(); // Eine Methode, die Bewegungen der Polizisten stoppt
-            }
             policemen.clear();
             policemen = null;
         }
     
-        // Entferne den Spieler aus der Szene
         if (player != null) {
             rootPane.getChildren().remove(player.getHitbox());
             rootPane.getChildren().remove(player.getImage());
             player = null;
         }
     
-        // Entferne Items
         if (items != null) {
             for (Item item : items) {
                 rootPane.getChildren().remove(item.getHitbox());
@@ -327,7 +366,6 @@ public class Level {
             items = null;
         }
     
-        // Entferne Tiles
         if (tiles != null) {
             for (Tile tile : tiles) {
                 rootPane.getChildren().remove(tile.getHitbox());
@@ -339,43 +377,28 @@ public class Level {
             tiles = null;
         }
     
-        // Entferne das Ziel
         if (finish != null) {
             rootPane.getChildren().remove(finish.getHitbox());
             finish = null;
         }
     
-        // Entferne HUD
         if (hud != null) {
-            // hud.clear(); // Methode zum Entfernen aller HUD-Elemente
             hud = null;
         }
     
-        // Entferne Event-Listener
         if (keyboardListener != null) {
-            // keyboardListener.removeAllListeners();
             keyboardListener = null;
         }
     
-        // Lösche alle übrigen Elemente und setze die Szene zurück
         rootPane.getChildren().clear();
         rootPane = null;
         scene = null;
     
-        // Schließe das Fenster
         if (stage != null) {
-            stage.close();
             stage = null;
         }
     }
     
-
-    public void addFPSCounter() {
-        FPSCounter fpsCounter = new FPSCounter();
-        
-        this.rootPane.getChildren().add(fpsCounter.createFPSCounterLabel());
-    }
-
     private Item getNearestItem() {
         Item nearestItem = null;
         double minDistance = Double.MAX_VALUE;
@@ -391,7 +414,7 @@ public class Level {
         }
     
         if (nearestItem == null) {
-            this.itemInRange = false; // Kein Item vorhanden
+            this.itemInRange = false;
             if (Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NO_ITEM_IN_LEVEL_OUTPUT"))) {
                 System.out.println("No item in level");
             }

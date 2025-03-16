@@ -1,13 +1,8 @@
 package utils.keyboard;
 
-import java.util.ArrayList;
-
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import levels.Level;
-import models.Screens.LevelSelection;
-import models.Screens.StartScreen;
 import models.entities.Player;
 import utils.config.ConfigArguments;
 

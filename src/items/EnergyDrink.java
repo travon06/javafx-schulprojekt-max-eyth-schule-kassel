@@ -3,9 +3,7 @@ package items;
 import java.io.File;
 import java.util.ArrayList;
 
-import graphics.Graphics;
 import javafx.animation.AnimationTimer;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;

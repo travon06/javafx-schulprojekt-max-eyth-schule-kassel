@@ -48,10 +48,12 @@ public class Finish {
     }
 
     public void checkState() {
-        if(this.getItemsToCollect().size() == 0) {
-            this.isAccessible = true;
-        } else {
-            this.isAccessible = false;
+        if(goal.equals("COLLECT_ITEMS")) {
+            if(this.getItemsToCollect().size() == 0) {
+                this.isAccessible = true;
+            } else {
+                this.isAccessible = false;
+            }
         }
     }
 

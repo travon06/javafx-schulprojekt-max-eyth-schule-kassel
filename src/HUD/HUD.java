@@ -1,10 +1,10 @@
 package HUD;
 
+import items.Item;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import language.Texts;
 import models.Gate;
-import items.Item;
 import utils.config.ConfigArguments;
 import utils.keyboard.Keybindings;
 
@@ -14,10 +14,15 @@ public class HUD {
     private Label messageLabel;
     private Label messageLabel2;
     private Label goalLabel;
+    private Label fpsLabel;
 
     public HUD(Pane rootPane) {
-        this.rootPane = rootPane;
+        this.fpsLabel = new Label();
 
+        if(!Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("SHOW_FPS"))) {
+            fpsLabel.setVisible(false);
+        }
+        this.rootPane = rootPane;
         this.messageLabel = new Label();
         this.messageLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.2em;");
         this.messageLabel.setVisible(false);
@@ -34,7 +39,7 @@ public class HUD {
         this.goalLabel.layoutXProperty().bind(rootPane.widthProperty().subtract(goalLabel.widthProperty()).divide(2));
         this.goalLabel.layoutYProperty().bind(rootPane.heightProperty().subtract(goalLabel.heightProperty()).divide(2).subtract(300));
         this.goalLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.2em;");
-        this.rootPane.getChildren().addAll(this.messageLabel, this.messageLabel2, this.goalLabel);
+        this.rootPane.getChildren().addAll(this.messageLabel, this.messageLabel2, this.goalLabel, this.fpsLabel);
 
     }
     
@@ -104,6 +109,30 @@ public class HUD {
 
     public Label getGoalLabel() {
         return goalLabel;
+    }
+
+    public void setFpsLabel(Label fpsLabel) {
+        this.fpsLabel = fpsLabel;
+    }
+
+    public Label getFpsLabel() {
+        return fpsLabel;
+    }
+
+    public void setMessageLabel(Label messageLabel) {
+        this.messageLabel = messageLabel;
+    }
+
+    public Label getMessageLabel() {
+        return messageLabel;
+    }
+
+    public void setMessageLabel2(Label messageLabel2) {
+        this.messageLabel2 = messageLabel2;
+    }
+
+    public Label getMessageLabel2() {
+        return messageLabel2;
     }
 
 }

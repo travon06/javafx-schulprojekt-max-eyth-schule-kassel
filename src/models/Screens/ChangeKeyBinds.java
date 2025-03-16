@@ -11,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import language.Texts;
 import utils.config.ConfigArguments;
@@ -59,7 +58,7 @@ public class ChangeKeyBinds {
         }
 
         this.buttonExit.setOnAction(event -> {
-            Options options = new Options(stage);
+            new Options(stage);
         });
 
         Platform.runLater(() -> {

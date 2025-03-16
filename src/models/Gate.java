@@ -21,7 +21,6 @@ public class Gate {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.openingKey = openingKey;
         this.imageView = imageView;
         hitbox = new Rectangle(width, height);
         hitbox.setFill(Color.GRAY);

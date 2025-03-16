@@ -1,12 +1,9 @@
 package models.Screens;
 
 import graphics.Graphics;
-import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -15,13 +12,8 @@ import javafx.scene.control.Slider;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import language.Texts;
 import utils.config.ConfigArguments;
@@ -96,14 +88,14 @@ public class Options {
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"))
         );
         this.keyBindsButton.setOnAction(event -> {
-            ChangeKeyBinds changeKeyBinds = new ChangeKeyBinds(stage);
+            new ChangeKeyBinds(stage);
         });
         this.buttonExit.setOnAction(event -> {
-            StartScreen startScreen = new StartScreen(stage);
+            new StartScreen(stage);
         });
         this.comboBox.setOnAction(event -> {
             getLanguage(this.comboBox.getValue());
-            Options options = new Options(stage);
+            new Options(stage);
         });
         Platform.runLater(() -> {
             double width = vBox.getWidth();

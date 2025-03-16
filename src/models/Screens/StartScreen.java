@@ -1,7 +1,5 @@
 package models.Screens;
 
-import java.util.ArrayList;
-
 import graphics.Graphics;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -13,7 +11,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import language.Texts;
-import levels.Level;
 import utils.config.ConfigArguments;
 
 public class StartScreen {
@@ -44,10 +41,10 @@ public class StartScreen {
         );
 
         this.buttonLevelSelection.setOnAction(event -> {
-            LevelSelection levelSelection = new LevelSelection(stage);
+            new LevelSelection(stage);
         });
         this.buttonOptions.setOnAction(event -> {
-            Options options = new Options(stage);
+            new Options(stage);
         });
         this.buttonQuit.setOnAction(event -> {
             stage.close();

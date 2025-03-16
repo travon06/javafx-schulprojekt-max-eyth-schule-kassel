@@ -11,5 +11,5 @@ coat=coat.png;
 streetUp=streetUp.png;
 background=background.png;
 gras=gras.png;
-gateOpen=gateOpen.png;
+gateOpened=gateOpened.png;
 gateClosed=gateClosed.png;

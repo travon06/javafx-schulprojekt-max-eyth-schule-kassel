@@ -2,8 +2,6 @@ package models.Screens;
 
 import java.util.ArrayList;
 
-import com.sun.prism.paint.Color;
-
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import language.TextReader;
 import language.Texts;
 import levels.Level;
 import utils.config.ConfigArguments;
@@ -29,7 +26,7 @@ public class LevelSelection {
 
     public LevelSelection(Stage stage) {
         this.rootPane = new Pane();
-        this.mapNames = MapReader.readMapNames();
+        LevelSelection.mapNames = MapReader.readMapNames();
         this.flowPane = new FlowPane();
         this.stage = stage;
         this.buttons = new ArrayList<>();
@@ -53,13 +50,12 @@ public class LevelSelection {
         this.flowPane.setPrefWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) * 5 / 6);
         this.flowPane.setHgap(20);
         this.flowPane.setVgap(30);
-        for(int i = 0; i < this.mapNames.size() - 1; i++) {
+        for(int i = 0; i < LevelSelection.mapNames.size(); i++) {
             Button button = new Button(mapNames.get(i));
             final int index = i;
             button.setOnAction(event -> {
                 button.setDisable(true);
                 Level level = new Level(stage, mapNames.get(index), MapReader.getNextLevel(mapNames.get(index)));
-                level.addFPSCounter();
                 level.start();
             });
             if(!Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("DEVELOPMENT_MODE")))
@@ -70,7 +66,7 @@ public class LevelSelection {
 
         this.buttons.get(0).setDisable(false);
         this.buttonExit.setOnAction(event -> {
-            StartScreen startScreen = new StartScreen(stage);
+            new StartScreen(stage);
         });
 
         this.flowPane.setAlignment(Pos.CENTER);

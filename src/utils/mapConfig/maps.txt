@@ -26,7 +26,7 @@
 !goal:635,50&
 !mapEnd&
 
-!map:$$$$$$&
+!map:level2&
 !playerStartCoordinates:660,650&
 !tiles:
     border;
@@ -43,9 +43,10 @@
     (energyDrink,202,366,energyDrink);
     (coat,934,341,coat)&
 !goal:635,50;&
+!isLastLevel&
 !mapEnd&
 
-!map:$$$$$$$$$&
+!map:level3&
 !playerStartCoordinates:660,650&
 !tiles:
     border;
@@ -62,4 +63,5 @@
     (energyDrink,202,366,energyDrink);
     (coat,934,341,coat)&
 !goal:635,50;&
+!isLastLevel&
 !mapEnd&

@@ -193,3 +193,15 @@ hudGateAccessibleP2 {
     NE(om_het_poort_te_openen)
 }
 
+endScreen {
+    DE(Endbildschirm)
+    EN(End_screen)
+    NE(eindscherm)
+}
+
+endScreenMessageLabel {
+    DE(deutsch)
+    EN(english)
+    NE(nederlands)
+}
+
