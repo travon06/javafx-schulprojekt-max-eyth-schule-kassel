@@ -68,8 +68,8 @@ buttonExit {
 }
 
 buttonOptions {
-    EN(Options)
-    DE(Optionen)
+    EN(Settings)
+    DE(Einstellungen)
     NE(Opties)
 }
 
@@ -152,8 +152,8 @@ SPRINT {
 }
 
 OptionsScreen {
-    EN(Options)
-    DE(Optionen)
+    EN(Settings)
+    DE(Einstellungen)
     NE(Opties)
 }
 
@@ -173,6 +173,12 @@ ChangeKeyBindsScreen {
     EN(Keybinds)
     DE(Tastenanschläge)
     NE(Sleutelhangers)
+}
+
+buttonVolume {
+    EN(Volume)
+    DE(Lautstärke)
+    NE(Uitvalshoek)
 }
 
 hudGateNotAccessible {
@@ -205,3 +211,14 @@ endScreenMessageLabel {
     NE(nederlands)
 }
 
+labelcongratulations {
+    DE(§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§)
+    EN(Congratulations)
+    NE(Gefeliciteerd)
+}
+
+mapMaker {
+    DE(Karten_Bauer)
+    EN(Map_maker)
+    NE(Kaartenmaker)
+}

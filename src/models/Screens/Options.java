@@ -1,14 +1,11 @@
 package models.Screens;
 
 import graphics.Graphics;
-import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,23 +21,21 @@ public class Options {
     private Pane rootPane;
     private Button keyBindsButton;
     private Button buttonExit;
+    private Button buttonVolume;
     private ComboBox<String> comboBox;
     private String en;
     private String de;
     private String ne;
     private VBox vBox;
     private ImageView backgroundImageView;
-    private Slider slider;
-    private Label labelSound;
     private GaussianBlur blur;
-    private AnimationTimer timer;
     
     public Options(Stage stage) {
         this.keyBindsButton = new Button(Texts.getTextByName("keyBindsButton").getTextInLanguage());
         this.buttonExit = new Button(Texts.getTextByName("buttonExit").getTextInLanguage());
+        this.buttonVolume = new Button(Texts.getTextByName("buttonVolume").getTextInLanguage());
         this.rootPane = new Pane();
         this.stage = stage;
-        this.labelSound = new Label(ConfigArguments.getConfigArgumentValue("VOLUME"));
         this.vBox = new VBox(40);
         this.comboBox = new ComboBox<>();
         this.en = Texts.getTextByName("englisch").getTextInLanguage();
@@ -53,33 +48,6 @@ public class Options {
         this.backgroundImageView.setFitHeight(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")));
         this.blur = new GaussianBlur(30);
         this.backgroundImageView.setEffect(blur);
-        this.slider = new Slider(0, 100, Double.parseDouble(ConfigArguments.getConfigArgumentValue("VOLUME")));
-        this.slider.setMajorTickUnit(1);
-        this.slider.setMinorTickCount(0);
-        this.slider.setSnapToTicks(true);
-        this.slider.setBlockIncrement(5);
-        this.timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                ConfigArguments.setConfigArgumentValue("VOLUME", Double.toString(slider.getValue()));
-                labelSound.setText(Integer.toString((int) Double.parseDouble(ConfigArguments.getConfigArgumentValue("VOLUME"))));
-            }
-        };
-
-        this.slider.setOnMousePressed(event -> {
-            this.timer.start();
-        });
-
-        this.slider.setOnMouseReleased(event -> {
-            this.timer.stop();
-            ConfigArguments.setConfigArgumentValue("VOLUME", Double.toString(this.slider.getValue()));
-            this.labelSound.setText(Integer.toString((int) Double.parseDouble(ConfigArguments.getConfigArgumentValue("VOLUME"))));
-        });
-        this.slider.setOnKeyReleased(event -> {
-            ConfigArguments.setConfigArgumentValue("VOLUME", Double.toString(this.slider.getValue()));
-            this.labelSound.setText(Integer.toString((int) Double.parseDouble(ConfigArguments.getConfigArgumentValue("VOLUME"))));
-        });
-
 
 
         this.scene = new Scene(
@@ -89,6 +57,9 @@ public class Options {
         );
         this.keyBindsButton.setOnAction(event -> {
             new ChangeKeyBinds(stage);
+        });
+        this.buttonVolume.setOnAction(event -> {
+            new Volume(stage);
         });
         this.buttonExit.setOnAction(event -> {
             new StartScreen(stage);
@@ -102,18 +73,12 @@ public class Options {
             double height = vBox.getHeight();
             this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
             this.vBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 2) - 100);
-            double sliderMidY = slider.localToScene(0, 0).getY() + slider.getHeight() / 2;
-            labelSound.setLayoutY(sliderMidY - labelSound.getHeight() / 2);
-            labelSound.setLayoutX(slider.localToScene(0, 0).getX() - 60);
-            this.labelSound.setText(Integer.toString((int) Double.parseDouble(ConfigArguments.getConfigArgumentValue("VOLUME"))));
-        });
+         });
         
-        this.vBox.getChildren().addAll(keyBindsButton, comboBox, slider, buttonExit);
+        this.vBox.getChildren().addAll(keyBindsButton, comboBox, buttonVolume, buttonExit);
         this.rootPane.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
         this.vBox.setAlignment(Pos.CENTER);
-        this.rootPane.getChildren().addAll(backgroundImageView, vBox, labelSound);
-        this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - vBox.getWidth()) / 2);
-        this.vBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - vBox.getHeight()) / 2) - 100);
+        this.rootPane.getChildren().addAll(backgroundImageView, vBox);
         this.stage.setScene(this.scene);
         this.stage.setTitle(Texts.getTextByName("OptionsScreen").getTextInLanguage());
         this.stage.show();
@@ -167,6 +132,22 @@ public class Options {
         return comboBox;
     }
 
+    public void setBlur(GaussianBlur blur) {
+        this.blur = blur;
+    }
+
+    public void setButtonVolume(Button buttonVolume) {
+        this.buttonVolume = buttonVolume;
+    }
+
+    public GaussianBlur getBlur() {
+        return blur;
+    }
+
+    public Button getButtonVolume() {
+        return buttonVolume;
+    }
+
     public String getDe() {
         return de;
     }
@@ -189,10 +170,6 @@ public class Options {
 
     public Scene getScene() {
         return scene;
-    }
-
-    public Slider getSlider() {
-        return slider;
     }
 
     public Stage getStage() {
@@ -237,10 +214,6 @@ public class Options {
 
     public void setScene(Scene scene) {
         this.scene = scene;
-    }
-
-    public void setSlider(Slider slider) {
-        this.slider = slider;
     }
 
     public void setStage(Stage stage) {

@@ -6,12 +6,11 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch App.java",
+            "name": "App",
             "request": "launch",
             "mainClass": "App",
-            "projectName": "project_15f4b383",
+            "projectName": "javafx-schulprojekt-max-eyth-schule-kassel_a02ae6f3",
             "vmArgs": "--module-path ./lib/javafx-sdk-23/lib --add-modules javafx.controls,javafx.fxml,javafx.media --add-opens javafx.base/com.sun.javafx=ALL-UNNAMED --add-opens javafx.graphics/com.sun.glass.utils=ALL-UNNAMED"
-
         }
     ]
 }

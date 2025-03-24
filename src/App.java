@@ -2,7 +2,9 @@ import graphics.GraphicReader;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import language.TextReader;
+import models.Screens.EndScreen;
 import models.Screens.LevelSelection;
+import models.Screens.MapMaker;
 import models.Screens.StartScreen;
 import utils.config.ConfigArguments;
 import utils.config.ConfigReader;
@@ -24,7 +26,10 @@ public class App extends Application {
             new StartScreen(primaryStage);
         }
 
-        new StartScreen(primaryStage);
+
+        new MapMaker(primaryStage);
+        // new EndScreen(primaryStage);
+        // new StartScreen(primaryStage);
 
     }
 

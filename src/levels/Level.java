@@ -251,8 +251,8 @@ public class Level {
         
 
         if(keyboardListener.getEscPressed()) {
-            this.stop();
             new LevelSelection(stage);
+            this.stop();
         }
         
         if(keyboardListener.getSprintPressed() && player.getBoosted()) {

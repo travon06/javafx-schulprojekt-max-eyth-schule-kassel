@@ -62,12 +62,10 @@ public class ChangeKeyBinds {
         });
 
         Platform.runLater(() -> {
-            double width = vBox.getWidth();
-            double height = vBox.getHeight();
-            this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) * 6 / 9);
-            this.vBox.setLayoutY((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 4);
-            this.vBoxText.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) * 2 / 9);
-            this.vBoxText.setLayoutY((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 4);
+            this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - vBox.getWidth()) * 6 / 9);
+            this.vBox.setLayoutY((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - vBox.getHeight()) / 4);
+            this.vBoxText.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - vBox.getWidth()) * 2 / 9);
+            this.vBoxText.setLayoutY((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - vBox.getHeight()) / 4);
         });
 
         Platform.runLater(() -> {
