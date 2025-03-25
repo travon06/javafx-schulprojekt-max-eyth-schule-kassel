@@ -52,15 +52,13 @@ public class StartScreen {
         
         Platform.runLater(() -> {
             double width = vBox.getWidth();
-            this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
-        });
-        Platform.runLater(() -> {
             double height = vBox.getHeight();
+            this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
             this.vBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 2) - 100);
         });
         
         this.vBox.getChildren().addAll(buttonLevelSelection, buttonOptions, buttonQuit);
-        this.vBox.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
+        this.rootPane.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
         this.vBox.setAlignment(Pos.CENTER);
         this.rootPane.getChildren().addAll(backgroundImageView, vBox);
         this.stage.setResizable(false);

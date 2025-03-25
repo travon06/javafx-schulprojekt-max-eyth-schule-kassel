@@ -339,8 +339,9 @@ public class Level {
                     newLewel.start();
                     return;
                 } else {
-                    new EndScreen(this.stage);
+                    Stage newStage = this.stage;
                     this.stop();
+                    new EndScreen(newStage);
                     return;
                 }
                 

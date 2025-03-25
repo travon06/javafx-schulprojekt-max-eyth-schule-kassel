@@ -123,3 +123,7 @@
     -fx-background-color: #2A3B5F; /* Blaue Farbe für den aktiven Bereich */
     -fx-background-radius: 8px; /* Abgerundete Kanten für einen flüssigen Look */
 }
+
+#congratulations {
+    -fx-font-size: 30px;
+}

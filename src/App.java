@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import language.TextReader;
 import models.Gate;
 import models.Screens.LevelSelection;
+import models.Screens.MapMaker;
 import models.Screens.StartScreen;
 import models.entities.Policeman;
 import models.tiles.Tile;
