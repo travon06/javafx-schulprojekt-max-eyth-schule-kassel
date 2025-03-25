@@ -9,6 +9,7 @@ import language.Texts;
 import levels.Level;
 import utils.config.ConfigArguments;
 import utils.mapConfig.MapReader;
+import utils.statistics.Statistics;
 
 
 public class GameoverScreen {
@@ -20,6 +21,12 @@ public class GameoverScreen {
     private Scene scene;
 
     public GameoverScreen(Stage stage, String mapName) {
+
+        // update statistics file
+        int timesCaught = Integer.parseInt(Statistics.getStatisticValue("TIMES_CAUGHT"));
+        
+        Statistics.setStatisticValue("TIMES_CAUGHT", String.valueOf(timesCaught + 1));
+
         this.rootPane = new Pane();
         this.stage = stage;
         this.scene = new Scene(

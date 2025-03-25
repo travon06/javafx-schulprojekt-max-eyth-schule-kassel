@@ -22,6 +22,10 @@ import utils.config.ConfigArguments;
 import utils.config.ConfigReader;
 import utils.keyboard.KeybindingReader;
 import utils.mapConfig.MapWriter;
+import utils.statistics.Statistic;
+import utils.statistics.StatisticReader;
+import utils.statistics.StatisticWriter;
+import utils.statistics.Statistics;
 public class App extends Application {
     static {
         // load configurations
@@ -29,14 +33,22 @@ public class App extends Application {
         KeybindingReader.readKeybindings();
         GraphicReader.readGraphics();
         TextReader.readTexts();
+        StatisticReader.readStatistics();
+        if(Boolean.parseBoolean(Statistics.getStatisticValue("FIRST_TIME_IN_GAME"))) {
+            StatisticWriter.resetStatistics();
+        }
     }
-
+    
     @Override
     public void start(Stage primaryStage) {
+        Statistics.setStatisticValue("FIRST_TIME_IN_GAME", "FALSE");
 
-        boolean penis = true;
+        int penis = 0;
+        // 0 = Game
+        // 1 = MapWriter
+        // 2 = MapMaker
 
-        if(penis) {
+        if(penis == 0) {
             if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("DEVELOPMENT_MODE"))) {
                 new LevelSelection(primaryStage);
             } else {
@@ -44,7 +56,7 @@ public class App extends Application {
             }
 
             new StartScreen(primaryStage);
-        } else {
+        } else if (penis == 1){
             MapWriter m = new MapWriter("myFirstMap");
             int[] playerStartCoordinates = {700, 700};
             ArrayList<Tile> tiles = new ArrayList<>();
@@ -89,6 +101,8 @@ public class App extends Application {
             m.createMap(playerStartCoordinates, tiles, items, policemen, gates, finish, itemsToCollect, timeToSurvive);
 
             // primaryStage.close();
+        } else if (penis == 2) {
+            new MapMaker(primaryStage);
         }
 
     }

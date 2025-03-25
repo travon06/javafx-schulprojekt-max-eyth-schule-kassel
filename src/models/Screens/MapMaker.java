@@ -15,7 +15,7 @@ import models.tiles.Tile;
 import utils.config.ConfigArguments;
 
 public class MapMaker {
-    private static final int OBJEKTE_HOEHE = 300;
+    private static final int OBJECT_HEIGHT = 300;
     private final Scene scene;
     private final Pane rootPane;
     private final HBox hBox;
@@ -33,10 +33,10 @@ public class MapMaker {
         this.rootPane = new Pane();
         int screenWidth = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH"));
         int screenHeight = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"));
-        this.scene = new Scene(this.rootPane, screenWidth, screenHeight + OBJEKTE_HOEHE);
+        this.scene = new Scene(this.rootPane, screenWidth, screenHeight + OBJECT_HEIGHT);
 
         this.hBox = new HBox(20);
-        this.hBox.setPrefSize(screenWidth, OBJEKTE_HOEHE);
+        this.hBox.setPrefSize(screenWidth, OBJECT_HEIGHT);
         this.hBox.setLayoutY(screenHeight);
         this.hBox.setStyle("-fx-background-color:grey");
 
@@ -62,7 +62,7 @@ public class MapMaker {
     private Tile createTile(String type, int xPosition) {
         Tile tile = new Tile(false, 0, 0, 50, 50, type);
         tile.setX(xPosition - 25);
-        tile.setY(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) + OBJEKTE_HOEHE / 2 - 25);
+        tile.setY(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) + OBJECT_HEIGHT / 2 - 25);
         tile.getImageView().setOnMousePressed(event -> startDragging(tile));
         return tile;
     }

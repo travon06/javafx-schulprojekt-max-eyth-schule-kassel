@@ -29,6 +29,7 @@ import models.tiles.Tile;
 import utils.config.ConfigArguments;
 import utils.keyboard.KeyboardListener;
 import utils.mapConfig.MapReader;
+import utils.statistics.Statistics;
 
 public class Level {
     private Scene scene;
@@ -56,8 +57,12 @@ public class Level {
     private CountdownTimer countdownTimer;
     private int timeToSurvive;
     private boolean stopped;
+    private long startTime;
+    private long endTime;
     
     public Level(Stage stage, String mapName, String mapNameToTrigger) {
+        this.startTime = 0;
+        this.endTime = 0;
         this.stage = stage; 
         this.stage.setResizable(false);
         this.mapName = mapName;
@@ -198,6 +203,7 @@ public class Level {
     //#endregion ini functions
 
     public void start() {
+        this.startTime = System.nanoTime();
         
         if(finish.getGoal().equals("SURVIVE")) {
             countdownTimer.start();
@@ -367,6 +373,13 @@ public class Level {
     }
 
     public void stop() {
+        this.endTime = System.nanoTime();
+
+        double timeInLevel = (endTime - startTime) / 1_000_000_000.0 / 60.0;
+        double minutesPlayed = Double.parseDouble(Statistics.getStatisticValue("MINUTES_PLAYED"));
+        Statistics.setStatisticValue("MINUTES_PLAYED", String.format("%.2f", minutesPlayed + timeInLevel));
+
+
         if (this.timer != null) {
             this.timer.stop();
             this.timer = null;
