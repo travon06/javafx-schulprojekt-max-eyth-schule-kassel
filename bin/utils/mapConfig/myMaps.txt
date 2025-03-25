@@ -1,0 +1,48 @@
+!map:myFirstMap&
+!playerStartCoordinates:700,700&
+!tiles:
+	border;
+	(false,100,100,50,50,ironRooftop);
+	(true,50,50,50,50,copperRooftop)&
+!items:
+	(energyDrink,50,50,energyDrink);
+	(key,150,150,key)&
+!policemen:
+	(60,100,2);
+	(70,110,3)&
+!policemenWaypoints:{
+	[(100,50,true);(110,60,true);(120,70,true)]
+	[(70,110,true);(70,500,true);(200,500,true)]
+}&
+!gates:
+	50,50;
+	50,50&
+!finish:(500,200,COLLECT_ITEMS)&
+!itemsToCollect:
+	(energyDrink,150,150,energyDrink);
+	(key,1150,1150,key)&
+!mapEnd&
+!map:myFirstMap&
+!playerStartCoordinates:700,700&
+!tiles:
+	border;
+	(false,100,100,50,50,ironRooftop);
+	(true,50,50,50,50,copperRooftop)&
+!items:
+	(energyDrink,50,50,energyDrink);
+	(key,150,150,key)&
+!policemen:
+	(60,100,2);
+	(70,110,3)&
+!policemenWaypoints:{
+	[(100,50,true);(110,60,true);(120,70,true)]
+	[(70,110,true);(70,500,true);(200,500,true)]
+}&
+!gates:
+	50,50;
+	50,50&
+!finish:(500,200,COLLECT_ITEMS)&
+!itemsToCollect:
+	(energyDrink,150,150,energyDrink);
+	(key,1150,1150,key)&
+!mapEnd&

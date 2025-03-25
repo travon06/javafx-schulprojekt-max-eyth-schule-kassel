@@ -16,6 +16,7 @@ public class Tile {
     private int width;
     private int height;
     private ImageView imageView;
+    private String imageName;
 
     public Tile(boolean isSolid, int x, int y, int width, int height, String imageName) {
         this.isSolid = isSolid;
@@ -23,7 +24,8 @@ public class Tile {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.imageView = new ImageView(new Image(Graphics.getGraphicUrl(imageName)));
+        this.imageName = imageName;
+        this.imageView = new ImageView(new Image(Graphics.getGraphicUrl(this.imageName)));
         this.imageView.setX(x);
         this.imageView.setY(y);
         this.imageView.setFitHeight(height);
@@ -113,8 +115,12 @@ public class Tile {
         return imageView;
     }
 
+    public String getImageName() {
+        return imageName;
+    }
 
-
-
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
     //#endregion
 }

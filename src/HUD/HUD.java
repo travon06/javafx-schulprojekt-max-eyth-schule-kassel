@@ -15,9 +15,11 @@ public class HUD {
     private Label messageLabel2;
     private Label goalLabel;
     private Label fpsLabel;
+    private Label timerLabel;
 
     public HUD(Pane rootPane) {
         this.fpsLabel = new Label();
+        this.timerLabel = new Label();
 
         if(!Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("SHOW_FPS"))) {
             fpsLabel.setVisible(false);
@@ -39,7 +41,7 @@ public class HUD {
         this.goalLabel.layoutXProperty().bind(rootPane.widthProperty().subtract(goalLabel.widthProperty()).divide(2));
         this.goalLabel.layoutYProperty().bind(rootPane.heightProperty().subtract(goalLabel.heightProperty()).divide(2).subtract(300));
         this.goalLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.2em;");
-        this.rootPane.getChildren().addAll(this.messageLabel, this.messageLabel2, this.goalLabel, this.fpsLabel);
+        this.rootPane.getChildren().addAll(this.messageLabel, this.messageLabel2, this.goalLabel, this.fpsLabel, this.timerLabel);
 
     }
     
@@ -134,5 +136,14 @@ public class HUD {
     public Label getMessageLabel2() {
         return messageLabel2;
     }
+
+    public void setTimerLabel(Label timerLabel) {
+        this.timerLabel = timerLabel;
+    }
+
+    public Label getTimerLabel() {
+        return timerLabel;
+    }
+
 
 }

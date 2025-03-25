@@ -13,16 +13,16 @@ import utils.config.ConfigArguments;
 
 public class EnergyDrink extends Item {
     private MediaPlayer mediaPlayer;
-    public EnergyDrink(String name, int x, int y) {
-        super(name, x, y);
+    public EnergyDrink(String name, int x, int y, boolean isItemToCollect) {
+        super(name, x, y, isItemToCollect);
         String soundPath = new File("src/sounds/drinkEnergy.mp3").toURI().toString();
         Media sound = new Media(soundPath);
         mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.setVolume(ConfigArguments.getVolume());
     }
 
-    public EnergyDrink(String name, int x, int y, String imageName) {
-        super(name, x, y, imageName);
+    public EnergyDrink(String name, int x, int y, String imageName, boolean isItemToCollect) {
+        super(name, x, y, imageName, isItemToCollect);
         String soundPath = new File("src/sounds/drinkEnergy.mp3").toURI().toString();
         Media sound = new Media(soundPath);
         mediaPlayer = new MediaPlayer(sound);

@@ -24,6 +24,7 @@ public class Gate {
         this.imageView = imageView;
         hitbox = new Rectangle(width, height);
         hitbox.setFill(Color.GRAY);
+        hitbox.setVisible(false);
         imageView.setFitHeight(height);
         imageView.setFitWidth(width);
         hitbox.setX(x);

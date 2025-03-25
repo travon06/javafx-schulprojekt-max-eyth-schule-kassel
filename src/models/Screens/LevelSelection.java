@@ -26,7 +26,7 @@ public class LevelSelection {
 
     public LevelSelection(Stage stage) {
         this.rootPane = new Pane();
-        LevelSelection.mapNames = MapReader.readMapNames();
+        LevelSelection.mapNames = MapReader.readMapNames(MapReader.getMapspath());
         this.flowPane = new FlowPane();
         this.stage = stage;
         this.buttons = new ArrayList<>();

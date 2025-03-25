@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import language.Texts;
 import utils.config.ConfigArguments;
 
 public class CountdownTimer {
@@ -15,20 +16,22 @@ public class CountdownTimer {
     private Label timerLabel;
     private Timeline timeline;
 
-    public CountdownTimer(Label timerLabel) {
-        this.seconds = 10;
+    public CountdownTimer(Label timerLabel, int seconds) {
+        this.seconds = seconds;
         this.timerLabel = timerLabel;
         this.timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            seconds--;
-            timerLabel.setText(String.valueOf(seconds));
-            System.out.println(seconds);
-            if (seconds <= 0) {
+            this.seconds--;
+            timerLabel.setText(String.format("%s : %d", Texts.getTextByName("timer").getTextInLanguage(), this.seconds));
+            if (this.seconds <= 0) {
                 timeline.stop();
-                timerLabel.setText("Zeit abgelaufen!");
             }
         }));
         
     }
+
+    public boolean isDone() {
+        return this.seconds <= 0;
+    } 
 
     public void start() {
         this.timeline.setCycleCount(seconds);

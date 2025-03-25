@@ -7,12 +7,12 @@ import models.Gate;
 import models.entities.Player;
 
 public class Key extends Item{
-    public Key(String name, int x, int y) {
-        super(name, x, y);
+    public Key(String name, int x, int y, boolean isItemToCollect) {
+        super(name, x, y, isItemToCollect);
     }
 
-    public Key(String name, int x, int y, String imageName) {
-        super(name, x, y, imageName);
+    public Key(String name, int x, int y, String imageName, boolean isItemToCollect) {
+        super(name, x, y, imageName, isItemToCollect);
     }
     @Override
     public void use(Pane pane, Player player, ArrayList<Gate> gates) {

@@ -54,6 +54,8 @@ public class Level {
     private long lastFpsCheck;
     private int currentFps;
     private CountdownTimer countdownTimer;
+    private int timeToSurvive;
+    private boolean stopped;
     
     public Level(Stage stage, String mapName, String mapNameToTrigger) {
         this.stage = stage; 
@@ -65,8 +67,8 @@ public class Level {
         this.lastUpdate = 0;
         this.frameCount = 0;
         this.lastFpsCheck = 0;
-        this.currentFps = 0;
-        // this.countdownTimer = new CountdownTimer(new Label());
+        this.currentFps = 0;   
+        this.stopped = false;
         this.scene = new Scene(
             this.rootPane, 
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")),
@@ -76,14 +78,20 @@ public class Level {
             this.items = intitializeItems(this.rootPane, mapName);
             this.policemen = initializePoliceman(rootPane, mapName);
             this.finish = initializeGoal(rootPane);
-            this.itemsToCollect = initializeItemsToCollect();
-            this.player = initializePlayer(this.rootPane);
             initializeGates(rootPane);    
             initializeIsLastLevel(mapName);
+            this.hud = new HUD(rootPane);
             if(this.policemen.size() > 0) {
                 for(int i = 0; i < this.policemen.size(); i++) {
                     this.policemen.get(i).getWaypoints().addAll(MapReader.readWaypoints(mapName, i));
                 }
+            }
+            if(finish.getGoal().equals("COLLECT_ITEMS")) {
+                this.items.addAll(initializeItemsToCollect(rootPane));
+                
+            } else if(finish.getGoal().equals("SURVIVE")) {
+                this.timeToSurvive = MapReader.readTimeToSurvive(mapName);
+                this.countdownTimer = new CountdownTimer(hud.getTimerLabel(), timeToSurvive);
             }
 
             ArrayList<Item> keys = new ArrayList<>();
@@ -92,13 +100,13 @@ public class Level {
                     keys.add(item);
                 }
             }
-
+            
             for(int i = 0; i < gates.size(); i++) {
                 gates.get(i).setOpeningKey((Key) keys.get(i));
             }
+            this.player = initializePlayer(this.rootPane);
             this.keyboardListener = new KeyboardListener(this.stage, this.scene);
             
-            this.hud = new HUD(rootPane);
             this.itemInRange = false;
             
         }
@@ -179,26 +187,34 @@ public class Level {
         return finish;
     }
 
-    private ArrayList<Item> initializeItemsToCollect() {
-        this.finish.setItemsToCollect(MapReader.readItemsToCollect(mapName, items));
+    private ArrayList<Item> initializeItemsToCollect(Pane pane) {
+        ArrayList<Item> itemsToCollect = MapReader.readItemsToCollect(mapName, items);
+        this.finish.setItemsToCollect(itemsToCollect);
+        for(Item i : itemsToCollect) {
+            pane.getChildren().addAll(i.getHitbox(), i.getImageView());
+        }
         return itemsToCollect;
     }
     //#endregion ini functions
 
     public void start() {
-        // countdownTimer.start();
-    
-        if(finish.getGoal().equals("COLLECT_ITEMS")) {
-            hud.getGoalLabel().setText(formatItemToCollectLabelMessage());
+        
+        if(finish.getGoal().equals("SURVIVE")) {
+            countdownTimer.start();
         }
+        hud.getGoalLabel().setText(formatGoalLabel());
 
-        long nanosPerUpdate = 1_000_000_000L / 150;
+        long nanosPerUpdate = 1_000_000_000L / 300;
         this.timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (now - lastUpdate >= nanosPerUpdate) {
-                    lastUpdate = now;
-                    update();
+                // if (now - lastUpdate >= nanosPerUpdate) {
+                //     lastUpdate = now;
+                //     update();
+                //     trackFps(now);
+                // }
+                update();
+                if(!stopped) {
                     trackFps(now);
                 }
             }
@@ -223,11 +239,12 @@ public class Level {
     public void update() {
         for(Policeman policeman : policemen) {
             if(CollisionDetection.checkCollisionWithPoliceman(player, policeman) && player.getVissible() && !keyboardListener.getGodMode()) {
-                this.stop();
-                GameoverScreen gmScreen = new GameoverScreen(stage, mapName);
+                Stage newStage = this.stage;
+                this.stop(); 
+                GameoverScreen gmScreen = new GameoverScreen(newStage, mapName);
                 gmScreen.setDeathMessage(Texts.getTextByName("gameoverScreenMessageLabel").getTextInLanguage());
-            }
-            
+                return;
+            }  
         }
         
         for (Gate gate : gates) {
@@ -242,6 +259,8 @@ public class Level {
                     gate.setImageView(new ImageView(new Image(Graphics.getGraphicUrl(ConfigArguments.getConfigArgumentValue("GATE_GRAPHIC_OPEN")))));
                     gate.getImageView().setX(gate.getX());
                     gate.getImageView().setY(gate.getY());
+                    gate.getImageView().setFitWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("GATE_WIDTH")));
+                    gate.getImageView().setFitHeight(Integer.parseInt(ConfigArguments.getConfigArgumentValue("GATE_HEIGHT")));
                     rootPane.getChildren().add(gate.getImageView());
                 }
             } else {
@@ -251,8 +270,10 @@ public class Level {
         
 
         if(keyboardListener.getEscPressed()) {
+            Stage newStage = this.stage;
             this.stop();
-            new LevelSelection(stage);
+            new LevelSelection(newStage);
+            return;
         }
         
         if(keyboardListener.getSprintPressed() && player.getBoosted()) {
@@ -279,6 +300,7 @@ public class Level {
             hud.hideItemCollectable();
         }
 
+
     
 
 
@@ -300,7 +322,12 @@ public class Level {
         }
 
         if(finish.getAccessible()) {
-            hud.getGoalLabel().setText(Texts.getTextByName("HUDGoalLabelFinished").getTextInLanguage());
+            if(finish.getGoal().equals("COLLECT_ITEMS")) {
+                hud.getGoalLabel().setText(Texts.getTextByName("HUDGoalLabelFinishedCollectItems").getTextInLanguage());
+            } else if(finish.getGoal().equals("SURVIVE")) {
+                hud.getGoalLabel().setText(Texts.getTextByName("HUDGoalLabelFinishedSurvive").getTextInLanguage());
+
+            }
             if(CollisionDetection.checkCollisionWithFinish(player, finish) && keyboardListener.getInteractPressed()) {
                 finished = true;
                 if(!isLastLevel) {
@@ -321,7 +348,7 @@ public class Level {
             }
         }
 
-        finish.checkState();
+        finish.checkState(countdownTimer);
     }
 
     private void trackFps(long now) {
@@ -389,14 +416,18 @@ public class Level {
         if (keyboardListener != null) {
             keyboardListener = null;
         }
-    
-        rootPane.getChildren().clear();
+        
+        if(rootPane != null) {
+            rootPane.getChildren().clear();
+        }
         rootPane = null;
         scene = null;
     
         if (stage != null) {
             stage = null;
         }
+
+        this.stopped = true;
     }
     
     private Item getNearestItem() {
@@ -436,18 +467,22 @@ public class Level {
         return Math.sqrt(Math.pow(this.player.getX() - item.getX(), 2) + Math.pow(this.player.getY() - item.getY(), 2));
     }
 
-    private String formatItemToCollectLabelMessage() {
-        String goalString = Texts.getTextByName("HUDGoalLabelUnfinished").getTextInLanguage() + ": (";
+    private String formatGoalLabel() {
 
-        for(int i = 0; i < finish.getItemsToCollect().size(); i++) {
-            goalString += finish.getItemsToCollect().get(i).getName();
-            if(i < finish.getItemsToCollect().size()  - 1) {
-                goalString += ", ";
+        String goalString = "";
+
+        if(finish.getGoal().equals("COLLECT_ITEMS")) {
+            goalString = Texts.getTextByName("HUDGoalLabelUnfinishedCollectItems").getTextInLanguage() + ": (";
+            for(int i = 0; i < finish.getItemsToCollect().size(); i++) {
+                goalString += finish.getItemsToCollect().get(i).getName();
+                if(i < finish.getItemsToCollect().size()  - 1) {
+                    goalString += ", ";
+                }
             }
+            goalString += ")";
+        } else if(finish.getGoal().equals("SURVIVE")) {
+            goalString = Texts.getTextByName("HUDGoalLabelUnfinishedSurvive").getTextInLanguage();
         }
-
-        goalString += ")";
-
         return goalString;
     }
     
@@ -575,5 +610,14 @@ public class Level {
     public void setPolicemen(ArrayList<Policeman> policemen) {
         this.policemen = policemen;
     }    
+
+    public void setCountdownTimer(CountdownTimer countdownTimer) {
+        this.countdownTimer = countdownTimer;
+    }
+
+    public CountdownTimer getCountdownTimer() {
+        return countdownTimer;
+    }
+    
     //#endregion
 }

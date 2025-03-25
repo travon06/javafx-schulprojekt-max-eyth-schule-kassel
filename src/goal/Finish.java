@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import models.CountdownTimer;
 import items.Item;
 
 
@@ -47,9 +48,15 @@ public class Finish {
         this.goal = goal;
     }
 
-    public void checkState() {
+    public void checkState(CountdownTimer countdownTimer) {
         if(goal.equals("COLLECT_ITEMS")) {
             if(this.getItemsToCollect().size() == 0) {
+                this.isAccessible = true;
+            } else {
+                this.isAccessible = false;
+            }
+        } else if (goal.equals("SURVIVE")) {
+            if(countdownTimer.isDone()) {
                 this.isAccessible = true;
             } else {
                 this.isAccessible = false;
@@ -116,19 +123,11 @@ public class Finish {
     }
 
     public void setItemsToCollect(ArrayList<Item> itemsToCollect) {
-        if(this.goal.equals("COLLECT_ITEMS")) {
-            this.itemsToCollect = itemsToCollect; 
-        } else {
-            throw new Error("Cannot asign itemsToCollect when goal is not COLLECT_ITEMS");
-        }
+        this.itemsToCollect = itemsToCollect; 
     }
 
     public ArrayList<Item> getItemsToCollect() {
-        if(this.goal.equals("COLLECT_ITEMS")) {
-            return itemsToCollect;
-        } else {
-            throw new Error("cannot get ItemsToCOllect when goal is not COLLECT_ITEMS");
-        }
+        return itemsToCollect;
     }
 
     public String getGoal() {

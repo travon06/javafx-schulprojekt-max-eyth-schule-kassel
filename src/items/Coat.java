@@ -13,8 +13,8 @@ import utils.config.ConfigArguments;
 
 public class Coat extends Item {
     private MediaPlayer mediaPlayer;
-    public Coat(String name, int x, int y) {
-        super(name, x, y);
+    public Coat(String name, int x, int y, boolean isItemToCollect) {
+        super(name, x, y, isItemToCollect);
         String soundPath = new File("src/sounds/sus.mp3").toURI().toString();
         Media sound = new Media(soundPath);
         mediaPlayer = new MediaPlayer(sound);
@@ -22,8 +22,8 @@ public class Coat extends Item {
 
     }
 
-    public Coat(String name, int x, int y, String imagename) {
-        super(name, x, y, imagename);
+    public Coat(String name, int x, int y, String imagename, boolean isItemToCollect) {
+        super(name, x, y, imagename, isItemToCollect);
         this.getImageView().setFitWidth(this.getHitbox().getWidth() * 2);
         this.getImageView().setFitHeight(this.getHitbox().getHeight() * 2);
         this.getImageView().setX(this.getHitbox().getX() - this.getHitbox().getWidth() / 2);

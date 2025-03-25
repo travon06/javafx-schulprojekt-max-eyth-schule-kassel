@@ -55,11 +55,10 @@ public class Player {
         keyboardListener.setInteractPressed(false);
         rootPane.getChildren().removeAll(nearestItem.getNode(), nearestItem.getImageView());
         items.remove(nearestItem);
-        if(itemsToCollect.contains(nearestItem))  {
-            itemsToCollect.remove(nearestItem);
-        }
-        System.out.println(finish.getGoal());
         if(finish.getGoal().equals("COLLECT_ITEMS")) {
+            if(itemsToCollect.contains(nearestItem))  {
+                itemsToCollect.remove(nearestItem);
+            }
             for(Item item : finish.getItemsToCollect()) {
                 if(item.getName().equals(nearestItem.getName())) {
                     System.out.println("penis");

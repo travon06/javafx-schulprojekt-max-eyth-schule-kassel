@@ -47,6 +47,12 @@ public class ChangeKeyBinds {
         );
 
         for(Keybinding keybinding : Keybindings.getKeybindings()) {
+            if(
+                keybinding.getArgument().equals("TOGGLE_GOD_MODE") || 
+                keybinding.getArgument().equals("GET_COORDIANTES")) 
+            {
+                continue;
+            }
             Button button = new Button(keybinding.getValue());
             button.setOnAction(event -> {
                 button.setText("");

@@ -13,15 +13,19 @@ import models.entities.Player;
 
 public abstract class Item {
     private final String name;
+    private final String originalName;
     private final Rectangle hitbox;
     private boolean isAccessible;
     private int x;
     private int y;
     private Node node;
     private ImageView imageView;
+    private String imageName;
+    private boolean isItemToCollect;
 
-    public Item(String name, int startX, int startY) {
+    public Item(String name, int startX, int startY, boolean isItemToCollect) {
         this.name = formatName(name);
+        this.originalName = name;
         this.isAccessible = false;
         this.hitbox = new Rectangle(25, 25);
         this.x = startX;
@@ -29,10 +33,13 @@ public abstract class Item {
         this.hitbox.setX(startX);
         this.hitbox.setY(startY);
         this.node = this.hitbox;
+        this.isItemToCollect = isItemToCollect;
     }
 
-    public Item(String name, int startX, int startY, String imageName) {
+    public Item(String name, int startX, int startY, String imageName, boolean isItemToCollect) {
         this.name = formatName(name);
+        this.originalName = name;
+        this.imageName = imageName;
         this.isAccessible = false;
         this.hitbox = new Rectangle(25, 25);
         this.node = this.hitbox;
@@ -41,6 +48,7 @@ public abstract class Item {
         this.imageView.setFitWidth(25);
         this.setX(startX);
         this.setY(startY);
+        this.isItemToCollect = isItemToCollect;
         this.hitbox.setVisible(false);
     }
 
@@ -108,6 +116,32 @@ public abstract class Item {
     public void setAccessible(boolean isAccessible) {
         this.isAccessible = isAccessible;
     }
+
+    public String getOriginalName() {
+        return originalName;
+    }
+
+    public void setNode(Node node) {
+        this.node = node;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public void setItemToCollect(boolean isItemToCollect) {
+        this.isItemToCollect = isItemToCollect;
+    }
+
+    public boolean getIsItemToCollect() {
+        return this.isItemToCollect;
+    }
+
+    
     //#endregion
     
 }

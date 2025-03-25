@@ -26,6 +26,7 @@ public class KeyboardListener {
     private final String GET_COORDINATES = Keybindings.getKeybindingValue("GET_COORDIANTES");
     private final String TOGGLE_GOD_MODE = Keybindings.getKeybindingValue("TOGGLE_GOD_MODE");  
     private final String SPRINT = Keybindings.getKeybindingValue("SPRINT");
+    
     public KeyboardListener(Stage stage, Scene scene) {
         this.scene = scene;
         this.stage = stage;

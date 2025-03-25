@@ -30,15 +30,28 @@ lock {
     DE(Schloss)
     NE(slot)
 }
-HUDGoalLabelUnfinished {
+HUDGoalLabelUnfinishedCollectItems {
     EN(Collect_the_following_items_to_proceed_to_the_next_level)
     DE(Sammle_folgende_Gegenstände_ein_um_zum_nächsten_level_fortzufahren)
     NE(Verzamel_de_volgende_items_om_naar_het_volgende_level_te_gaan)
-} 
-HUDGoalLabelFinished {
+}
+
+HUDGoalLabelUnfinishedSurvive {
+    EN(Survive_the_time_to_proceed_to_the_next_level)
+    DE(Überlebe_die_Zeit_um_zum_nächsten_level_fortzufahren)
+    NE(Overleef_de_tijd_om_naar_het_volgende_level_te_gaan)
+}
+
+HUDGoalLabelFinishedCollectItems {
     EN(You_collected_all_items,_you_can_now_proceed_to_the_next_level)
     DE(Du_hast_alle_Gegenstände_eingesammelt,_du_kannst_nun_zum_nächsten_Level_fortfahren)
     NE(Je_hebt_alle_items_verzameld,_nu_kun_je_doorgaan_naar_het_volgende_level)
+}
+
+HUDGoalLabelFinishedSurvive {
+    EN(You_survived_the_time,_you_can_now_proceed_to_the_next_level)
+    DE(Du_hast_die_Zeit_überlebt,_du_kannst_nun_zum_nächsten_Level_fortfahren)
+    NE(Je_hebt_de_tijd_overleefd,_nu_kun_je_doorgaan_naar_het_volgende_level)
 } 
 ineractLabelCollectItemP1 {
     EN(Press)
@@ -203,5 +216,11 @@ endScreenMessageLabel {
     DE(deutsch)
     EN(english)
     NE(nederlands)
+}
+
+timer {
+    DE(Zeit)
+    EN(Time)
+    NE(Tijd)
 }
 
