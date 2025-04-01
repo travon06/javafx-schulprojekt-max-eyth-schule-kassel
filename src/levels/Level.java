@@ -1,6 +1,7 @@
 package levels;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import HUD.HUD;
 import goal.Finish;
@@ -377,7 +378,7 @@ public class Level {
 
         double timeInLevel = (endTime - startTime) / 1_000_000_000.0 / 60.0;
         double minutesPlayed = Double.parseDouble(Statistics.getStatisticValue("MINUTES_PLAYED"));
-        Statistics.setStatisticValue("MINUTES_PLAYED", String.format("%.2f", minutesPlayed + timeInLevel));
+        Statistics.setStatisticValue("MINUTES_PLAYED", String.format(Locale.US, "%.2f", minutesPlayed + timeInLevel));
 
 
         if (this.timer != null) {
