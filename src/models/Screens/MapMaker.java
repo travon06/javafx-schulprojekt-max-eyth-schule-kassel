@@ -72,8 +72,8 @@ public class MapMaker {
         this.energyDrink.setFitWidth(tileSize);
         this.energyDrink.setFitHeight(tileSize);
         this.coat = new ImageView(new Image(Graphics.getGraphicUrl("coat")));
-        this.coat.setFitWidth(hBoxSize);
-        this.coat.setFitHeight(hBoxSize);
+        this.coat.setFitWidth(tileSize);
+        this.coat.setFitHeight(tileSize);
 
 
         setImageViews();
