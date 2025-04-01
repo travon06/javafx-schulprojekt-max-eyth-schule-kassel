@@ -2,8 +2,12 @@ package models.Screens;
 
 import java.util.ArrayList;
 
-import javafx.animation.AnimationTimer;
+import graphics.Graphics;
+import items.Coat;
+import items.EnergyDrink;
+import items.Item;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -11,140 +15,195 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import language.Texts;
+import models.entities.Policeman;
 import models.tiles.Tile;
+import utils.Waypoint;
 import utils.config.ConfigArguments;
 
 public class MapMaker {
-    private static final int OBJECT_HEIGHT = 300;
-    private final Scene scene;
-    private final Pane rootPane;
-    private final HBox hBox;
-    private final ArrayList<Tile> tilesArrayList = new ArrayList<>();
-    private boolean dragging = false;
-    private boolean isMousePressed = false;
-    private ImageView imageGettingDragged = new ImageView();
-    private final Tile tile;
-    private final Tile tileIron;
-    private final Tile rubber;
-
-    AnimationTimer timer;
+    private Scene scene;
+    private Pane rootPane;
+    private HBox hBox;
+    private static final int hBoxSize = 150;
+    private ImageView tile;
+    private ImageView tileIron;
+    private ImageView police;
+    private ImageView waypoint;
+    private ImageView energyDrink;
+    private ImageView coat;
+    private static final int tileSize = 50;
+    private static final int screenWidth = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH"));
+    private static final int screenHeight = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"));
+    private ImageView imageDragged = new ImageView();
+    private boolean dragging;
+    private ArrayList<Tile> tilesList;
+    private ArrayList<Policeman> policemans;
+    private ArrayList<Item> items;
 
     public MapMaker(Stage stage) {
         this.rootPane = new Pane();
-        int screenWidth = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH"));
-        int screenHeight = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"));
-        this.scene = new Scene(this.rootPane, screenWidth, screenHeight + OBJECT_HEIGHT);
+        this.scene = new Scene(this.rootPane, screenWidth, screenHeight + hBoxSize);
 
-        this.hBox = new HBox(20);
-        this.hBox.setPrefSize(screenWidth, OBJECT_HEIGHT);
+        this.hBox = new HBox();
+        this.hBox.setPrefSize(screenWidth, hBoxSize);
         this.hBox.setLayoutY(screenHeight);
         this.hBox.setStyle("-fx-background-color:grey");
 
-        this.tile = createTile("copperRooftop", screenWidth * 1 / 10);
-        this.tileIron = createTile("ironRooftop", screenWidth * 2 / 10);
-        this.rubber = createTile("key", screenWidth * 3 / 10);
+        this.dragging = false;
+        this.tilesList = new ArrayList<>();
+        this.policemans = new ArrayList<>();
+        this.items = new ArrayList<>();
 
-        setupMouseEvents();
-        rootPane.getChildren().addAll(hBox, tile.getImageView(), tileIron.getImageView(), rubber.getImageView());
+        this.tile = new ImageView(new Image(Graphics.getGraphicUrl("copperRooftop")));
+        this.tile.setFitWidth(tileSize);
+        this.tile.setFitHeight(tileSize);
+        this.tileIron = new ImageView(new Image(Graphics.getGraphicUrl("ironRooftop")));
+        this.tileIron.setFitWidth(tileSize);
+        this.tileIron.setFitHeight(tileSize);
+
+        this.police = new ImageView(new Image((Graphics.getGraphicUrl("policeman"))));
+        this.police.setFitWidth(tileSize);
+        this.police.setFitHeight(tileSize);
+        this.waypoint = new ImageView(new Image((Graphics.getGraphicUrl("key"))));
+        this.waypoint.setFitWidth(tileSize);
+        this.waypoint.setFitHeight(tileSize);
+
+        this.energyDrink = new ImageView(new Image((Graphics.getGraphicUrl("energyDrink"))));
+        this.energyDrink.setFitWidth(tileSize);
+        this.energyDrink.setFitHeight(tileSize);
+        this.coat = new ImageView(new Image(Graphics.getGraphicUrl("coat")));
+        this.coat.setFitWidth(hBoxSize);
+        this.coat.setFitHeight(hBoxSize);
+
+
+        setImageViews();
+        setUpMouseMovements();
+
+        rootPane.getChildren().addAll(hBox, tile, tileIron, police, waypoint, energyDrink, coat);
         stage.setScene(scene);
         stage.setTitle(Texts.getTextByName("mapMaker").getTextInLanguage());
         stage.show();
-
-        this.timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                System.out.println(isMousePressed);
-            }
-        };
-        timer.start();  
     }
 
-    private Tile createTile(String type, int xPosition) {
-        Tile tile = new Tile(false, 0, 0, 50, 50, type);
-        tile.setX(xPosition - 25);
-        tile.setY(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) + OBJECT_HEIGHT / 2 - 25);
-        tile.getImageView().setOnMousePressed(event -> startDragging(tile));
-        return tile;
+    private void setImageViews() {
+        this.tile.setLayoutX(screenWidth * 1 / 10);
+        this.tile.setLayoutY(screenHeight + hBoxSize / 2 - tileSize / 2);
+        this.tileIron.setLayoutX(screenWidth * 2 / 10);
+        this.tileIron.setLayoutY(screenHeight + hBoxSize / 2 - tileSize / 2);
+        this.police.setLayoutX(screenWidth * 3 / 10);
+        this.police.setLayoutY(screenHeight + hBoxSize / 2 - tileSize / 2);
+        this.waypoint.setLayoutX(- 200);
+        this.waypoint.setLayoutY(- 200);
+        this.energyDrink.setLayoutX(screenWidth * 4 / 10);
+        this.energyDrink.setLayoutY(screenHeight + hBoxSize / 2 - tileSize / 2);
+        this.coat.setLayoutX(screenWidth * 5 / 10);
+        this.coat.setLayoutY(screenHeight + hBoxSize / 2 - tileSize / 2);
     }
 
-    private void setupMouseEvents() {
+    private void setUpMouseMovements() {
+        this.tile.setOnMousePressed(event -> startDragging(tile));
+        this.tileIron.setOnMousePressed(event -> startDragging(tileIron));
+        this.police.setOnMousePressed(event -> startDragging(police));
+        this.energyDrink.setOnMousePressed(event -> startDragging(energyDrink));
+        this.coat.setOnMousePressed(event -> startDragging(coat));
+
+        scene.setOnMouseMoved(event -> handleMouseMovement(event));
         scene.setOnMousePressed(event -> {
-            if (event.getButton() == MouseButton.SECONDARY && dragging) {
-                resetTiles();
+            if(event.getButton() == MouseButton.SECONDARY) {
                 dragging = false;
-            } else {
-                isMousePressed = true;
-                handleMouseMovement(event);
-            }
+                setImageViews();
+            }else if(isWithinBounds()) placeObjekt(event);
         });
-        scene.setOnMouseReleased(event -> isMousePressed = false);
-        scene.setOnMouseMoved(this::handleMouseMovement);
-        scene.setOnMouseDragged(this::handleMouseMovement);
-    }
-
-    private void startDragging(Tile tile) {
-        dragging = true;
-        imageGettingDragged = tile.getImageView();
-    }
-
-    private void resetTiles() {
-        dragging = false;
-        tile.setX(tile.getX());
-        tile.setY(tile.getY());
-        tileIron.setX(tileIron.getX());
-        tileIron.setY(tileIron.getY());
-        rubber.setX(rubber.getX());
-        rubber.setY(rubber.getY());
+        scene.setOnMouseDragged(event -> {
+            handleMouseMovement(event);
+            if(isWithinBounds() && isTile()) placeObjekt(event);
+        });
     }
 
     private void handleMouseMovement(MouseEvent event) {
-        if (dragging && isValidDrag()) {
-            snapToGrid(event);
-        }
-        if (isMousePressed && isWithinBounds()) {
-            processTilePlacement();
+        if(dragging) {
+            followMouse(event);
         }
     }
 
-    private boolean isValidDrag() {
-        return imageGettingDragged.getImage() == tile.getImageView().getImage() ||
-               imageGettingDragged.getImage() == tileIron.getImageView().getImage() ||
-               imageGettingDragged.getImage() == rubber.getImageView().getImage();
+    private void placeObjekt(MouseEvent event) {
+        if(imageDragged == tile) {
+            addTile("copperRooftop");
+        } else if(imageDragged == tileIron) {
+            addTile("ironRooftop");
+        } else if(imageDragged == police) {
+            addPoliceman(event);
+        } else if(imageDragged == energyDrink) {
+            addEnergyDrink(event);
+        } else if(imageDragged == coat) {
+            addCoat(event);
+        }
     }
 
-    private void snapToGrid(MouseEvent event) {
-        int x = ((int) event.getSceneX() - 25) % 50;
-        int y = ((int) event.getSceneY() - 25) % 50;
-        
-        imageGettingDragged.setX(event.getSceneX() - 25 - (x < 25 ? x : x - 50));
-        imageGettingDragged.setY(event.getSceneY() - 25 - (y < 25 ? y : y - 50));
+    private void addCoat(MouseEvent event) {
+        Coat coat = new Coat(Texts.getTextByName("coat").getTextInLanguage(), (int) event.getSceneX(), (int) event.getSceneY(), "coat", false);
+        this.items.add(coat);
+        this.rootPane.getChildren().add(0, coat.getImageView());
     }
 
-    private boolean isWithinBounds() {
-        int screenWidth = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH"));
-        int screenHeight = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"));
-        return imageGettingDragged.getY() < screenHeight && imageGettingDragged.getX() >= 0 &&
-               imageGettingDragged.getY() >= 0 && imageGettingDragged.getX() < screenWidth;
+    private void addEnergyDrink(MouseEvent event) {
+        EnergyDrink energyDrink = new EnergyDrink(Texts.getTextByName("energyDrink").getTextInLanguage(), (int) event.getSceneX(), (int) event.getSceneY(), "energyDrink", false);
+        this.items.add(energyDrink);
+        this.rootPane.getChildren().add(0, energyDrink.getImageView());
+    }
+    private void addPoliceman(MouseEvent event) {
+        Policeman policeman = new Policeman(
+            Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_STANDART_SPEED")),
+            Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_HITBOX_BOUNDS")),
+            (int) event.getSceneX(),
+            (int) event.getSceneY(),
+            "policeman"
+        );
+        policeman.setX(event.getSceneX());
+        policeman.setY(event.getSceneY());
+        this.policemans.add(policeman);
+        this.rootPane.getChildren().add(0, policeman.getImageView());
+        setImageViews();
+        this.imageDragged = waypoint;
+        followMouse(event);
     }
 
-    private void processTilePlacement() {
-        if (imageGettingDragged.getImage() == rubber.getImageView().getImage()) {
-            tilesArrayList.removeIf(tile -> {
-                boolean match = tile.getX() == imageGettingDragged.getX() && tile.getY() == imageGettingDragged.getY();
-                if (match) rootPane.getChildren().remove(tile.getImageView());
-                return match;
-            });
-        } else {
-            if (tilesArrayList.stream().noneMatch(tile -> tile.getX() == imageGettingDragged.getX() && tile.getY() == imageGettingDragged.getY())) {
-                addTile(imageGettingDragged);
+    private void addTile(String name) {
+        for(Tile tile : tilesList) {
+            if(imageDragged.getLayoutX() == tile.getX() && imageDragged.getLayoutY() == tile.getY()) {
+                return;
             }
         }
+        Tile newTile = new Tile(true, (int) imageDragged.getLayoutX(), (int) imageDragged.getLayoutY(), tileSize, tileSize, name);
+        this.tilesList.add(newTile);
+        this.rootPane.getChildren().add(0, newTile.getImageView());
     }
 
-    private void addTile(ImageView imageView) {
-        String type = (imageView.getImage() == tile.getImageView().getImage()) ? "copperRooftop" : "ironRooftop";
-        Tile newTile = new Tile(false, (int) imageGettingDragged.getX(), (int) imageGettingDragged.getY(), 50, 50, type);
-        tilesArrayList.add(newTile);
-        rootPane.getChildren().add(0, newTile.getImageView());
+    public boolean isWithinBounds() {
+        return imageDragged.getLayoutY() < screenHeight && imageDragged.getLayoutX() >= 0 &&
+               imageDragged.getLayoutY() >= 0 && imageDragged.getLayoutX() < screenWidth;
     }
+
+    private boolean isTile() {
+        return imageDragged == tile || imageDragged == tileIron;
+    }
+
+
+    private void followMouse(MouseEvent event) {
+        if(isTile()) {
+            int x = ((int) event.getSceneX() - tileSize / 2) % 50;
+            int y = ((int) event.getSceneY() - tileSize / 2) % 50;
+            imageDragged.setLayoutX(event.getSceneX() - tileSize / 2 - (x < tileSize / 2 ? x : x - tileSize));
+            imageDragged.setLayoutY(event.getSceneY() - tileSize / 2 - (y < tileSize / 2 ? y : y - tileSize));
+        } else {
+            imageDragged.setLayoutX(event.getSceneX() - tileSize / 2);
+            imageDragged.setLayoutY(event.getSceneY() - tileSize / 2);
+        }
+    }
+
+    private void startDragging(ImageView imageView) {
+        this.dragging = true;
+        this.imageDragged = imageView;
+    }
+    
 }

@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import language.Texts;
+import utils.BackgroundMusic;
 import utils.config.ConfigArguments;
 
 public class Volume {
@@ -53,6 +54,7 @@ public class Volume {
             @Override
             public void handle(long now) {
                 ConfigArguments.setConfigArgumentValue("VOLUME", Double.toString(sliderMasterVolume.getValue()));
+                BackgroundMusic.getInstance().setVolume(ConfigArguments.getVolume());
                 labelSliderMasterVolume.setText(Integer.toString((int) Double.parseDouble(ConfigArguments.getConfigArgumentValue("VOLUME"))));
             }
         };

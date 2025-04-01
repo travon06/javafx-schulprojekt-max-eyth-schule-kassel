@@ -341,10 +341,29 @@ public class Level {
                         LevelSelection.disableButton(false, LevelSelection.getMapNames().indexOf(mapName) +1);
                     }
                     Level newLewel = new Level(this.stage, mapNameToTrigger, MapReader.getNextLevel(mapNameToTrigger));
+
+
+                    for(int i = 0; i < MapReader.MAPNAMES.size(); i++) {
+                        if(mapName.equals(MapReader.MAPNAMES.get(i)) && i >= Integer.parseInt(Statistics.getStatisticValue("LAST_LEVEL_INDEX")))  {
+                            System.out.println(i);
+                            Statistics.setStatisticValue("LAST_LEVEL_INDEX", String.format("%d", i+1));
+                        }
+
+
+                    }
+
                     this.stop();
                     newLewel.start();
                     return;
                 } else {
+                    for(int i = 0; i < MapReader.MAPNAMES.size(); i++) {
+                        if(mapName.equals(MapReader.MAPNAMES.get(i)) && i > Integer.parseInt(Statistics.getStatisticValue("LAST_LEVEL_INDEX")))  {
+                            Statistics.setStatisticValue("LAST_LEVEL_INDEX", String.format("%d", i+1));
+                        }
+
+
+                    }
+
                     Stage newStage = this.stage;
                     this.stop();
                     new EndScreen(newStage);
@@ -376,6 +395,7 @@ public class Level {
         this.endTime = System.nanoTime();
 
         double timeInLevel = (endTime - startTime) / 1_000_000_000.0 / 60.0;
+        System.out.println(timeInLevel);
         double minutesPlayed = Double.parseDouble(Statistics.getStatisticValue("MINUTES_PLAYED"));
         Statistics.setStatisticValue("MINUTES_PLAYED", String.format("%.2f", minutesPlayed + timeInLevel));
 

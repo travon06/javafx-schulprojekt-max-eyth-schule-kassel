@@ -38,8 +38,8 @@
 !finish:(385,20,COLLECT_ITEMS)&
 !timeToSurvive:60&
 !items:
-    (energyDrink,202,366,energyDrink);
-    (coat,934,341,coat);
+    (energyDrink,202,366,grasItem);
+    (coat,934,341,flour);
     (key,660,650,key)&
 !policemen:
     (201,472,3);

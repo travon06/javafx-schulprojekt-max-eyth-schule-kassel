@@ -14,7 +14,7 @@ public class StatisticWriter {
         for(Statistic statistic : Statistics.STATISTICS) {
             if(statistic.getArgument().equals("FIRST_TIME_IN_GAME")) {
                 Statistics.setStatisticValue("FIRST_TIME_IN_GAME", "TRUE");
-            } else if (statistic.getArgument().equals("PLAYED_MINUTES")) {
+            } else if (statistic.getArgument().equals("MINUTES_PLAYED")) {
                 Statistics.setStatisticValue("MINUTES_PLAYED", "0");
             } else if (statistic.getArgument().equals("TIMES_CAUGHT")) {
                 Statistics.setStatisticValue("TIMES_CAUGHT", "0");

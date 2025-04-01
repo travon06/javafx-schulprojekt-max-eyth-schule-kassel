@@ -13,6 +13,7 @@ import language.Texts;
 import levels.Level;
 import utils.config.ConfigArguments;
 import utils.mapConfig.MapReader;
+import utils.statistics.Statistics;
 
 public class LevelSelection {
     private static ArrayList<String> mapNames;
@@ -54,17 +55,16 @@ public class LevelSelection {
             Button button = new Button(mapNames.get(i));
             final int index = i;
             button.setOnAction(event -> {
-                button.setDisable(true);
                 Level level = new Level(stage, mapNames.get(index), MapReader.getNextLevel(mapNames.get(index)));
                 level.start();
             });
             if(!Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("DEVELOPMENT_MODE")))
-            button.setDisable(getDisabledButton(i));
+            if(i > Integer.parseInt(Statistics.getStatisticValue("LAST_LEVEL_INDEX"))) {
+                button.setDisable(true);
+            }
             this.buttons.add(button);
             this.flowPane.getChildren().addAll(button);
         }
-
-        this.buttons.get(0).setDisable(false);
         this.buttonExit.setOnAction(event -> {
             new StartScreen(stage);
         });

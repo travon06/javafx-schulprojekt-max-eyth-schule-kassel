@@ -14,15 +14,16 @@ import language.TextReader;
 import models.Gate;
 import models.Screens.LevelSelection;
 import models.Screens.MapMaker;
+import models.Screens.MapMaker2;
 import models.Screens.StartScreen;
 import models.entities.Policeman;
 import models.tiles.Tile;
+import utils.BackgroundMusic;
 import utils.Waypoint;
 import utils.config.ConfigArguments;
 import utils.config.ConfigReader;
 import utils.keyboard.KeybindingReader;
 import utils.mapConfig.MapWriter;
-import utils.statistics.Statistic;
 import utils.statistics.StatisticReader;
 import utils.statistics.StatisticWriter;
 import utils.statistics.Statistics;
@@ -34,6 +35,7 @@ public class App extends Application {
         GraphicReader.readGraphics();
         TextReader.readTexts();
         StatisticReader.readStatistics();
+
         if(Boolean.parseBoolean(Statistics.getStatisticValue("FIRST_TIME_IN_GAME"))) {
             StatisticWriter.resetStatistics();
         }
@@ -43,12 +45,13 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         Statistics.setStatisticValue("FIRST_TIME_IN_GAME", "FALSE");
 
-        int penis = 0;
+        int penis = 2;
         // 0 = Game
         // 1 = MapWriter
         // 2 = MapMaker
 
         if(penis == 0) {
+            BackgroundMusic.getInstance().play();
             if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("DEVELOPMENT_MODE"))) {
                 new LevelSelection(primaryStage);
             } else {

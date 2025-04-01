@@ -1,10 +1,10 @@
 SCREEN_WIDTH=1280
 SCREEN_HEIGHT=720
 LANGUAGE=EN
-VOLUME=50
+VOLUME=25
 
 # filepaths
-STATISTICS_PATH=C:\Users\marvi\OneDrive\Desktop\Schule\Projekt\project\src\utils\statistics\statistics.txt
+STATISTICS_PATH=.\src\utils\statistics\statistics.txt
 
 # developer stats
 DEVELOPMENT_MODE=TRUE

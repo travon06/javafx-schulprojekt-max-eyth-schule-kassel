@@ -8,11 +8,11 @@ public class Statistic {
         this.argument = argument;
         this.value = value;
     }
+
     @Override
     public String toString() {
         return String.format("argument=%s; value=%s", this.argument, this.value);
     }
-
 
     //#region getter & setter
     public String getArgument() {
