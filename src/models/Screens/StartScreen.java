@@ -15,7 +15,8 @@ import utils.config.ConfigArguments;
 
 public class StartScreen {
 
-    private Button buttonLevelSelection;
+    private Button buttonLevelSelectionStory;
+    private Button buttonLevelSelectionMyMaps;
     private Button buttonOptions;
     private Button buttonQuit;
     private Stage stage;
@@ -26,7 +27,8 @@ public class StartScreen {
 
     public StartScreen(Stage stage) {
         this.vBox = new VBox(40);
-        this.buttonLevelSelection = new Button(Texts.getTextByName("buttonLevelSelection").getTextInLanguage());
+        this.buttonLevelSelectionStory = new Button(Texts.getTextByName("buttonLevelSelectionStory").getTextInLanguage());
+        this.buttonLevelSelectionMyMaps = new Button(Texts.getTextByName("buttonLevelSelectionMyMaps").getTextInLanguage());
         this.buttonOptions = new Button(Texts.getTextByName("buttonOptions").getTextInLanguage());
         this.buttonQuit = new Button(Texts.getTextByName("buttonQuit").getTextInLanguage());
         this.stage = stage;
@@ -40,8 +42,11 @@ public class StartScreen {
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"))
         );
 
-        this.buttonLevelSelection.setOnAction(event -> {
-            new LevelSelection(stage);
+        this.buttonLevelSelectionStory.setOnAction(event -> {
+            new LevelSelection(stage, ConfigArguments.getConfigArgumentValue("STORY_MAPS_PATH"));
+        });
+        this.buttonLevelSelectionMyMaps.setOnAction(event -> {
+            new LevelSelection(stage, ConfigArguments.getConfigArgumentValue("MY_MAPS_PATH"));
         });
         this.buttonOptions.setOnAction(event -> {
             new Options(stage);
@@ -57,7 +62,7 @@ public class StartScreen {
             this.vBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 2) - 100);
         });
         
-        this.vBox.getChildren().addAll(buttonLevelSelection, buttonOptions, buttonQuit);
+        this.vBox.getChildren().addAll(buttonLevelSelectionStory, buttonLevelSelectionMyMaps, buttonOptions, buttonQuit);
         this.rootPane.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
         this.vBox.setAlignment(Pos.CENTER);
         this.rootPane.getChildren().addAll(backgroundImageView, vBox);

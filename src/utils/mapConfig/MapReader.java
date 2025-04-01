@@ -24,7 +24,7 @@ import utils.config.ConfigArguments;
 
 public class MapReader {
 
-    public final static String MAPSPATH = "src/utils/mapConfig/maps.txt";
+    public final static String MAPSPATH = ConfigArguments.getConfigArgumentValue("MY_MAPS_PATH");
     public final static ArrayList<String> MAPS = MapReader.getMaps(MAPSPATH);
     public final static ArrayList<String> MAPNAMES = MapReader.readMapNames(MAPSPATH);
 
@@ -681,7 +681,7 @@ public class MapReader {
         for(int i = 0; i < MapReader.MAPNAMES.size(); i++) {
             if(levelBefore.equals(MapReader.MAPNAMES.get(i))) {
                 if(i < MapReader.MAPNAMES.size()) {
-                return MapReader.MAPNAMES.get(i + 1);
+                    return MapReader.MAPNAMES.get(i + 1);
                 }
             }
         }

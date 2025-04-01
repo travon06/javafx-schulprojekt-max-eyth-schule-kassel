@@ -14,10 +14,11 @@ import models.Gate;
 import models.entities.Policeman;
 import models.tiles.Tile;
 import utils.Waypoint;
+import utils.config.ConfigArguments;
 import utils.config.ConfigReader;
 
 public class MapWriter {
-    private final static String MAPSPATH = "src/utils/mapConfig/myMaps.txt";
+    private final static String MAPSPATH = ConfigArguments.getConfigArgumentValue("MY_MAPS_PATH");
     private final static ArrayList<String> MAPNAMES = MapReader.readMapNames(MAPSPATH);
     private String tileString;
     private String itemString;
@@ -88,7 +89,12 @@ public class MapWriter {
         this.itemString += "&\n";
     }
     public void writeItemsToCollect(ArrayList<Item> itemsToCollect, Finish finish) {
+        if(itemsToCollect == null) return;
         if(itemsToCollect.isEmpty() || !finish.getGoal().equals("COLLECT_ITEMS")) return;
+        if(
+            itemsToCollect == null && finish.getGoal().equals("COLLECT_ITEMS") || 
+            itemsToCollect.isEmpty() && finish.getGoal().equals("COLLECT_ITEMS")
+        ) throw new Error("Level needs itemsToCollect when goal is COLLECT_ITEMS"); 
 
         this.itemsToCollectString = "!itemsToCollect:\n";
         for(int i = 0; i < itemsToCollect.size(); i++) {
@@ -108,6 +114,7 @@ public class MapWriter {
     }
 
     public void writePlayerStartCoordinates(int[] playerStartCoordinates) {
+        if(playerStartCoordinates == null) throw new Error("Level needs playerStartCoordinates");
         this.playerStartCoordinatesString = String.format("!playerStartCoordinates:%s,%s&\n", 
             playerStartCoordinates[0],
             playerStartCoordinates[1]
@@ -115,6 +122,7 @@ public class MapWriter {
     }
 
     public void writeFinish(Finish finish) {
+        if(finish == null) throw new Error("Level needs Finish");
         this.finishString = String.format("!finish:(%d,%d,%s)&\n",
             finish.getX(),
             finish.getY(),
@@ -132,7 +140,7 @@ public class MapWriter {
     }
 
     public void writePoilicemen(ArrayList<Policeman> policemen) {
-        if(policemen.isEmpty()) return;
+        if(policemen.isEmpty() || policemen == null) return;
 
         this.policemenString = "!policemen:\n";
 
@@ -152,7 +160,7 @@ public class MapWriter {
     }
 
     public void writePolicemenWaypoints(ArrayList<Policeman> policemen) {
-        if(policemen.isEmpty()) return;
+        if(policemen.isEmpty() || policemen == null) return;
 
         this.policemenWaypointString = "!policemenWaypoints:{\n";
 
@@ -179,6 +187,7 @@ public class MapWriter {
     }
 
     public void writeGates(ArrayList<Gate> gates) {
+        if(gates == null || gates.isEmpty()) return;
         this.gatesString = "!gates:\n";
         for(int i = 0; i < gates.size(); i++) {
             this.gatesString += String.format("\t%d,%d", gates.get(i).getX(), gates.get(i).getY());
@@ -231,7 +240,7 @@ public class MapWriter {
             this.timeToSurviveString,
             "!mapEnd&\n"
         );
-
+        
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(MAPSPATH, true))) {
             writer.write(map);
 

@@ -23,6 +23,7 @@ import models.Gate;
 import models.Screens.EndScreen;
 import models.Screens.GameoverScreen;
 import models.Screens.LevelSelection;
+import models.Screens.StartScreen;
 import models.entities.Player;
 import models.entities.Policeman;
 import models.tiles.Tile;
@@ -60,7 +61,7 @@ public class Level {
     private long startTime;
     private long endTime;
     
-    public Level(Stage stage, String mapName, String mapNameToTrigger) {
+    public Level(Stage stage, String mapName, String mapNameToTriger) {
         this.startTime = 0;
         this.endTime = 0;
         this.stage = stage; 
@@ -278,7 +279,7 @@ public class Level {
         if(keyboardListener.getEscPressed()) {
             Stage newStage = this.stage;
             this.stop();
-            new LevelSelection(newStage);
+            new StartScreen(newStage);
             return;
         }
         
@@ -395,7 +396,6 @@ public class Level {
         this.endTime = System.nanoTime();
 
         double timeInLevel = (endTime - startTime) / 1_000_000_000.0 / 60.0;
-        System.out.println(timeInLevel);
         double minutesPlayed = Double.parseDouble(Statistics.getStatisticValue("MINUTES_PLAYED"));
         Statistics.setStatisticValue("MINUTES_PLAYED", String.format("%.2f", minutesPlayed + timeInLevel));
 

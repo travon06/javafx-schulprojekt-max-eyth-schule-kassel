@@ -14,4 +14,4 @@ gras=gras.png;
 gateOpened=gateOpened.png;
 gateClosed=gateClosed.png;
 grasItem=weed.png;
-flour=sussyCocain.png;
+flag=sussyCocain.png;

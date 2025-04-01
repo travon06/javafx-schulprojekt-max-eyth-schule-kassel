@@ -68,10 +68,16 @@ ineractLabelCollectItemP3 {
     NE(te_verzamelen)
 } 
 
-buttonLevelSelection {
+buttonLevelSelectionStory {
     EN(Level)
     DE(Level)
     NE(Level)
+}
+
+buttonLevelSelectionMyMaps {
+    EN(My_level)
+    DE(Meine_Level)
+    NE(Mijn_level)
 }
 
 buttonExit {
@@ -231,14 +237,38 @@ timer {
 }
 
 labelcongratulations {
-    DE(§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§)
+    DE(Herzlichen_Glückwunsch)
     EN(Congratulations)
     NE(Gefeliciteerd)
 }
-
 
 mapMaker {
     DE(Karten_Bauer)
     EN(Map_maker)
     NE(Kaartenmaker)
+}
+
+collectItemsButtonMapModeSelection {
+    DE(Gegenstände_sammelm)
+    EN(Collect_items)
+    NE(verzamel_items)
+}
+
+surviveButtonMapModeSelection {
+    DE(Überleben)
+    EN(Survive)
+    NE(overleven)
+}
+
+buildMapButtonMapModeSelection {
+    DE(Map_bauen)
+
+    EN(Build_map)
+    NE(Map_maken)
+}
+
+mapModeSelectionTitle {
+    DE(Map_Modus_Auswahl)
+    EN(Map_mode_selection)
+    NE(kaartmodusselectie)
 }

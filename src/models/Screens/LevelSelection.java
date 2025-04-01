@@ -2,10 +2,14 @@ package models.Screens;
 
 import java.util.ArrayList;
 
+import graphics.Graphics;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -13,6 +17,7 @@ import language.Texts;
 import levels.Level;
 import utils.config.ConfigArguments;
 import utils.mapConfig.MapReader;
+import utils.mapConfig.MapWriter;
 import utils.statistics.Statistics;
 
 public class LevelSelection {
@@ -24,10 +29,11 @@ public class LevelSelection {
     private Button buttonExit;
     private FlowPane flowPane;
     private static ArrayList<Boolean> levelDisabled = new ArrayList<>();
+    private ImageView backgroundImageView;
 
-    public LevelSelection(Stage stage) {
+    public LevelSelection(Stage stage, String mapsPath) {
         this.rootPane = new Pane();
-        LevelSelection.mapNames = MapReader.readMapNames(MapReader.getMapspath());
+        LevelSelection.mapNames = MapReader.readMapNames(mapsPath);
         this.flowPane = new FlowPane();
         this.stage = stage;
         this.buttons = new ArrayList<>();
@@ -37,6 +43,12 @@ public class LevelSelection {
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")),
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"))
         );
+
+        this.backgroundImageView = new ImageView(new Image(Graphics.getGraphicUrl("background")));
+        this.backgroundImageView.setFitWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")));
+        this.backgroundImageView.setFitHeight(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")));
+        this.backgroundImageView.setEffect(new GaussianBlur(30));
+
         Platform.runLater(() -> {
             double width = flowPane.getWidth();
             this.flowPane.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
@@ -71,7 +83,7 @@ public class LevelSelection {
 
         this.flowPane.setAlignment(Pos.CENTER);
         this.rootPane.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
-        this.rootPane.getChildren().addAll(flowPane, buttonExit);
+        this.rootPane.getChildren().addAll(backgroundImageView, flowPane, buttonExit);
         this.stage.setScene(this.scene);
         this.stage.setTitle(Texts.getTextByName("LevelSelectionScreen").getTextInLanguage());
         this.stage.show();

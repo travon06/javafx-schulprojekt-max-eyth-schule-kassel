@@ -28,7 +28,6 @@ public class Options {
     private String ne;
     private VBox vBox;
     private ImageView backgroundImageView;
-    private GaussianBlur blur;
     
     public Options(Stage stage) {
         this.keyBindsButton = new Button(Texts.getTextByName("keyBindsButton").getTextInLanguage());
@@ -46,8 +45,7 @@ public class Options {
         this.backgroundImageView = new ImageView(new Image(Graphics.getGraphicUrl("background")));
         this.backgroundImageView.setFitWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")));
         this.backgroundImageView.setFitHeight(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")));
-        this.blur = new GaussianBlur(30);
-        this.backgroundImageView.setEffect(blur);
+        this.backgroundImageView.setEffect(new GaussianBlur(30));
 
 
         this.scene = new Scene(
@@ -132,16 +130,8 @@ public class Options {
         return comboBox;
     }
 
-    public void setBlur(GaussianBlur blur) {
-        this.blur = blur;
-    }
-
     public void setButtonVolume(Button buttonVolume) {
         this.buttonVolume = buttonVolume;
-    }
-
-    public GaussianBlur getBlur() {
-        return blur;
     }
 
     public Button getButtonVolume() {

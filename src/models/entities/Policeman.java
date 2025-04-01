@@ -187,6 +187,10 @@ public class Policeman {
         return imageView;
     }
 
+    public void addWaypoint(Waypoint waypoint) {
+        this.waypoints.add(waypoint);
+    }
+
 
     //#endregion
 }

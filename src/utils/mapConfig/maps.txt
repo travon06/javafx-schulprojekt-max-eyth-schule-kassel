@@ -2,6 +2,7 @@
 !playerStartCoordinates:700,700&
 !tiles:
 	border;
+    (false,0,300,50,150,streetUp);
 	(false,100,100,50,50,ironRooftop);
 	(true,50,50,50,50,copperRooftop)&
 !items:

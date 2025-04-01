@@ -13,8 +13,9 @@ import javafx.stage.Stage;
 import language.TextReader;
 import models.Gate;
 import models.Screens.LevelSelection;
-import models.Screens.MapMaker;
 import models.Screens.StartScreen;
+import models.Screens.MapMaker.MapMaker;
+import models.Screens.MapMaker.MapModeSelection;
 import models.entities.Policeman;
 import models.tiles.Tile;
 import utils.BackgroundMusic;
@@ -44,18 +45,14 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         Statistics.setStatisticValue("FIRST_TIME_IN_GAME", "FALSE");
 
-        int penis = 0;
+        int penis = 2;
         // 0 = Game
         // 1 = MapWriter
         // 2 = MapMaker
 
         if(penis == 0) {
             BackgroundMusic.getInstance().play();
-            if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("DEVELOPMENT_MODE"))) {
-                new LevelSelection(primaryStage);
-            } else {
-                new StartScreen(primaryStage);
-            }
+            new StartScreen(primaryStage);
 
             new StartScreen(primaryStage);
         } else if (penis == 1){
@@ -104,7 +101,7 @@ public class App extends Application {
 
             // primaryStage.close();
         } else if (penis == 2) {
-            new MapMaker(primaryStage);
+            new MapModeSelection(primaryStage);
         }
 
     }
