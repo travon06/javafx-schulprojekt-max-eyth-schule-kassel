@@ -11,6 +11,7 @@ public class Waypoint {
     private ImageView imageView;
     private int myPolicemanId;
 
+
     public Waypoint(int x, int y) {
         this.x = x;
         this.y = y;

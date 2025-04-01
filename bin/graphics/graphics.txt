@@ -13,5 +13,5 @@ background=background.png;
 gras=gras.png;
 gateOpened=gateOpened.png;
 gateClosed=gateClosed.png;
+flag=flag.png;
 grasItem=weed.png;
-flag=sussyCocain.png;

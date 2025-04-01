@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import language.Texts;
+import models.Screens.MapMakerNew;
 import utils.config.ConfigArguments;
 
 public class MapModeSelection {
@@ -41,13 +42,13 @@ public class MapModeSelection {
         // collect items button
         this.collectItemsButton = new Button(Texts.getTextByName("collectItemsButtonMapModeSelection").getTextInLanguage());
         this.collectItemsButton.setOnAction(event -> {
-            new MapMaker(stage, "COLLECT_ITEMS");
+            new MapMakerNew(stage, "COLLECT_ITEMS");
         });
 
         // survive button
         this.surviveButton = new Button(Texts.getTextByName("surviveButtonMapModeSelection").getTextInLanguage());
         this.surviveButton.setOnAction(event -> {
-            new MapMaker(stage, "SURVIVE");
+            new MapMakerNew(stage, "SURVIVE");
 
         });
 

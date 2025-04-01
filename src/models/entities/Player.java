@@ -48,6 +48,8 @@ public class Player {
         this.image.setFitHeight(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOUNDS")));
         this.image.setFitWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOUNDS")));
         this.image.setPreserveRatio(true);
+        this.image.setX(startX - 25);
+        this.image.setY(startY - 25);
         this.hitbox.setVisible(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("PLAYER_SHOW_HITBOX")));
      }
     
@@ -191,13 +193,13 @@ public class Player {
 
     public void setX(int x) {
         this.x = x;
-        this.image.setX(x - (Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOUNDS")) / 4));
+        this.image.setX(x);
         this.hitbox.setX(x);
     }
 
     public void setY(int y) {
         this.y = y;
-        this.image.setY(y - (Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOUNDS")) / 4));
+        this.image.setY(y);
         this.hitbox.setY(y);
 
     }

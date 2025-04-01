@@ -1,4 +1,4 @@
-package models.Screens.MapMaker;
+package models.Screens;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ import models.tiles.Tile;
 import utils.Waypoint;
 import utils.config.ConfigArguments;
 
-public class MapMaker {
+public class MapMakerNew {
     private Scene scene;
     private Pane rootPane;
     private HBox hBox;
@@ -48,7 +48,7 @@ public class MapMaker {
     private ArrayList<Item> items;
     private ArrayList<Gate> gates;
 
-    public MapMaker(Stage stage, String goal) {
+    public MapMakerNew(Stage stage, String goal) {
         this.rootPane = new Pane();
         this.scene = new Scene(this.rootPane, screenWidth, screenHeight + hBoxSize);
 
@@ -255,9 +255,8 @@ public class MapMaker {
     }
 
     private void addTile(String name) {
-        for(Tile tile : tilesList) {
-            if(imageDragged.getLayoutX() == tile.getX() && imageDragged.getLayoutY() == tile.getY()) {
-                System.out.println("pimmelfresse");
+        for(Tile tile : tilesList) { //check if there is alredy a  tile on the same spot
+            if(Math.abs(imageDragged.getLayoutX() - tile.getX()) < 5 && Math.abs(imageDragged.getLayoutY() - tile.getY()) < 5) {
                 return;
             }
         }
