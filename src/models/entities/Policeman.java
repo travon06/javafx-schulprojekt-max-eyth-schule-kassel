@@ -41,8 +41,8 @@ public class Policeman {
         this.currentWaypointIndex = 0;
         this.waypoints = new ArrayList<>();
         this.imageView = new ImageView(new Image(Graphics.getGraphicUrl(imageName)));
-        this.imageView.setFitHeight(this.hitboxBounds * 2.2 + 5);
-        this.imageView.setFitWidth(this.hitboxBounds * 2.3 + 5);
+        this.imageView.setFitHeight(this.hitboxBounds);
+        this.imageView.setFitWidth(this.hitboxBounds);
     }
 
     public void followPath(Pane pane) {
@@ -138,7 +138,7 @@ public class Policeman {
     public void setX(double x) {
         this.x = x;
         this.hitbox.setX(x);
-        this.imageView.setX(x - this.hitboxBounds / 2 + - 10);
+        this.imageView.setX(x - this.hitboxBounds / 2);
     }
 
     public double getX() {
@@ -148,7 +148,7 @@ public class Policeman {
     public void setY(double y) {
         this.y = y;
         this.hitbox.setY(y);
-        this.imageView.setY(y - this.hitboxBounds / 2 - 5);
+        this.imageView.setY(y - this.hitboxBounds / 2);
     }
 
     public double getY() {
@@ -161,6 +161,10 @@ public class Policeman {
 
     public void setWaypoints(ArrayList<Waypoint> waypoints) {
         this.waypoints = waypoints;
+    }
+
+    public void addWaypoint(Waypoint waypoint) {
+        this.waypoints.add(waypoint);
     }
 
     public void setVisionNode(Node visionNode) {

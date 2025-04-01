@@ -1,8 +1,6 @@
 package models.Screens;
 
 import java.util.ArrayList;
-
-import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -15,7 +13,7 @@ import models.tiles.Tile;
 import utils.config.ConfigArguments;
 
 public class MapMaker {
-    private static final int OBJECT_HEIGHT = 300;
+    private static final int OBJECT_HEIGHT = 100;
     private final Scene scene;
     private final Pane rootPane;
     private final HBox hBox;
@@ -26,8 +24,6 @@ public class MapMaker {
     private final Tile tile;
     private final Tile tileIron;
     private final Tile rubber;
-
-    AnimationTimer timer;
 
     public MapMaker(Stage stage) {
         this.rootPane = new Pane();
@@ -49,14 +45,6 @@ public class MapMaker {
         stage.setScene(scene);
         stage.setTitle(Texts.getTextByName("mapMaker").getTextInLanguage());
         stage.show();
-
-        this.timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                System.out.println(isMousePressed);
-            }
-        };
-        timer.start();  
     }
 
     private Tile createTile(String type, int xPosition) {
@@ -74,12 +62,13 @@ public class MapMaker {
                 dragging = false;
             } else {
                 isMousePressed = true;
-                handleMouseMovement(event);
+                processTilePlacement();
             }
         });
         scene.setOnMouseReleased(event -> isMousePressed = false);
-        scene.setOnMouseMoved(this::handleMouseMovement);
-        scene.setOnMouseDragged(this::handleMouseMovement);
+        scene.addEventFilter(MouseEvent.ANY, event -> {
+            handleMouseMovement(event);
+        });
     }
 
     private void startDragging(Tile tile) {
@@ -129,14 +118,19 @@ public class MapMaker {
 
     private void processTilePlacement() {
         if (imageGettingDragged.getImage() == rubber.getImageView().getImage()) {
-            tilesArrayList.removeIf(tile -> {
-                boolean match = tile.getX() == imageGettingDragged.getX() && tile.getY() == imageGettingDragged.getY();
-                if (match) rootPane.getChildren().remove(tile.getImageView());
-                return match;
-            });
+            try {
+                tilesArrayList.removeIf(tile -> {
+                    boolean match = tile.getX() == imageGettingDragged.getX() && tile.getY() == imageGettingDragged.getY();
+                    if (match) rootPane.getChildren().remove(tile.getImageView());
+                    return match;
+                });
+            } catch(Exception e) {
+                System.out.println("penis");
+            }
         } else {
             if (tilesArrayList.stream().noneMatch(tile -> tile.getX() == imageGettingDragged.getX() && tile.getY() == imageGettingDragged.getY())) {
                 addTile(imageGettingDragged);
+                return;
             }
         }
     }

@@ -46,8 +46,8 @@ public abstract class Item {
         this.imageView = new ImageView(new Image(Graphics.getGraphicUrl(imageName)));
         this.imageView.setFitHeight(25);
         this.imageView.setFitWidth(25);
-        this.setX(startX);
-        this.setY(startY);
+        this.setX(startX - 25 / 2);
+        this.setY(startY - 25 / 2);
         this.isItemToCollect = isItemToCollect;
         this.hitbox.setVisible(false);
     }

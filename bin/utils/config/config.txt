@@ -4,7 +4,7 @@ LANGUAGE=EN
 VOLUME=50
 
 # filepaths
-STATISTICS_PATH=C:\Users\marvi\OneDrive\Desktop\Schule\Projekt\project\src\utils\statistics\statistics.txt
+STATISTICS_PATH=.\src\utils\statistics\statistics.txt
 
 # developer stats
 DEVELOPMENT_MODE=TRUE

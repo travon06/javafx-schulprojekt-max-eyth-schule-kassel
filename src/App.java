@@ -14,6 +14,7 @@ import language.TextReader;
 import models.Gate;
 import models.Screens.LevelSelection;
 import models.Screens.MapMaker;
+import models.Screens.MapMakerNew;
 import models.Screens.StartScreen;
 import models.entities.Policeman;
 import models.tiles.Tile;
@@ -43,7 +44,7 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         Statistics.setStatisticValue("FIRST_TIME_IN_GAME", "FALSE");
 
-        int penis = 0;
+        int penis = 2;
         // 0 = Game
         // 1 = MapWriter
         // 2 = MapMaker
@@ -102,7 +103,7 @@ public class App extends Application {
 
             // primaryStage.close();
         } else if (penis == 2) {
-            new MapMaker(primaryStage);
+            new MapMakerNew(primaryStage);
         }
 
     }
