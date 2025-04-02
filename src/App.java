@@ -43,7 +43,7 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         Statistics.setStatisticValue("FIRST_TIME_IN_GAME", "FALSE");
 
-        int penis = 2;
+        int penis = 0;
         // 0 = Game
         // 1 = MapWriter
         // 2 = MapMaker

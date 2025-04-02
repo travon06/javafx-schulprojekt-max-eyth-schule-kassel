@@ -36,7 +36,7 @@ public class Policeman {
         this.hitboxNode = hitbox;
         this.x = startX;
         this.y = startY;
-        this.hitbox.setY(startX);
+        this.hitbox.setX(startX);
         this.hitbox.setY(startY);
         this.currentWaypointIndex = 0;
         this.waypoints = new ArrayList<>();
@@ -136,8 +136,8 @@ public class Policeman {
     }
 
     public void setX(double x) {
-        this.x = x;
-        this.hitbox.setX(x);
+        this.x = x - this.hitboxBounds / 2;
+        this.hitbox.setX(x - this.hitboxBounds / 2);
         this.imageView.setX(x - this.hitboxBounds / 2);
     }
 
@@ -146,8 +146,8 @@ public class Policeman {
     }
 
     public void setY(double y) {
-        this.y = y;
-        this.hitbox.setY(y);
+        this.y = y - this.hitboxBounds / 2;
+        this.hitbox.setY(y - this.hitboxBounds / 2);
         this.imageView.setY(y - this.hitboxBounds / 2);
     }
 

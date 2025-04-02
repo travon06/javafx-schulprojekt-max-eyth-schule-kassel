@@ -24,10 +24,8 @@ public class Coat extends Item {
 
     public Coat(String name, int x, int y, String imagename, boolean isItemToCollect) {
         super(name, x, y, imagename, isItemToCollect);
-        this.getImageView().setFitWidth(this.getHitbox().getWidth() * 2);
-        this.getImageView().setFitHeight(this.getHitbox().getHeight() * 2);
-        this.getImageView().setX(this.getHitbox().getX() - this.getHitbox().getWidth() / 2);
-        this.getImageView().setY(this.getHitbox().getY() - this.getHitbox().getHeight() / 2);
+        this.getImageView().setFitWidth(this.getHitbox().getWidth() * 1);
+        this.getImageView().setFitHeight(this.getHitbox().getHeight() * 1);
         String soundPath = new File("src/sounds/sus.mp3").toURI().toString();
         Media sound = new Media(soundPath);
         mediaPlayer = new MediaPlayer(sound);
