@@ -61,8 +61,9 @@ public class Level {
     private boolean stopped;
     private long startTime;
     private long endTime;
+    private String mapsPath;
     
-    public Level(Stage stage, String mapName, String mapNameToTriger) {
+    public Level(Stage stage, String mapName, String mapsPath, String mapNameToTrigger) {
         this.startTime = 0;
         this.endTime = 0;
         this.stage = stage; 
@@ -76,6 +77,7 @@ public class Level {
         this.lastFpsCheck = 0;
         this.currentFps = 0;   
         this.stopped = false;
+        this.mapsPath = mapsPath;
         this.scene = new Scene(
             this.rootPane, 
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")),
@@ -90,14 +92,14 @@ public class Level {
             this.hud = new HUD(rootPane);
             if(this.policemen.size() > 0) {
                 for(int i = 0; i < this.policemen.size(); i++) {
-                    this.policemen.get(i).getWaypoints().addAll(MapReader.readWaypoints(mapName, i));
+                    this.policemen.get(i).getWaypoints().addAll(MapReader.readWaypoints(mapName, mapsPath, i));
                 }
             }
             if(finish.getGoal().equals("COLLECT_ITEMS")) {
                 this.items.addAll(initializeItemsToCollect(rootPane));
                 
             } else if(finish.getGoal().equals("SURVIVE")) {
-                this.timeToSurvive = MapReader.readTimeToSurvive(mapName);
+                this.timeToSurvive = MapReader.readTimeToSurvive(mapName, mapsPath);
                 this.countdownTimer = new CountdownTimer(hud.getTimerLabel(), timeToSurvive);
             }
 
@@ -116,11 +118,12 @@ public class Level {
             
             this.itemInRange = false;
             
+            
         }
         
     //#region
     private ArrayList<Tile> initializeTiles(Pane pane, String mapName) {
-        ArrayList<Tile> tiles = MapReader.readTiles(mapName);
+        ArrayList<Tile> tiles = MapReader.readTiles(mapName, mapsPath);
 
         for(Tile tile : tiles) {
             pane.getChildren().addAll(tile.getHitbox());
@@ -133,11 +136,11 @@ public class Level {
     }
 
     private void initializeIsLastLevel(String mapName) {
-        this.isLastLevel = MapReader.readIsLastLevel(mapName);
+        this.isLastLevel = MapReader.readIsLastLevel(mapName, mapsPath);
     }
 
     private ArrayList<Item> intitializeItems(Pane pane, String mapName) {
-        ArrayList<Item> items = MapReader.readItems(mapName);
+        ArrayList<Item> items = MapReader.readItems(mapName, mapsPath);
 
         for(Item item : items) {
             item.getHitbox().setFill(Color.RED);
@@ -153,7 +156,7 @@ public class Level {
     }
 
     private ArrayList<Policeman> initializePoliceman(Pane pane, String mapName) {
-        ArrayList<Policeman> policemen = MapReader.readPolicemen(mapName);
+        ArrayList<Policeman> policemen = MapReader.readPolicemen(mapName, mapsPath);
     
         for (Policeman policeman : policemen) {
             pane.getChildren().addAll(policeman.getHitbox(), policeman.getImageView());
@@ -169,33 +172,33 @@ public class Level {
                 Double.parseDouble(ConfigArguments.getConfigArgumentValue("PLAYER_SPRINT_SPEED")),
                 Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_COLLECT_RANGE")),
                 new Rectangle(50, 50),
-                MapReader.readPlayerStartCoordinates(mapName)[0],
-                MapReader.readPlayerStartCoordinates(mapName)[1]  
+                MapReader.readPlayerStartCoordinates(mapName, mapsPath)[0],
+                MapReader.readPlayerStartCoordinates(mapName, mapsPath)[1]  
         );
 
         player.getHitbox().setId("playerRectangle");
-        player.getHitbox().setX(MapReader.readPlayerStartCoordinates(mapName)[0]);
-        player.getHitbox().setY(MapReader.readPlayerStartCoordinates(mapName)[1]); 
+        player.getHitbox().setX(MapReader.readPlayerStartCoordinates(mapName, mapsPath)[0]);
+        player.getHitbox().setY(MapReader.readPlayerStartCoordinates(mapName, mapsPath)[1]); 
         player.getHitbox().setFill(Color.BLUE);
         pane.getChildren().addAll(player.getHitbox(), player.getImage());
         return player;
     }
 
     private void initializeGates(Pane pane) {
-        this.gates = MapReader.readGates(mapName);
+        this.gates = MapReader.readGates(mapName, mapsPath);
         for(Gate gate : gates) {
             pane.getChildren().addAll(gate.getHitbox(), gate.getImageView());
         }
     }
 
     private Finish initializeGoal(Pane pane) {
-        this.finish = MapReader.readFinish(mapName);
+        this.finish = MapReader.readFinish(mapName, mapsPath);
         pane.getChildren().addAll(finish.getHitbox());
         return finish;
     }
 
     private ArrayList<Item> initializeItemsToCollect(Pane pane) {
-        ArrayList<Item> itemsToCollect = MapReader.readItemsToCollect(mapName, items);
+        ArrayList<Item> itemsToCollect = MapReader.readItemsToCollect(mapName, mapsPath, items);
         this.finish.setItemsToCollect(itemsToCollect);
         for(Item i : itemsToCollect) {
             pane.getChildren().addAll(i.getHitbox(), i.getImageView());
@@ -249,7 +252,7 @@ public class Level {
             if(CollisionDetection.checkCollisionWithPoliceman(player, policeman) && player.getVissible() && !keyboardListener.getGodMode()) {
                 Stage newStage = this.stage;
                 this.stop(); 
-                GameoverScreen gmScreen = new GameoverScreen(newStage, mapName);
+                GameoverScreen gmScreen = new GameoverScreen(newStage, mapName, mapsPath);
                 gmScreen.setDeathMessage(Texts.getTextByName("gameoverScreenMessageLabel").getTextInLanguage());
                 return;
             }  
@@ -340,26 +343,26 @@ public class Level {
                 finished = true;
                 if(!isLastLevel) {
                     for(int i = 0; i < LevelSelection.getMapNames().size(); i++) {
+
                         LevelSelection.disableButton(false, LevelSelection.getMapNames().indexOf(mapName) +1);
                     }
-                    Level newLewel = new Level(this.stage, mapNameToTrigger, MapReader.getNextLevel(mapNameToTrigger));
 
-
-                    for(int i = 0; i < MapReader.MAPNAMES.size(); i++) {
-                        if(mapName.equals(MapReader.MAPNAMES.get(i)) && i >= Integer.parseInt(Statistics.getStatisticValue("LAST_LEVEL_INDEX")))  {
-                            System.out.println(i);
+                                      
+                    for(int i = 0; i < MapReader.readMapNames(mapsPath).size(); i++) {
+                        if(mapName.equals(MapReader.readMapNames(mapsPath).get(i)) && i >= Integer.parseInt(Statistics.getStatisticValue("LAST_LEVEL_INDEX")))  {
                             Statistics.setStatisticValue("LAST_LEVEL_INDEX", String.format("%d", i+1));
                         }
 
 
                     }
 
+                    Level newLevel = new Level(this.stage, mapNameToTrigger, this.mapsPath, MapReader.getNextLevel(mapNameToTrigger, mapsPath));
                     this.stop();
-                    newLewel.start();
+                    newLevel.start();
                     return;
                 } else {
-                    for(int i = 0; i < MapReader.MAPNAMES.size(); i++) {
-                        if(mapName.equals(MapReader.MAPNAMES.get(i)) && i > Integer.parseInt(Statistics.getStatisticValue("LAST_LEVEL_INDEX")))  {
+                    for(int i = 0; i < MapReader.readMapNames(mapsPath).size(); i++) {
+                        if(mapName.equals(MapReader.readMapNames(mapsPath).get(i)) && i > Integer.parseInt(Statistics.getStatisticValue("LAST_LEVEL_INDEX")))  {
                             Statistics.setStatisticValue("LAST_LEVEL_INDEX", String.format("%d", i+1));
                         }
 

@@ -43,15 +43,13 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         Statistics.setStatisticValue("FIRST_TIME_IN_GAME", "FALSE");
 
-        int penis = 2;
+        int penis = 0;
         // 0 = Game
         // 1 = MapWriter
         // 2 = MapMaker
 
         if(penis == 0) {
             BackgroundMusic.getInstance().play();
-            new StartScreen(primaryStage);
-
             new StartScreen(primaryStage);
         } else if (penis == 1){
             MapWriter m = new MapWriter("myFirstMap");

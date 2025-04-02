@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import goal.Finish;
 import graphics.Graphics;
@@ -24,17 +25,13 @@ import utils.config.ConfigArguments;
 
 public class MapReader {
 
-    public final static String MAPSPATH = ConfigArguments.getConfigArgumentValue("MY_MAPS_PATH");
-    public final static ArrayList<String> MAPS = MapReader.getMaps(MAPSPATH);
-    public final static ArrayList<String> MAPNAMES = MapReader.readMapNames(MAPSPATH);
-
-    public static ArrayList<Tile> readTiles(String mapName) {
+    public static ArrayList<Tile> readTiles(String mapName, String mapsPath) {
         ArrayList<Tile> tiles = new ArrayList<>();
 
         initializeBackground(tiles);
         
-        for (String map : MapReader.MAPS) {
-            if (map.startsWith(String.format("!map:%s", mapName))) {
+        for (String map : MapReader.getMaps(mapsPath)) {
+            if (map.startsWith(String.format("!map:%s&", mapName))) {
                 String[] arguments = map.split("&");
     
                 for (String argument : arguments) {
@@ -217,18 +214,18 @@ public class MapReader {
         ));
     }
 
-    public static ArrayList<Policeman> readPolicemen(String mapName) {
+    public static ArrayList<Policeman> readPolicemen(String mapName, String mapsPath) {
         ArrayList<Policeman> policemen = new ArrayList<>();
 
-        for(String map : MapReader.MAPS) {
-            if(map.startsWith(String.format("!map:%s", mapName))) {
+        for(String map : MapReader.getMaps(mapsPath)) {
+            if(map.startsWith(String.format("!map:%s&", mapName))) {
                 String[] arguments = map.split("&");
 
                 for(String argument : arguments) {
                     if(argument.startsWith("!policemen:")) {
-                        String[] policementrings = argument.split(":")[1].split(";");
+                        String[] policemenStrings = argument.split(":")[1].split(";");
 
-                        for(String policeman : policementrings) {
+                        for(String policeman : policemenStrings) {
                             policeman = policeman.replace("(", "");
                             policeman = policeman.replace(")", "");
 
@@ -248,7 +245,6 @@ public class MapReader {
                                 Integer.parseInt(policemanArguments[1]),
                                 ConfigArguments.getConfigArgumentValue("POLICEMEN_GRAPHIC_NAME")
                             ));
-
                         }
                     }
                 }   
@@ -257,12 +253,12 @@ public class MapReader {
         return policemen;
     }
 
-    public static ArrayList<Item> readItems(String mapName) {
+    public static ArrayList<Item> readItems(String mapName, String mapsPath) {
         ArrayList<Item> items = new ArrayList<>();
 
 
-        for(String map : MapReader.MAPS) {
-            if(map.startsWith(String.format("!map:%s", mapName))) {
+        for(String map : MapReader.getMaps(mapsPath)) {
+            if(map.startsWith(String.format("!map:%s&", mapName))) {
                 String[] arguments = map.split("&");
 
                 for(String argument : arguments) {
@@ -362,12 +358,11 @@ public class MapReader {
         return items;
     }
 
-    public static ArrayList<Waypoint> readWaypoints(String mapName, int policemanIndex) {
+    public static ArrayList<Waypoint> readWaypoints(String mapName, String mapsPath, int policemanIndex) {
         ArrayList<Waypoint> waypoints = new ArrayList<>();
-        for(String map : MapReader.MAPS) {
-            if(map.startsWith(String.format("!map:%s", mapName))) {
+        for(String map : MapReader.getMaps(mapsPath)) {
+            if(map.startsWith(String.format("!map:%s&", mapName))) {
                 String[] arguments = map.split("&");
-
 
                 for(String argument : arguments) { 
                     if(argument.startsWith("!policemenWaypoints:")) {
@@ -375,7 +370,6 @@ public class MapReader {
                         waypointData = waypointData.replace("{", "").replace("}", "");
 
                         String[] waypointArray = waypointData.split("]");
-
 
                         waypointArray[policemanIndex] = waypointArray[policemanIndex].replace("[", "");
 
@@ -403,12 +397,12 @@ public class MapReader {
         return waypoints;
     }
 
-    public static int[] readPlayerStartCoordinates(String mapName) {
+    public static int[] readPlayerStartCoordinates(String mapName, String mapsPath) {
         int[] playerStartCoordinates = new int[2];
 
 
-        for(String map : MapReader.MAPS) {
-            if(map.startsWith(String.format("!map:%s", mapName))) {
+        for(String map : MapReader.getMaps(mapsPath)) {
+            if(map.startsWith(String.format("!map:%s&", mapName))) {
                 String[] arguments = map.split("&");
     
     
@@ -451,10 +445,10 @@ public class MapReader {
         return maps;
     }
 
-    public static int readTimeToSurvive(String mapName) {
+    public static int readTimeToSurvive(String mapName, String mapsPath) {
         int timeToSurvive = 0;
-        for(String map : MapReader.MAPS) {
-            if(map.startsWith(String.format("!map:%s", mapName))) {
+        for(String map : MapReader.getMaps(mapsPath)) {
+            if(map.startsWith(String.format("!map:%s&", mapName))) {
                 String[] arguments = map.split("&");
     
     
@@ -468,14 +462,13 @@ public class MapReader {
         return timeToSurvive;
     }
 
-    public static Finish readFinish(String mapName) {
+    public static Finish readFinish(String mapName, String mapsPath) {
         Finish finish = null;
 
-        for(String map : MapReader.MAPS) {
-            if(map.startsWith(String.format("!map:%s", mapName))) {
+        for(String map : MapReader.getMaps(mapsPath)) {
+            if(map.startsWith(String.format("!map:%s&", mapName))) {
                 String[] arguments = map.split("&");
-    
-    
+
                 for(String argument : arguments) { 
                     if(argument.startsWith("!finish")) {
                         argument = argument.split(":")[1];
@@ -496,11 +489,11 @@ public class MapReader {
         return finish;
     }
 
-    public static ArrayList<Gate> readGates(String mapName) {
+    public static ArrayList<Gate> readGates(String mapName, String mapsPath) {
         ArrayList<Gate> gates = new ArrayList<>();
 
-        for(String map : MapReader.MAPS) {
-            if(map.startsWith(String.format("!map:%s", mapName))) {
+        for(String map : MapReader.getMaps(mapsPath)) {
+            if(map.startsWith(String.format("!map:%s&", mapName))) {
                 String[] arguments = map.split("&");
     
     
@@ -528,12 +521,12 @@ public class MapReader {
         return gates;
     }
 
-    public static ArrayList<Item> readItemsToCollect(String mapName, ArrayList<Item> itemsInMap) {
+    public static ArrayList<Item> readItemsToCollect(String mapName, String mapsPath, ArrayList<Item> itemsInMap) {
         ArrayList<Item> itemsToCollect = new ArrayList<>();
 
 
-        for(String map : MapReader.MAPS) {
-            if(map.startsWith(String.format("!map:%s", mapName))) {
+        for(String map : MapReader.getMaps(mapsPath)) {
+            if(map.startsWith(String.format("!map:%s&", mapName))) {
                 String[] arguments = map.split("&");
 
                 for(String argument : arguments) {
@@ -633,10 +626,10 @@ public class MapReader {
         return itemsToCollect;
     }
 
-    public static boolean readIsLastLevel(String mapName) {
+    public static boolean readIsLastLevel(String mapName, String mapsPath) {
         boolean isLastLevel = false;
-        for(String map : MapReader.MAPS) {
-            if(map.startsWith(String.format("!map:%s", mapName))) {
+        for(String map : MapReader.getMaps(mapsPath)) {
+            if(map.startsWith(String.format("!map:%s&", mapName))) {
                 String[] arguments = map.split("&");
 
                 for(String argument : arguments) {
@@ -677,18 +670,16 @@ public class MapReader {
         return mapNames;
     }
 
-    public static String getNextLevel(String levelBefore) {
-        for(int i = 0; i < MapReader.MAPNAMES.size(); i++) {
-            if(levelBefore.equals(MapReader.MAPNAMES.get(i))) {
-                if(i < MapReader.MAPNAMES.size()) {
-                    return MapReader.MAPNAMES.get(i + 1);
-                }
-            }
-        }
-        return null;
-    }
+    public static String getNextLevel(String levelBefore, String mapsPath) {
+        if (levelBefore == null) return null;
 
-    public static String getMapspath() {
-        return MAPSPATH;
+        List<String> mapNames = MapReader.readMapNames(mapsPath);
+        int index = mapNames.indexOf(levelBefore);
+
+        if (index != -1 && index < mapNames.size() - 1) {
+            return mapNames.get(index + 1);
+        }
+
+        return null;
     }
 }

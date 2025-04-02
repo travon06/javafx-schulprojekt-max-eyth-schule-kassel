@@ -67,8 +67,10 @@ public class LevelSelection {
             Button button = new Button(mapNames.get(i));
             final int index = i;
             button.setOnAction(event -> {
-                Level level = new Level(stage, mapNames.get(index), MapReader.getNextLevel(mapNames.get(index)));
+                Level level = new Level(stage, mapNames.get(index), mapsPath, MapReader.getNextLevel(mapNames.get(index), mapsPath));
                 level.start();
+
+
             });
             if(!Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("DEVELOPMENT_MODE")))
             if(i > Integer.parseInt(Statistics.getStatisticValue("LAST_LEVEL_INDEX"))) {
