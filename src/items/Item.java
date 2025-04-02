@@ -49,7 +49,7 @@ public abstract class Item {
         this.setX(startX - 25 / 2);
         this.setY(startY - 25 / 2);
         this.isItemToCollect = isItemToCollect;
-        this.hitbox.setVisible(false);
+        this.hitbox.setVisible(true);
     }
 
     private String formatName(String name) {
@@ -85,7 +85,7 @@ public abstract class Item {
     }
 
     public void setX(int x) {
-        this.x = x;
+        this.x = x ;
         this.hitbox.setX(x);
         this.imageView.setX(x);
     }
@@ -98,7 +98,6 @@ public abstract class Item {
         this.y = y;
         this.hitbox.setY(y);
         this.imageView.setY(y);
-
     }
 
     public Node getNode() {

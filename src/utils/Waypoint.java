@@ -36,6 +36,10 @@ public class Waypoint {
         this.myPolicemanId = myPolicemanId;
     }
 
+    public int getMyPolicemanId() {
+        return myPolicemanId;
+    }
+
     public int getX() {
         return x;
     }

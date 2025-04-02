@@ -34,6 +34,23 @@ public class Tile {
         this.hitboxNode = hitbox;
     }
 
+    public Tile(boolean isSolid, int x, int y, int width, int height, String imageName, double rotation) {
+        this.isSolid = isSolid;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.imageName = imageName;
+        this.imageView = new ImageView(new Image(Graphics.getGraphicUrl(this.imageName)));
+        this.imageView.setX(x);
+        this.imageView.setY(y);
+        this.imageView.setFitHeight(height);
+        this.imageView.setFitWidth(width);   
+        this.hitbox = new Rectangle(x , y, width, height);
+        this.hitboxNode = hitbox;
+        this.imageView.setRotate(rotation);
+    }
+
     public Tile(boolean isSolid, int x, int y, int width, int height) {
         this.isSolid = isSolid;
         this.x = x;

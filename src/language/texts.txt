@@ -221,7 +221,7 @@ hudGateAccessibleP2 {
 endScreen {
     DE(Endbildschirm)
     EN(End_screen)
-    NE(eindscherm)
+    NE(Eindscherm)
 }
 
 endScreenMessageLabel {
@@ -251,18 +251,17 @@ mapMaker {
 collectItemsButtonMapModeSelection {
     DE(Gegenstände_sammelm)
     EN(Collect_items)
-    NE(verzamel_items)
+    NE(Verzamel_items)
 }
 
 surviveButtonMapModeSelection {
     DE(Überleben)
     EN(Survive)
-    NE(overleven)
+    NE(Overleven)
 }
 
 buildMapButtonMapModeSelection {
     DE(Map_bauen)
-
     EN(Build_map)
     NE(Map_maken)
 }
@@ -270,5 +269,17 @@ buildMapButtonMapModeSelection {
 mapModeSelectionTitle {
     DE(Map_Modus_Auswahl)
     EN(Map_mode_selection)
-    NE(kaartmodusselectie)
+    NE(Kaartmodusselectie)
+}
+
+grasItem {
+    EN(Grass_seeds)
+    DE(Grassamen)
+    NE(Gras_zaden)
+}
+
+sussyCocain {
+    EN(Flour)
+    DE(Mehl)
+    NE(Meel)
 }
