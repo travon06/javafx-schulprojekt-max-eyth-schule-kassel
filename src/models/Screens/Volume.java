@@ -78,18 +78,6 @@ public class Volume {
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")), 
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"))
         );
-        Platform.runLater(() -> {
-            this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - vBox.getWidth()) * 11 / 18);
-            this.vBox.setLayoutY((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - vBox.getHeight()) / 4);
-            double sliderMasterVolumeMidY = sliderMasterVolume.localToScene(0, 0).getY() + sliderMasterVolume.getHeight() / 2;
-            this.labelSliderMasterVolume.setLayoutY(sliderMasterVolumeMidY - labelSliderMasterVolume.getHeight() / 2);
-            this.labelSliderMasterVolume.setLayoutX(sliderMasterVolume.localToScene(0, 0).getX() - 60);
-            this.labelSliderMasterVolume.setText(Integer.toString((int) Double.parseDouble(ConfigArguments.getConfigArgumentValue("VOLUME"))));
-            this.labelMasterVolume.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - labelMasterVolume.getWidth()) * 7 / 18);
-            this.labelMasterVolume.setLayoutY(labelSliderMasterVolume.getLayoutY());
-            this.buttonExit.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - this.buttonExit.getWidth()) / 2);
-            this.buttonExit.setLayoutY(this.vBox.getLayoutY() + this.vBox.getHeight() + (Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - this.vBox.getLayoutY() + this.vBox.getHeight() - this.buttonExit.getHeight()) / 2 );
-        });
 
 
         this.vBox.getChildren().addAll(sliderMasterVolume);
@@ -99,6 +87,16 @@ public class Volume {
         this.stage.setScene(this.scene);
         this.stage.setTitle(Texts.getTextByName("buttonVolume").getTextInLanguage());
         this.stage.show();
+        this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - vBox.getWidth()) * 11 / 18);
+        this.vBox.setLayoutY((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - vBox.getHeight()) / 4);
+        double sliderMasterVolumeMidY = sliderMasterVolume.localToScene(0, 0).getY() + sliderMasterVolume.getHeight() / 2;
+        this.labelSliderMasterVolume.setLayoutY(sliderMasterVolumeMidY - labelSliderMasterVolume.getHeight() / 2);
+        this.labelSliderMasterVolume.setLayoutX(sliderMasterVolume.localToScene(0, 0).getX() - 60);
+        this.labelSliderMasterVolume.setText(Integer.toString((int) Double.parseDouble(ConfigArguments.getConfigArgumentValue("VOLUME"))));
+        this.labelMasterVolume.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - labelMasterVolume.getWidth()) * 7 / 18);
+        this.labelMasterVolume.setLayoutY(labelSliderMasterVolume.getLayoutY());
+        this.buttonExit.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - this.buttonExit.getWidth()) / 2);
+        this.buttonExit.setLayoutY(this.vBox.getLayoutY() + this.vBox.getHeight() + (Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - this.vBox.getLayoutY() + this.vBox.getHeight() - this.buttonExit.getHeight()) / 2 );
     }
 
 }

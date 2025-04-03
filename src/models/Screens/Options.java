@@ -66,12 +66,6 @@ public class Options {
             getLanguage(this.comboBox.getValue());
             new Options(stage);
         });
-        Platform.runLater(() -> {
-            double width = vBox.getWidth();
-            double height = vBox.getHeight();
-            this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
-            this.vBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 2) - 100);
-         });
         
         this.vBox.getChildren().addAll(keyBindsButton, comboBox, buttonVolume, buttonExit);
         this.rootPane.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
@@ -80,6 +74,10 @@ public class Options {
         this.stage.setScene(this.scene);
         this.stage.setTitle(Texts.getTextByName("OptionsScreen").getTextInLanguage());
         this.stage.show();
+        double width = vBox.getWidth();
+        double height = vBox.getHeight();
+        this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
+        this.vBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 2) - 100);
     }
 
     public void getLanguage(String comboBoxWert) {

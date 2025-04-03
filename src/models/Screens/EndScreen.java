@@ -49,12 +49,6 @@ public class EndScreen {
             }
         };
         this.animationTimer.start();
-        Platform.runLater(() -> {
-            double width = vBox.getWidth();
-            double height = vBox.getHeight();
-            this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
-            this.vBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 2) - 100);
-        });
 
         this.flowPane.getChildren().addAll(labelText);
         this.flowPane.setAlignment(Pos.CENTER);
@@ -65,6 +59,10 @@ public class EndScreen {
         this.stage.setScene(this.scene);
         this.stage.setTitle(Texts.getTextByName("endScreen").getTextInLanguage());
         this.stage.show();
+        double width = vBox.getWidth();
+        double height = vBox.getHeight();
+        this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
+        this.vBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 2) - 100);
     }
 
     //#region getter & setter

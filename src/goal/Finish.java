@@ -45,6 +45,10 @@ public class Finish {
         this.hitbox.setFill(Color.YELLOW);
         this.isAccessible = false;
         this.imageView = new ImageView(new Image(Graphics.getGraphicUrl(imageName)));
+        this.imageView.setX(x);
+        this.imageView.setY(y);
+        this.imageView.setFitWidth(width);
+        this.imageView.setFitHeight(height);
         this.goal = goal;
     }
 
