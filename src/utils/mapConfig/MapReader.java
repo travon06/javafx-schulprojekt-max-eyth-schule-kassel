@@ -275,14 +275,14 @@ public class MapReader {
                             if(itemArguments[0].equals("key")) {
                                 if(itemArguments.length == 3) {
                                     items.add(new Key(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]),
                                         false
                                     ));
                                 } else if (itemArguments.length == 4) {
                                     items.add(new Key(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]), 
                                         itemArguments[3],
@@ -294,14 +294,14 @@ public class MapReader {
                             } else if(itemArguments[0].equals("energyDrink")) {
                                 if(itemArguments.length == 3) {
                                     items.add(new EnergyDrink(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]),
                                         false
                                     ));
                                 } else if (itemArguments.length == 4) {
                                     items.add(new EnergyDrink(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]),
                                         itemArguments[3],
@@ -313,14 +313,14 @@ public class MapReader {
                             } else if(itemArguments[0].equals("coat")) {
                                 if(itemArguments.length == 3) {
                                     items.add(new Coat(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]),
                                         false
                                     ));
                                 } else if (itemArguments.length == 4) {
                                     items.add(new Coat(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]), 
                                         itemArguments[3],
@@ -332,14 +332,14 @@ public class MapReader {
                             } else if(itemArguments[0].equals("lock")) {
                                 if(itemArguments.length == 3) {
                                     items.add(new Coat(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]),
                                         false
                                     ));
                                 } else if (itemArguments.length == 4) {
                                     items.add(new Coat(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]), 
                                         itemArguments[3],
@@ -543,14 +543,14 @@ public class MapReader {
                             if(itemArguments[0].equals("key")) {
                                 if(itemArguments.length == 3) {
                                     itemsToCollect.add(new Key(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]),
                                         true
                                     ));
                                 } else if (itemArguments.length == 4) {
                                     itemsToCollect.add(new Key(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]), 
                                         itemArguments[3],
@@ -562,14 +562,14 @@ public class MapReader {
                             } else if(itemArguments[0].equals("energyDrink")) {
                                 if(itemArguments.length == 3) {
                                     itemsToCollect.add(new EnergyDrink(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]),
                                         true
                                     ));
                                 } else if (itemArguments.length == 4) {
                                     itemsToCollect.add(new EnergyDrink(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]),
                                         itemArguments[3],
@@ -581,14 +581,14 @@ public class MapReader {
                             } else if(itemArguments[0].equals("coat")) {
                                 if(itemArguments.length == 3) {
                                     itemsToCollect.add(new Coat(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]),
                                         true
                                     ));
                                 } else if (itemArguments.length == 4) {
                                     itemsToCollect.add(new Coat(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]), 
                                         itemArguments[3],
@@ -600,14 +600,14 @@ public class MapReader {
                             } else if(itemArguments[0].equals("lock")) {
                                 if(itemArguments.length == 3) {
                                     itemsToCollect.add(new Coat(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]),
                                         true
                                     ));
                                 } else if (itemArguments.length == 4) {
                                     itemsToCollect.add(new Coat(
-                                        Texts.getTextByName(itemArguments[0]).getTextInLanguage(), 
+                                        itemArguments[0], 
                                         Integer.parseInt(itemArguments[1]), 
                                         Integer.parseInt(itemArguments[2]), 
                                         itemArguments[3],

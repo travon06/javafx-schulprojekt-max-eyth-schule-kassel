@@ -20,3 +20,5 @@ streetCurve=streetCurve.png;
 crossing=crossing.png;
 crossing3=crossing3.png;
 rubber=rubber.png;
+finishBlack=finishBlack.png;
+finishGold=finishGold.png;

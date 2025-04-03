@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import language.Texts;
 import models.Gate;
 import models.entities.Player;
 
@@ -24,8 +25,8 @@ public abstract class Item {
     private boolean isItemToCollect;
 
     public Item(String name, int startX, int startY, boolean isItemToCollect) {
-        this.name = formatName(name);
         this.originalName = name;
+        this.name = Texts.getTextByName(formatName(name)).getTextInLanguage();
         this.isAccessible = false;
         this.hitbox = new Rectangle(25, 25);
         this.x = startX;
@@ -37,8 +38,8 @@ public abstract class Item {
     }
 
     public Item(String name, int startX, int startY, String imageName, boolean isItemToCollect) {
-        this.name = formatName(name);
         this.originalName = name;
+        this.name = Texts.getTextByName(formatName(name)).getTextInLanguage();
         this.imageName = imageName;
         this.isAccessible = false;
         this.hitbox = new Rectangle(25, 25);

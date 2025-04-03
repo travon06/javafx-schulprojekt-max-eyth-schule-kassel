@@ -23,7 +23,6 @@ public class MapWriter {
     private String tileString;
     private String itemString;
     private String playerStartCoordinatesString;
-    private String mapName;
     private String finishString;
     private String mapNameString;
     private String timeToSurviveString;
@@ -33,8 +32,7 @@ public class MapWriter {
     private String gatesString;
 
 
-    public MapWriter(String mapName) {
-        this.mapName = mapName;
+    public MapWriter() {
         this.mapNameString = "";
         this.tileString = "";
         this.itemString = "";
@@ -130,8 +128,8 @@ public class MapWriter {
         );
     }
 
-    public void writeMapName() {
-        this.mapNameString = String.format("!map:%s&\n", this.mapName);
+    public void writeMapName(String mapName) {
+        this.mapNameString = String.format("!map:%s&\n", mapName);
     }
 
     public void writeTimeToSurvive(int timeToSurvive, Finish finish) {
@@ -206,6 +204,7 @@ public class MapWriter {
     // }&
 
     public void createMap(
+        String mapName,
         int[] playerStartCoordinates, 
         ArrayList<Tile> tiles, 
         ArrayList<Item> items, 
@@ -215,7 +214,7 @@ public class MapWriter {
         ArrayList<Item> itemsToCollect, 
         int timeToSurvive
     ) {
-        writeMapName();
+        writeMapName(mapName);
         writePlayerStartCoordinates(playerStartCoordinates);
         writeTiles(tiles);
         writeItems(items);

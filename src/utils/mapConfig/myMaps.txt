@@ -1,43 +1,10 @@
-!map:myFirstMap&
-!playerStartCoordinates:700,700&
-!tiles:
-	border;
-	(false,100,100,50,50,ironRooftop);
-	(true,50,50,50,50,copperRooftop)&
+!map:test&
+!playerStartCoordinates:403,350&
 !items:
-	(energyDrink,38,38,energyDrink);
-	(key,138,138,key)&
+	(key,568,166,key);
+	(key,562,261,key)&
 !gates:
-	50,50;
-	50,50&
-!finish:(500,200,COLLECT_ITEMS)&
-!itemsToCollect:
-	(energyDrink,138,138,energyDrink);
-	(key,300,300,key)&
-!mapEnd&
-
-!map:myFirstMapasdf&
-!playerStartCoordinates:700,700&
-!tiles:
-	border;
-	(false,100,100,50,50,ironRooftop);
-	(true,50,50,50,50,copperRooftop)&
-!items:
-	(energyDrink,38,38,energyDrink);
-	(key,138,138,key)&
-!policemen:
-	(60,100,2);
-	(70,110,3)&
-!policemenWaypoints:{
-	[(100,50,true);(110,60,true);(120,70,true)]
-	[(70,110,true);(70,500,true);(200,500,true)]
-}&
-!gates:
-	50,50;
-	50,50&
-!finish:(500,200,COLLECT_ITEMS)&
-!itemsToCollect:
-	(energyDrink,138,138,energyDrink);
-	(key,1138,1138,key)&
-!isLastLevel&
+	350,150;
+	350,250&
+!finish:(500,350,COLLECT_ITEMS)&
 !mapEnd&

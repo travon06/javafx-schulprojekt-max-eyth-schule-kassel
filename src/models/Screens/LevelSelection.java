@@ -48,18 +48,6 @@ public class LevelSelection {
         this.backgroundImageView.setFitWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")));
         this.backgroundImageView.setFitHeight(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")));
         this.backgroundImageView.setEffect(new GaussianBlur(30));
-
-        Platform.runLater(() -> {
-            double width = flowPane.getWidth();
-            this.flowPane.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
-            this.flowPane.setLayoutY(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) * 1 / 6);
-        });
-        Platform.runLater(() -> {
-            double width = this.buttonExit.getWidth();
-            double height = this.flowPane.getLayoutY() + this.flowPane.getHeight();
-            this.buttonExit.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
-            this.buttonExit.setLayoutY(height + (Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height - this.buttonExit.getHeight()) / 2 );
-        });
         this.flowPane.setPrefWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) * 5 / 6);
         this.flowPane.setHgap(20);
         this.flowPane.setVgap(30);
@@ -89,7 +77,13 @@ public class LevelSelection {
         this.stage.setScene(this.scene);
         this.stage.setTitle(Texts.getTextByName("LevelSelectionScreen").getTextInLanguage());
         this.stage.show();
-        // this.flowPane.setStyle("-fx-background-color:blue");
+        double width = this.buttonExit.getWidth();
+        double height = this.flowPane.getLayoutY() + this.flowPane.getHeight();
+        this.buttonExit.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
+        this.buttonExit.setLayoutY(height + (Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height - this.buttonExit.getHeight()) / 2 );
+        width = flowPane.getWidth();
+        this.flowPane.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
+        this.flowPane.setLayoutY(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) * 1 / 6);
     }
 
     //#region getter & setter

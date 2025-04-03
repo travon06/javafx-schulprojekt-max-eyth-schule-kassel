@@ -1,5 +1,5 @@
 !map:myFirstMap&
-!playerStartCoordinates:700,700&
+!playerStartCoordinates:700,500&
 !tiles:
 	border;
     (false,0,300,50,150,streetUp);

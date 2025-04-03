@@ -283,3 +283,46 @@ sussyCocain {
     DE(Mehl)
     NE(Meel)
 }
+
+labelKeyBinds {
+    EN(Keybinds)
+    DE(Tastenbelegung)
+    NE(Sleutelbinders)
+}
+
+labelKeyBindsInfoQ {
+    EN(Street_rotate_left)
+    DE(Straße_nach_links_drehen)
+    NE(Straat_linksom_draaien)
+}
+
+labelKeyBindsInfoE {
+    EN(Street_rotate_right)
+    DE(Straße_nach_rechts_drehen)
+    NE(Straat_rechtsom_draaien)
+}
+
+labelKeyBindsInfoLeftClick {
+    EN(Left_mouse_=_drag)
+    DE(Linke_Maus_=_ziehen)
+    NE(Linkermuisknop_=_te_slepen)
+}
+
+labelKeyBindsInfoRightClick {
+    EN(Right_mouse_=_release)
+    DE(Rechte_Maus_=_loslassen)
+    NE(Rechtermuisknop_=_te_laten)
+}
+
+labelKeyBindsInfoHide {
+    EN(hide)
+    DE(ausblenden)
+    NE(verbergen)
+}
+
+buttonCreate {
+    EN(Create)
+    DE(Erstellen)
+    NE(Erstellen)
+}
+

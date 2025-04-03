@@ -68,28 +68,26 @@ public class ChangeKeyBinds {
         });
 
         Platform.runLater(() -> {
-            double width = vBox.getWidth();
-            double height = vBox.getHeight();
-            this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) * 6 / 9);
-            this.vBox.setLayoutY((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 4);
-            this.vBoxText.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) * 2 / 9);
-            this.vBoxText.setLayoutY((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 4);
         });
 
         Platform.runLater(() -> {
-            double width = this.buttonExit.getWidth();
-            double height = this.vBox.getLayoutY() + this.vBox.getHeight();
-            this.buttonExit.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
-            this.buttonExit.setLayoutY(height + (Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height - this.buttonExit.getHeight()) / 2 );
         });
 
 
         this.scene.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
-        this.vBox.setAlignment(Pos.CENTER);
+        // this.vBox.setAlignment(Pos.CENTER);
         this.rootPane.getChildren().addAll(backgroundImageView, vBoxText, vBox, buttonExit);
         this.stage.setScene(this.scene);
         this.stage.setTitle(Texts.getTextByName("ChangeKeyBindsScreen").getTextInLanguage());
         this.stage.show();
+        double width = this.buttonExit.getWidth();
+        double height = this.vBox.getLayoutY() + this.vBox.getHeight();
+        this.buttonExit.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
+        this.buttonExit.setLayoutY(height + (Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height - this.buttonExit.getHeight()) / 2 );
+        this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - vBox.getWidth()) * 6 / 9);
+        this.vBox.setLayoutY((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - vBox.getHeight()) / 4);
+        this.vBoxText.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - vBox.getWidth()) * 2 / 9);
+        this.vBoxText.setLayoutY((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - vBox.getHeight()) / 4);
     }
 
     public void changeKeyBind(String keyToChange, Button button) {

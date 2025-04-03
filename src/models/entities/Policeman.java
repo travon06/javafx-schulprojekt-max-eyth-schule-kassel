@@ -32,7 +32,7 @@ public class Policeman {
         this.speed = speed;
         this.hitboxBounds = hitboxBounds;
         this.hitbox = new Rectangle(hitboxBounds, hitboxBounds, Color.DARKBLUE);
-        this.hitbox.setVisible(false);
+        this.hitbox.setVisible(true);
         this.hitboxNode = hitbox;
         this.x = startX;
         this.y = startY;
@@ -136,12 +136,9 @@ public class Policeman {
     }
 
     public void setX(double x) {
-        // this.x = x - this.hitboxBounds / 2;
-        // this.hitbox.setX(x - this.hitboxBounds / 2);
-        // this.imageView.setX(x - this.hitboxBounds / 2);
-        this.x = x ;
-        this.hitbox.setX(x);
-        this.imageView.setX(x);
+        this.x = x;
+        this.hitbox.setX(x - this.hitboxBounds / 2);
+        this.imageView.setX(x - this.hitboxBounds / 2);
     }
 
     public double getX() {
@@ -149,12 +146,9 @@ public class Policeman {
     }
 
     public void setY(double y) {
-        // this.y = y - this.hitboxBounds / 2;
-        // this.hitbox.setY(y - this.hitboxBounds / 2);
-        // this.imageView.setY(y - this.hitboxBounds / 2);
         this.y = y;
-        this.hitbox.setY(y);
-        this.imageView.setY(y);
+        this.hitbox.setY(y - this.hitboxBounds / 2);
+        this.imageView.setY(y - this.hitboxBounds / 2);
     }
 
     public double getY() {

@@ -55,13 +55,6 @@ public class StartScreen {
             stage.close();
         });
         
-        Platform.runLater(() -> {
-            double width = vBox.getWidth();
-            double height = vBox.getHeight();
-            this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
-            this.vBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 2) - 100);
-        });
-        
         this.vBox.getChildren().addAll(buttonLevelSelectionStory, buttonLevelSelectionMyMaps, buttonOptions, buttonQuit);
         this.rootPane.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
         this.vBox.setAlignment(Pos.CENTER);
@@ -70,6 +63,10 @@ public class StartScreen {
         this.stage.setScene(this.scene);
         this.stage.setTitle(Texts.getTextByName("StartScreen").getTextInLanguage());
         this.stage.show();
+        double width = vBox.getWidth();
+        double height = vBox.getHeight();
+        this.vBox.setLayoutX((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")) - width) / 2);
+        this.vBox.setLayoutY(((Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")) - height) / 2));
     }
     
 }

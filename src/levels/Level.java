@@ -144,6 +144,7 @@ public class Level {
         ArrayList<Item> items = MapReader.readItems(mapName, mapsPath);
 
         for(Item item : items) {
+            System.out.println(item.getName());
             item.getHitbox().setFill(Color.RED);
             if(item.getImageView() == null) {
                 pane.getChildren().add(item.getHitbox());
@@ -249,10 +250,6 @@ public class Level {
     }
 
     public void update() {
-
-        System.out.println("X:" + policemen.get(0).getX());
-        System.out.println("Y:" + policemen.get(0).getY());
-        System.out.println();
         for(Policeman policeman : policemen) {
             if(CollisionDetection.checkCollisionWithPoliceman(player, policeman) && player.getVissible() && !keyboardListener.getGodMode()) {
                 Stage newStage = this.stage;
