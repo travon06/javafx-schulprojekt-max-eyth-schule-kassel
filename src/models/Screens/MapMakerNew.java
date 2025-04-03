@@ -17,6 +17,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import language.Texts;
@@ -356,12 +357,12 @@ public class MapMakerNew {
         Policeman policeman = new Policeman(
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_STANDART_SPEED")),
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_HITBOX_BOUNDS")),
-            (int) event.getSceneX(),
-            (int) event.getSceneY(),
+            (int) event.getSceneX() - (Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_HITBOX_BOUNDS")) / 2),
+            (int) event.getSceneY() - (Integer.parseInt(ConfigArguments.getConfigArgumentValue("POLICEMAN_HITBOX_BOUNDS")) / 2),
             "policeman"
         );
-        policeman.setX(event.getSceneX());
-        policeman.setY(event.getSceneY());
+        policeman.setX(policeman.getX());
+        policeman.setY(policeman.getY());
         this.policemans.add(policeman);
         addWayPoint(event);
         this.rootPane.getChildren().add(policeman.getImageView());
@@ -455,4 +456,5 @@ public class MapMakerNew {
             this.rubber.toFront();
         }
     }
+
 }

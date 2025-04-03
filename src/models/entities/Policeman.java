@@ -136,9 +136,12 @@ public class Policeman {
     }
 
     public void setX(double x) {
-        this.x = x - this.hitboxBounds / 2;
-        this.hitbox.setX(x - this.hitboxBounds / 2);
-        this.imageView.setX(x - this.hitboxBounds / 2);
+        // this.x = x - this.hitboxBounds / 2;
+        // this.hitbox.setX(x - this.hitboxBounds / 2);
+        // this.imageView.setX(x - this.hitboxBounds / 2);
+        this.x = x ;
+        this.hitbox.setX(x);
+        this.imageView.setX(x);
     }
 
     public double getX() {
@@ -146,9 +149,12 @@ public class Policeman {
     }
 
     public void setY(double y) {
-        this.y = y - this.hitboxBounds / 2;
-        this.hitbox.setY(y - this.hitboxBounds / 2);
-        this.imageView.setY(y - this.hitboxBounds / 2);
+        // this.y = y - this.hitboxBounds / 2;
+        // this.hitbox.setY(y - this.hitboxBounds / 2);
+        // this.imageView.setY(y - this.hitboxBounds / 2);
+        this.y = y;
+        this.hitbox.setY(y);
+        this.imageView.setY(y);
     }
 
     public double getY() {
