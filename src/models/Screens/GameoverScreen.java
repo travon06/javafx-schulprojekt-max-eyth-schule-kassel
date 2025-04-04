@@ -3,6 +3,7 @@ package models.Screens;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import language.Texts;
@@ -46,6 +47,12 @@ public class GameoverScreen {
         this.retryButton.setOnAction(event ->{
             Level level = new Level(stage, mapName, mapsPath, MapReader.getNextLevel(mapName, mapsPath));
             level.start();
+        });
+
+        scene.setOnKeyPressed(event -> {
+            if(event.getCode() == KeyCode.ESCAPE) {
+                new StartScreen(stage);
+            }
         });
         this.scene.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
         this.rootPane.getChildren().addAll(messageLabel, retryButton);

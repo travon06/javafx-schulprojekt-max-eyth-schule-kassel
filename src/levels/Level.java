@@ -331,6 +331,8 @@ public class Level {
         }
 
         if(keyboardListener.getGetCoordinates()) {
+            player.setX(600);
+            player.setY(500);
             System.out.println(String.format("Player(%d | %d)", player.getX(), player.getY()));
         }
 
@@ -350,12 +352,12 @@ public class Level {
                     }
 
                                       
-                    for(int i = 0; i < MapReader.readMapNames(mapsPath).size(); i++) {
-                        if(mapName.equals(MapReader.readMapNames(mapsPath).get(i)) && i >= Integer.parseInt(Statistics.getStatisticValue("LAST_LEVEL_INDEX")))  {
-                            Statistics.setStatisticValue("LAST_LEVEL_INDEX", String.format("%d", i+1));
+                    if(mapsPath.equals(ConfigArguments.getConfigArgumentValue("STORY_MAPS_PATH"))) {
+                        for(int i = 0; i < MapReader.readMapNames(mapsPath).size(); i++) {
+                            if(mapName.equals(MapReader.readMapNames(mapsPath).get(i)) && i >= Integer.parseInt(Statistics.getStatisticValue("LAST_LEVEL_INDEX")))  {
+                                Statistics.setStatisticValue("LAST_LEVEL_INDEX", String.format("%d", i+1));
+                            }
                         }
-
-
                     }
 
                     Level newLevel = new Level(this.stage, mapNameToTrigger, this.mapsPath, MapReader.getNextLevel(mapNameToTrigger, mapsPath));

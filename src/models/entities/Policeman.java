@@ -32,7 +32,7 @@ public class Policeman {
         this.speed = speed;
         this.hitboxBounds = hitboxBounds;
         this.hitbox = new Rectangle(hitboxBounds, hitboxBounds, Color.DARKBLUE);
-        this.hitbox.setVisible(true);
+        this.hitbox.setVisible(false);
         this.hitboxNode = hitbox;
         this.x = startX;
         this.y = startY;

@@ -8,11 +8,13 @@ import javafx.scene.control.Button;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import language.Texts;
+import models.Screens.LevelSelection;
 import models.Screens.MapMakerNew;
 import utils.config.ConfigArguments;
 
@@ -50,6 +52,11 @@ public class MapModeSelection {
         this.surviveButton.setOnAction(event -> {
             new MapMakerNew(stage, "SURVIVE");
 
+        });
+        this.scene.setOnKeyPressed(event -> {
+            if(event.getCode() == KeyCode.ESCAPE) {
+                new LevelSelection(stage, ConfigArguments.getConfigArgumentValue("MY_MAPS_PATH"));
+            }
         });
 
         this.mapModebuttonHBox.getChildren().addAll(collectItemsButton, surviveButton);

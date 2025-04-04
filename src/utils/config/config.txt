@@ -9,7 +9,7 @@ STORY_MAPS_PATH=src/utils/mapConfig/maps.txt
 MY_MAPS_PATH=src/utils/mapConfig/myMaps.txt
 
 # developer stats
-DEVELOPMENT_MODE=TRUE
+DEVELOPMENT_MODE=FALSE
 
 # player stats
 PLAYER_SPEED=2

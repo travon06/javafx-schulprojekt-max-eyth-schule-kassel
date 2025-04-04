@@ -249,7 +249,7 @@ mapMaker {
 }
 
 collectItemsButtonMapModeSelection {
-    DE(Gegenstände_sammelm)
+    DE(Gegenstände_sammeln)
     EN(Collect_items)
     NE(Verzamel_items)
 }
@@ -326,3 +326,14 @@ buttonCreate {
     NE(Erstellen)
 }
 
+mapSettings {
+    EN(Map_Settings)
+    DE(Karten_Einstellungen)
+    NE(Kaartinstellingen)
+}
+
+mapName {
+    EN(Map_name)
+    DE(Karten_name)
+    NE(Kaart_naam)
+}

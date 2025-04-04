@@ -193,14 +193,14 @@ public class Player {
 
     public void setX(int x) {
         this.x = x;
-        this.image.setX(x);
-        this.hitbox.setX(x);
+        this.image.setX(x - 25);
+        this.hitbox.setX(x - 25);
     }
 
     public void setY(int y) {
         this.y = y;
-        this.image.setY(y);
-        this.hitbox.setY(y);
+        this.image.setY(y - 25);
+        this.hitbox.setY(y - 25);
 
     }
 

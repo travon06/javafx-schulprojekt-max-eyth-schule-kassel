@@ -9,6 +9,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -65,6 +66,11 @@ public class Options {
         this.comboBox.setOnAction(event -> {
             getLanguage(this.comboBox.getValue());
             new Options(stage);
+        });
+        this.scene.setOnKeyPressed(event -> {
+            if(event.getCode() == KeyCode.ESCAPE) {
+                new StartScreen(stage);
+            }
         });
         
         this.vBox.getChildren().addAll(keyBindsButton, comboBox, buttonVolume, buttonExit);

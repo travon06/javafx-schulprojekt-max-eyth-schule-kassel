@@ -17,6 +17,7 @@ import language.Texts;
 import items.Coat;
 import items.EnergyDrink;
 import items.Item;
+import items.ItemToCollect;
 import models.Gate;
 import models.entities.Policeman;
 import models.tiles.Tile;
@@ -58,7 +59,7 @@ public class MapReader {
                                     throw new Error("idk");
                                 } else {
                                     int startX = Integer.parseInt(obstacleArguments[1]);
-                                    int startY = Integer.parseInt(obstacleArguments[2]) + tileBounds;
+                                    int startY = Integer.parseInt(obstacleArguments[2]);
                                     int x = startX;
                                     int y = startY;
                             
@@ -348,7 +349,26 @@ public class MapReader {
                                 } else {
                                     throw new Error("Ilegal Item format");
                                 }
-                            } 
+                            } else if(itemArguments[0].equals("grasItem") || itemArguments[0].equals("sussyCocain")) {
+                                if(itemArguments.length == 3) {
+                                    items.add(new ItemToCollect(
+                                        itemArguments[0], 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2]),
+                                        true
+                                    ));
+                                } else if (itemArguments.length == 4) {
+                                    items.add(new ItemToCollect(
+                                        itemArguments[0], 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2]),
+                                        itemArguments[3],
+                                        true
+                                    ));
+                                } else {
+                                    throw new Error("Ilegal Item format");
+                                }
+                            }
 
                         }
                     }
@@ -616,7 +636,26 @@ public class MapReader {
                                 } else {
                                     throw new Error("Ilegal Item format");
                                 }
-                            } 
+                            }  else if(itemArguments[0].equals("grasItem") || itemArguments[0].equals("sussyCocain")) {
+                                if(itemArguments.length == 3) {
+                                    itemsToCollect.add(new ItemToCollect(
+                                        itemArguments[0], 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2]),
+                                        true
+                                    ));
+                                } else if (itemArguments.length == 4) {
+                                    itemsToCollect.add(new ItemToCollect(
+                                        itemArguments[0], 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2]),
+                                        itemArguments[3],
+                                        true
+                                    ));
+                                } else {
+                                    throw new Error("Ilegal Item format");
+                                }
+                            }
 
                         }
                     }
