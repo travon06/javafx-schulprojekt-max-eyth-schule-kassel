@@ -217,19 +217,21 @@ public class Level {
         }
         hud.getGoalLabel().setText(formatGoalLabel());
 
-        long nanosPerUpdate = 1_000_000_000L / 300;
+        long nanosPerUpdate = 1_000_000_000L / 80;
         this.timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                // if (now - lastUpdate >= nanosPerUpdate) {
-                //     lastUpdate = now;
-                //     update();
+                if (now - lastUpdate >= nanosPerUpdate) {
+                    lastUpdate = now;
+                    update();
+                    if(!stopped) {
+                        trackFps(now);
+                    }
+                }
+                update();
+                // if(!stopped) {
                 //     trackFps(now);
                 // }
-                update();
-                if(!stopped) {
-                    trackFps(now);
-                }
             }
         };
         timer.start();
@@ -349,13 +351,15 @@ public class Level {
                         LevelSelection.disableButton(false, LevelSelection.getMapNames().indexOf(mapName) +1);
                     }
 
-                                      
-                    for(int i = 0; i < MapReader.readMapNames(mapsPath).size(); i++) {
-                        if(mapName.equals(MapReader.readMapNames(mapsPath).get(i)) && i >= Integer.parseInt(Statistics.getStatisticValue("LAST_LEVEL_INDEX")))  {
-                            Statistics.setStatisticValue("LAST_LEVEL_INDEX", String.format("%d", i+1));
+                    
+                    if(mapsPath.equals(ConfigArguments.getConfigArgumentValue("STORY_MAPS_PATH"))) {
+                        for(int i = 0; i < MapReader.readMapNames(mapsPath).size(); i++) {
+                            if(mapName.equals(MapReader.readMapNames(mapsPath).get(i)) && i >= Integer.parseInt(Statistics.getStatisticValue("LAST_LEVEL_INDEX")))  {
+                                Statistics.setStatisticValue("LAST_LEVEL_INDEX", String.format("%d", i+1));
+                            }
+    
+    
                         }
-
-
                     }
 
                     Level newLevel = new Level(this.stage, mapNameToTrigger, this.mapsPath, MapReader.getNextLevel(mapNameToTrigger, mapsPath));

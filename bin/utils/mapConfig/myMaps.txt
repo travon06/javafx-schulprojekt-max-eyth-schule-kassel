@@ -1,10 +1,30 @@
+
+
+
 !map:test&
-!playerStartCoordinates:403,350&
-!items:
-	(key,568,166,key);
-	(key,562,261,key)&
-!gates:
-	350,150;
-	350,250&
-!finish:(500,350,COLLECT_ITEMS)&
+!playerStartCoordinates:503,486&
+!tiles:
+	border;
+	(false,300,100,50,50,streetUp,0.0);
+	(false,350,100,50,50,streetUp,90.0);
+	(false,350,150,50,50,streetUp,180.0);
+	(false,300,150,50,50,streetUp,270.0);
+	(false,450,100,50,50,streetCurve,0.0);
+	(false,500,100,50,50,streetCurve,90.0);
+	(false,500,150,50,50,streetCurve,180.0);
+	(false,450,150,50,50,streetCurve,270.0);
+	(false,600,100,50,50,crossing,0.0);
+	(false,650,100,50,50,crossing,0.0);
+	(false,650,150,50,50,crossing,0.0);
+	(false,600,150,50,50,crossing,0.0);
+	(false,750,100,50,50,crossing3,0.0);
+	(false,800,100,50,50,crossing3,90.0);
+	(false,800,150,50,50,crossing3,180.0);
+	(false,750,150,50,50,crossing3,270.0)&
+!policemen:
+	(923,264,1)&
+!policemenWaypoints:{
+	[(923,264,true);(923,395,true);(1082,398,true);(1073,256,true)]
+}&
+!finish:(650,450,COLLECT_ITEMS)&
 !mapEnd&

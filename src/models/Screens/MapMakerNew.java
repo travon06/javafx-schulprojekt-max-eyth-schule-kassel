@@ -227,7 +227,6 @@ public class MapMakerNew {
                 this.items.addAll(keys);
                 mapWriter.createMap("test", new int[]{this.player.getX(), this.player.getY()}, this.tiles, this.items, this.policemans, this.gates, this.goalFinish, this.itemsToCollect, this.timeToSurvive);
             }
-
         });
 
 

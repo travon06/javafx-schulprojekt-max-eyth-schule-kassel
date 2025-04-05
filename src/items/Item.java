@@ -50,7 +50,7 @@ public abstract class Item {
         this.setX(startX - 25 / 2);
         this.setY(startY - 25 / 2);
         this.isItemToCollect = isItemToCollect;
-        this.hitbox.setVisible(true);
+        this.hitbox.setVisible(false);
     }
 
     private String formatName(String name) {

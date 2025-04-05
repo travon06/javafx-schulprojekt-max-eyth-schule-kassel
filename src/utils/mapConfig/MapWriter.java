@@ -50,13 +50,14 @@ public class MapWriter {
         if(tiles.isEmpty()) return;
         this.tileString = "!tiles:\n\tborder;\n";
         for(int i = 0; i < tiles.size(); i++) {
-            this.tileString += String.format("\t(%s,%s,%s,%s,%s,%s)",
+            this.tileString += String.format("\t(%s,%s,%s,%s,%s,%s,%s)",
                 tiles.get(i).getIsSolid(),
                 tiles.get(i).getX(),
                 tiles.get(i).getY(),
                 tiles.get(i).getWidth(),
                 tiles.get(i).getHeight(),
-                tiles.get(i).getImageName()
+                tiles.get(i).getImageName(),
+                tiles.get(i).getImageView().getRotate()
             );
             
             if(i < tiles.size() - 1) {

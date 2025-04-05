@@ -13,7 +13,6 @@ import java.util.List;
 
 import goal.Finish;
 import graphics.Graphics;
-import language.Texts;
 import items.Coat;
 import items.EnergyDrink;
 import items.Item;
@@ -53,12 +52,39 @@ public class MapReader {
                             Boolean isBool = obstacleArguments[0].equalsIgnoreCase("true") || obstacleArguments[0].equalsIgnoreCase("false");
                             int tileBounds = Integer.parseInt(ConfigArguments.getConfigArgumentValue("TILE_BOUNDS"));
 
-                            if (isBool && obstacleArguments.length == 6) {
+
+                            if(isBool && obstacleArguments.length == 7)  {
                                 if (Integer.parseInt(obstacleArguments[3]) % tileBounds != 0 || Integer.parseInt(obstacleArguments[4]) % tileBounds != 0) {
                                     throw new Error("idk");
                                 } else {
                                     int startX = Integer.parseInt(obstacleArguments[1]);
-                                    int startY = Integer.parseInt(obstacleArguments[2]) + tileBounds;
+                                    int startY = Integer.parseInt(obstacleArguments[2]);
+                                    int x = startX;
+                                    int y = startY;
+                            
+                                    for (int j = 0; j < Integer.parseInt(obstacleArguments[3]) / tileBounds; j++) {
+                                        for (int k = 0; k < Integer.parseInt(obstacleArguments[4]) / tileBounds; k++) {
+                                            tiles.add(new Tile(
+                                                Boolean.parseBoolean(obstacleArguments[0]),
+                                                x,
+                                                y,
+                                                tileBounds,
+                                                tileBounds,
+                                                obstacleArguments[5],
+                                                Double.parseDouble(obstacleArguments[6])
+                                            ));
+                                            y += tileBounds;
+                                        }
+                                        x += tileBounds;
+                                        y = startY;
+                                    }
+                                }
+                            } else if (isBool && obstacleArguments.length == 6) {
+                                if (Integer.parseInt(obstacleArguments[3]) % tileBounds != 0 || Integer.parseInt(obstacleArguments[4]) % tileBounds != 0) {
+                                    throw new Error("idk");
+                                } else {
+                                    int startX = Integer.parseInt(obstacleArguments[1]);
+                                    int startY = Integer.parseInt(obstacleArguments[2]);
                                     int x = startX;
                                     int y = startY;
                             
@@ -597,27 +623,7 @@ public class MapReader {
                                 } else {
                                     throw new Error("Ilegal Item format");
                                 }
-                            } else if(itemArguments[0].equals("lock")) {
-                                if(itemArguments.length == 3) {
-                                    itemsToCollect.add(new Coat(
-                                        itemArguments[0], 
-                                        Integer.parseInt(itemArguments[1]), 
-                                        Integer.parseInt(itemArguments[2]),
-                                        true
-                                    ));
-                                } else if (itemArguments.length == 4) {
-                                    itemsToCollect.add(new Coat(
-                                        itemArguments[0], 
-                                        Integer.parseInt(itemArguments[1]), 
-                                        Integer.parseInt(itemArguments[2]), 
-                                        itemArguments[3],
-                                        true
-                                    ));
-                                } else {
-                                    throw new Error("Ilegal Item format");
-                                }
-                            } 
-
+                            }
                         }
                     }
                 }   
