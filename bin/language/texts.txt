@@ -337,3 +337,27 @@ mapName {
     DE(Karten_name)
     NE(Kaart_naam)
 }
+
+clickOnPoliceman {
+    EN(Click_Policeman_=_Set_Speed)
+    DE(Drücke_Polizisten_=_Geschwindigkeit_ändern)
+    NE(Klik_op_Politieagent_=_Snelheid_stellen)
+}
+
+warningSpawnPointAndGoalSet {
+    EN(Spawnpoin_and_Goal_must_be_set)
+    DE(Spawnpunkt_und_Ziel_müssen_gesetzt_sein)
+    NE(Spawnpoint_en_Doel_moeten_worden_ingesteld)
+}
+
+warningMapName {
+    EN(Mapname_must_be_unique)
+    DE(Karten_name_muss_einzigartig_sein)
+    NE(Mapnaam_moet_uniek_zijn)
+}
+
+warningTimeToSurvieve {
+    EN(Time_to_Survive_must_be_number)
+    DE(Überlebenszeit_muss_eine_nummer_sein)
+    NE(Tijd_om_te_overleven_moet_nummer_zijn)
+}

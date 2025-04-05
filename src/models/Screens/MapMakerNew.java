@@ -51,6 +51,7 @@ public class MapMakerNew {
     private Button buttonTimeToSurviveMinus;
     private Button buttonTimeToSurvivePlus;
     private HBox hBoxTimeToSurvive;
+    private Label warning;
 
     private static final int tileSize = 50;
     private static final int hBoxSize = 200;
@@ -60,10 +61,8 @@ public class MapMakerNew {
     private boolean spawnPointSet;
     private boolean goalFinishSet;
     private boolean showVboxInfo;
-    private boolean mapNameAlreadySet;
     private boolean isCollectItems;
     private String goal;
-    private int timeToSurvive;
     private MapWriter mapWriter;
     private Policeman lastPolicemanForSetSpeed;
 
@@ -110,11 +109,12 @@ public class MapMakerNew {
         this.vBoxInfo.setStyle("-fx-background-color:lightgrey; -fx-padding:5px");
         this.labelKeyBinds = new Label(Texts.getTextByName("labelKeyBinds").getTextInLanguage());
         this.labelKeyBinds.setId("headline");
-        this.labelKeyBindsInfo = new Label(String.format("Q = %s\nE = %s\n%s\n%s\nEnter = %s",
+        this.labelKeyBindsInfo = new Label(String.format("Q = %s\nE = %s\n\n%s\n%s\n\n%s\n\nEnter = %s",
                                                         Texts.getTextByName("labelKeyBindsInfoQ").getTextInLanguage(),
                                                         Texts.getTextByName("labelKeyBindsInfoE").getTextInLanguage(),
                                                         Texts.getTextByName("labelKeyBindsInfoLeftClick").getTextInLanguage(),
                                                         Texts.getTextByName("labelKeyBindsInfoRightClick").getTextInLanguage(),
+                                                        Texts.getTextByName("clickOnPoliceman").getTextInLanguage(),
                                                         Texts.getTextByName("labelKeyBindsInfoHide").getTextInLanguage()));
         this.labelKeyBindsInfo.setId("info");
         this.vBoxInfo.getChildren().addAll(labelKeyBinds, labelKeyBindsInfo);
@@ -125,15 +125,16 @@ public class MapMakerNew {
         this.spawnPointSet = false;
         this.goalFinishSet = false;
         this.showVboxInfo = true;
-        this.mapNameAlreadySet = false;
         if(goal.equals("COLLECT_ITEMS")) {
             this.isCollectItems = true;
         } else {
             this.isCollectItems = false;
         }
-        this.timeToSurvive = 60;
         this.imageDragged = emtyImageView;
         this.goal = goal;
+
+        this.warning = new Label();
+        this.warning.setId("warning");
 
         this.buttonCreate = new Button(Texts.getTextByName("buttonCreate").getTextInLanguage());
         this.buttonCreate.addEventFilter(KeyEvent.KEY_PRESSED, event -> { handelKeyInput(event); event.consume(); });
@@ -234,7 +235,7 @@ public class MapMakerNew {
         setUpMouseMovements();
 
         this.rootPane.getChildren().addAll(hBox, vBoxInfo, tile, tileIron, street, streetCurve, crossing, crossing3, police, waypoint, energyDrink, coat, spawnPoint, gate, key,
-                                           finish, rubber, buttonCreate, comboBoxPolicemanSpeed, textFieldMapName);
+                                           finish, rubber, buttonCreate, comboBoxPolicemanSpeed, textFieldMapName, warning);
         if(isCollectItems) {
             this.rootPane.getChildren().addAll(itemToCollectWeed, itemToCollectKokain);
         } else {
@@ -265,18 +266,30 @@ public class MapMakerNew {
         this.rubber.setOnMouseClicked(event -> startDragging(rubber, event));
 
         this.buttonCreate.setOnAction(event -> {
-            this.mapNameAlreadySet = false;
+            if(textFieldMapName.getText().isEmpty()) {
+                this.warning.setText(Texts.getTextByName("warningMapName").getTextInLanguage());
+                showWarning();
+                return;
+            }
             for(String mapName : MapReader.readMapNames(ConfigArguments.getConfigArgumentValue("MY_MAPS_PATH"))) {
                 if(mapName.equals(textFieldMapName.getText())) {
-                    this.mapNameAlreadySet = true;
+                    this.warning.setText(Texts.getTextByName("warningMapName").getTextInLanguage());
+                    showWarning();
+                    return;
                 }
             }
-            if(!changeTimeToSurvive(0)) return;
-
-            if(this.spawnPointSet && this.goalFinishSet && !this.mapNameAlreadySet) {
+            if(!changeTimeToSurvive(0)) {
+                this.warning.setText(Texts.getTextByName("warningTimeToSurvieve").getTextInLanguage());
+                showWarning();
+                return;
+            }
+            if(this.spawnPointSet && this.goalFinishSet) {
                 this.items.addAll(keys);
                 this.mapWriter.createMap(textFieldMapName.getText(), new int[]{this.player.getX(), this.player.getY()}, this.tiles, this.items, this.policemen, this.gates, this.goalFinish, this.itemsToCollect, Integer.parseInt(this.textFieldTimeToSurvive.getText()));
                 new LevelSelection(stage, ConfigArguments.getConfigArgumentValue("MY_MAPS_PATH"));
+            } else {
+                this.warning.setText(Texts.getTextByName("warningSpawnPointAndGoalSet").getTextInLanguage());
+                showWarning();
             }
         });
         this.comboBoxPolicemanSpeed.setOnAction(event -> {
@@ -368,6 +381,8 @@ public class MapMakerNew {
 
         this.comboBoxPolicemanSpeed.setLayoutX(-500);
         this.comboBoxPolicemanSpeed.setLayoutY(-1000);
+        this.warning.setLayoutX(-300);
+        this.warning.setLayoutY(-500);
     }
 
     public void setImageViewsGone() {
@@ -427,6 +442,13 @@ public class MapMakerNew {
 
         this.comboBoxPolicemanSpeed.setLayoutX(-500);
         this.comboBoxPolicemanSpeed.setLayoutY(-1000);
+        this.warning.setLayoutX(-300);
+        this.warning.setLayoutY(-500);
+    }
+
+    private void showWarning() {
+        this.warning.setLayoutX(screenWidth / 2 - this.warning.getWidth() / 2);
+        this.warning.setLayoutY(screenHeight / 2 - this.warning.getHeight() / 2);
     }
 
     private boolean changeTimeToSurvive(int time) {
@@ -647,8 +669,9 @@ public class MapMakerNew {
         for(Policeman policeman : policemen) {
             if(event.getTarget() == policeman.getImageView()) {
                 this.comboBoxPolicemanSpeed.setLayoutX(screenWidth / 2 - comboBoxPolicemanSpeed.getWidth() / 2);
-                this.comboBoxPolicemanSpeed.setLayoutY(screenHeight / 2 - comboBoxPolicemanSpeed.getHeight() / 2);
+                this.comboBoxPolicemanSpeed.setLayoutY(screenHeight / 2 - comboBoxPolicemanSpeed.getHeight() / 2 - 200);
                 this.lastPolicemanForSetSpeed = policeman;
+                this.comboBoxPolicemanSpeed.setValue((int) policeman.getSpeed());
             }
         }
     }
