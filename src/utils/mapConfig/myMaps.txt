@@ -1,0 +1,11 @@
+!map:test&
+!playerStartCoordinates:549,384&
+!policemen:
+	(319,220,6);
+	(209,375,4)&
+!policemenWaypoints:{
+	[(319,220,true);(642,204,true);(855,198,true);(973,279,true)]
+	[(209,375,true);(665,364,true)]
+}&
+!finish:(750,400,COLLECT_ITEMS)&
+!mapEnd&

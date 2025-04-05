@@ -361,3 +361,9 @@ warningTimeToSurvieve {
     DE(Überlebenszeit_muss_eine_nummer_sein)
     NE(Tijd_om_te_overleven_moet_nummer_zijn)
 }
+
+labelTimeToSurvive {
+    EN(Time_to_Survive)
+    DE(Überlebenszeit)
+    NE(tijd_om_te_overleven)
+}

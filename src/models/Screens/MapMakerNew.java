@@ -52,6 +52,7 @@ public class MapMakerNew {
     private Button buttonTimeToSurvivePlus;
     private HBox hBoxTimeToSurvive;
     private Label warning;
+    private Label labelTimeToSurvive;
 
     private static final int tileSize = 50;
     private static final int hBoxSize = 200;
@@ -152,10 +153,12 @@ public class MapMakerNew {
         this.textFieldTimeToSurvive.setMaxWidth(100);
         this.buttonTimeToSurviveMinus = new Button("-");
         this.buttonTimeToSurvivePlus = new Button("+");
-        this.hBoxTimeToSurvive = new HBox(buttonTimeToSurviveMinus, textFieldTimeToSurvive, buttonTimeToSurvivePlus);
+        this.labelTimeToSurvive = new Label(Texts.getTextByName("labelTimeToSurvive").getTextInLanguage());
+        this.labelTimeToSurvive.setId("labelTimeToSurvie");
         this.textFieldTimeToSurvive.setId("timeToSurivie");
         this.buttonTimeToSurviveMinus.setId("timeToSurivie");
         this.buttonTimeToSurvivePlus.setId("timeToSurivie");
+        this.hBoxTimeToSurvive = new HBox(buttonTimeToSurviveMinus, textFieldTimeToSurvive, buttonTimeToSurvivePlus);
 
         // ArrayLists
         this.tiles = new ArrayList<>();
@@ -239,7 +242,7 @@ public class MapMakerNew {
         if(isCollectItems) {
             this.rootPane.getChildren().addAll(itemToCollectWeed, itemToCollectKokain);
         } else {
-            this.rootPane.getChildren().add(hBoxTimeToSurvive);
+            this.rootPane.getChildren().addAll(hBoxTimeToSurvive, labelTimeToSurvive);
         }
         this.rootPane.getStylesheets().add(getClass().getResource("../../style/mapMaker.css").toExternalForm());
         this.stage.setScene(scene);
@@ -360,6 +363,8 @@ public class MapMakerNew {
         this.itemToCollectKokain.setLayoutY(screenHeight - hBoxSize * 1 / 4 - tileSize / 2);
         this.hBoxTimeToSurvive.setLayoutX(screenWidth * 6.5 / 8 - tileSize - 25 - this.hBoxTimeToSurvive.getWidth() / 2);
         this.hBoxTimeToSurvive.setLayoutY(screenHeight - hBoxSize * 1 / 4 - this.hBoxTimeToSurvive.getHeight() / 2);
+        this.labelTimeToSurvive.setLayoutX(this.hBoxTimeToSurvive.getLayoutX() + (this.hBoxTimeToSurvive.getWidth() - this.labelTimeToSurvive.getWidth()) / 2);
+        this.labelTimeToSurvive.setLayoutY(this.hBoxTimeToSurvive.getLayoutY() - this.labelTimeToSurvive.getHeight());
 
         this.rubber.setLayoutX(screenWidth * 0.25 / 8 - tileSize / 2);
         this.rubber.setLayoutY(screenHeight - hBoxSize * 2 / 4 - tileSize / 2);
