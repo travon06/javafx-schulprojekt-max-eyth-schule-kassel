@@ -19,7 +19,9 @@ public class HUD {
 
     public HUD(Pane rootPane) {
         this.fpsLabel = new Label();
+        this.fpsLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.2em;-fx-background-radius: 8px;-fx-background-color: #2A3B5F; -fx-padding: 5px; -fx-text-fill: white;");
         this.timerLabel = new Label();
+        this.timerLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.2em;-fx-background-radius: 8px;-fx-background-color: #2A3B5F; -fx-padding: 5px; -fx-text-fill: white;");
 
         if(!Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("SHOW_FPS"))) {
             fpsLabel.setVisible(false);
@@ -40,7 +42,7 @@ public class HUD {
         this.goalLabel = new Label();
         this.goalLabel.layoutXProperty().bind(rootPane.widthProperty().subtract(goalLabel.widthProperty()).divide(2));
         this.goalLabel.layoutYProperty().bind(rootPane.heightProperty().subtract(goalLabel.heightProperty()).divide(2).subtract(300));
-        this.goalLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.2em;");
+        this.goalLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.2em;-fx-background-radius: 8px;-fx-background-color: #2A3B5F; -fx-padding: 5px; -fx-text-fill: white;");
         this.rootPane.getChildren().addAll(this.messageLabel, this.messageLabel2, this.goalLabel, this.fpsLabel, this.timerLabel);
 
     }

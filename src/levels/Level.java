@@ -89,6 +89,7 @@ public class Level {
             this.finish = initializeGoal(rootPane);
             initializeGates(rootPane);    
             initializeIsLastLevel(mapName);
+            this.hud = new HUD(rootPane);
             if(this.policemen.size() > 0) {
                 for(int i = 0; i < this.policemen.size(); i++) {
                     this.policemen.get(i).getWaypoints().addAll(MapReader.readWaypoints(mapName, mapsPath, i));
@@ -118,7 +119,6 @@ public class Level {
             this.itemInRange = false;
             
             
-            this.hud = new HUD(rootPane);
         }
         
         //#region

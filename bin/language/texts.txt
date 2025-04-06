@@ -379,3 +379,57 @@ statisticsScreenTitle {
     DE(Statistiken)
     NE(Statistieken)
 }
+
+statisticsArgumentTimesCaught {
+    EN(Times_caught)
+    DE(Male_gefangen)
+    NE(Tijden_gevangen)
+}
+
+statisticsArgumentLastLevelIndex {
+    NE(Story_progress)
+    DE(Geschichtsfortschritt)
+    NE(Verhaalvoortgang)
+}
+
+statisticsArgumentMinutesPlayed {
+    EN(Minutes_played)
+    DE(Minuten_gespielt)
+    NE(Minuten_gespeeld)
+}
+
+tutorial {
+    EN(Tutorial)
+    DE(Anleitung)
+    NE(Handleiding)
+}
+
+tutorialPoliceman {
+    DE(Polizisten_verfolgen_einem_festgelegten_Pfad_und_fangen_dich_wenn_du_ihnen_zu_Nahe_kommst.)
+    EN(Policemen_follow_a_specified_path_and_will_catch_you_if_you_get_to_close.)
+    NE(Politieagenten_volgen_een_vaste_route_en_betrappen_u_als_u_te_dicht_bij_hen_komt.)
+}
+
+tutorialEnergyDrink {
+    DE(Wenn_du_ihn_trinkst_wirst_du_für_eine_bestimmte_Zeit_scheller_laufen_und_sprinten.)
+    EN(If_you_drink_it_you_will_run_and_sprint_faster_for_a_certain_time.)
+    NE(Als_je_het_drinkt_zul_je_voor_een_bepaalde_tijd_sneller_rent_en_sprint.)
+}
+
+tutorialPotion {
+    DE(Wenn_du_sie_trinkst_wirst_du_für_eine_bestimmte_Zeit_nicht_mehr_für_die_Polizisten_sichtbar_sein.)
+    EN(If_you_drink_them_you_will_not_be_visible_to_the_police_for_a_certain_time.)
+    NE(Als_je_ze_drinkt_zul_je_voor_een_bepaalde_tijd_niet_meer_zichtbaar_zijn_voor_de_politie.)
+}
+
+tutorialGate {
+    DE(Tore_sind_verschlossen_bis_du_den_passenden_Schlüssel_findest_und_es_öffnest.)
+    EN(Gates_are_locked_until_you_find_the_matching_key_and_open_it.)
+    NE(Poorten_zijn_gesloten_tot_je_de_juiste_sleutel_vindt_en_het_opent.)
+}
+
+tutorialGoal {
+    DE(Das_Ziel_ist_ein_Tunnel_der_Gelb_aufleuchtet_wenn_du_die_Aufgabe_im_Level_erfüllt_hast.)
+    EN(The_goal_is_a_tunnel_that_glows_yellow_when_you_complete_the_task_in_the_level.)
+    NE(Het_doel_is_een_tunnel_die_geel_oplicht_als_je_de_taak_in_het_niveau_hebt_voltooid.)
+}

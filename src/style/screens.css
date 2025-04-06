@@ -132,3 +132,15 @@
     -fx-font-family: "Consolas";
     -fx-font-size: 30px;
 }
+
+#statisticsVBox {
+    -fx-background-color: #2A3B5F;
+    -fx-background-radius: 8px;
+}
+
+#tutorialHBox {
+    -fx-background-color: #2A3B5F;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px;
+    -fx-text-fill: white;   
+}

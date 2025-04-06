@@ -1,8 +1,11 @@
 package models.Screens;
 
+import graphics.Graphics;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -20,8 +23,14 @@ public class GameoverScreen {
     private Label messageLabel;
     private Button retryButton;
     private Scene scene;
+    private ImageView backgroundImageView;
+    private final int screenWidth;
+    private final int screenHeight;
 
     public GameoverScreen(Stage stage, String mapName, String mapsPath) {
+
+        screenWidth = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH"));
+        screenHeight = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"));
 
         // update statistics file
         int timesCaught = Integer.parseInt(Statistics.getStatisticValue("TIMES_CAUGHT"));
@@ -48,6 +57,10 @@ public class GameoverScreen {
             Level level = new Level(stage, mapName, mapsPath, MapReader.getNextLevel(mapName, mapsPath));
             level.start();
         });
+        
+        this.backgroundImageView = new ImageView(new Image(Graphics.getGraphicUrl("background")));
+        this.backgroundImageView.setFitWidth(screenWidth);
+        this.backgroundImageView.setFitHeight(screenHeight);
 
         scene.setOnKeyPressed(event -> {
             if(event.getCode() == KeyCode.ESCAPE) {
@@ -55,7 +68,7 @@ public class GameoverScreen {
             }
         });
         this.scene.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
-        this.rootPane.getChildren().addAll(messageLabel, retryButton);
+        this.rootPane.getChildren().addAll(backgroundImageView, messageLabel, retryButton);
         this.stage.setScene(scene);
     }
 
