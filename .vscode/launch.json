@@ -1,7 +1,4 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
@@ -9,7 +6,7 @@
             "name": "App",
             "request": "launch",
             "mainClass": "App",
-            "projectName": "javafx-schulprojekt-max-eyth-schule-kassel_fb212cab",            
+            "projectName": "project_15f4b383",            
             "vmArgs": "--module-path ./lib/javafx-sdk-23/lib --add-modules javafx.controls,javafx.fxml,javafx.media --add-opens javafx.base/com.sun.javafx=ALL-UNNAMED --add-opens javafx.graphics/com.sun.glass.utils=ALL-UNNAMED"
         }
     ]

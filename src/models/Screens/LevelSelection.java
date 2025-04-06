@@ -65,7 +65,7 @@ public class LevelSelection {
         this.backgroundImageView.setFitWidth(screenWidth);
         this.backgroundImageView.setFitHeight(screenHeight);
         this.backgroundImageView.setEffect(new GaussianBlur(30));
-        this.flowPane.setPrefWidth(screenWidth * 5 / 6);
+        this.flowPane.setPrefWidth(screenWidth * 3 / 6);
         this.flowPane.setHgap(20);
         this.flowPane.setVgap(30);
         for(int i = 0; i < LevelSelection.mapNames.size(); i++) {

@@ -20,9 +20,9 @@ energyDrink {
     NE(Energiedrankje)
 }
 coat {
-    EN(Coat)
-    DE(Mantel)
-    NE(Jas)
+    EN(Invisible_potion)
+    DE(Unsichtbarkeitstrank)
+    NE(Onzichtbaarheidsdrankje)
 }
 
 lock {
@@ -236,10 +236,28 @@ timer {
     NE(Tijd)
 }
 
-labelcongratulations {
+labelcongratulations1 {
     DE(Herzlichen_Glückwunsch)
     EN(Congratulations)
     NE(Gefeliciteerd)
+}
+
+labelcongratulations2 {
+    DE(Programmiert_von_Mattis_Buhle_und_Marvin_Engelbrecht)
+    EN(Programmed_by_Mattis_Buhle_and_Marvin_Engelbrecht)
+    NE(GefGeprogrammeerd_door_Mattis_Buhle_en_Marvin_Engelbrechteliciteerd)
+}
+
+labelcongratulations3 {
+    DE(Grafiken_von_Elias_Krebs)
+    EN(Graphics_by_Elias_Krebs)
+    NE(Grafieken_van_Elias_Krebs)
+}
+
+labelcongratulations4 {
+    DE(Dankeschön_dass_du_es_durchgespielt_hast)
+    EN(Thank_you_for_playing_it_through)
+    NE(Dank_je_voor_het_uitspelen)
 }
 
 mapMaker {

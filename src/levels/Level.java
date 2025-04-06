@@ -99,6 +99,7 @@ public class Level {
                 this.items.addAll(initializeItemsToCollect(rootPane));
                 
             } else if(finish.getGoal().equals("SURVIVE")) {
+                this.hud.getTimerLabel().setVisible(true);
                 this.timeToSurvive = MapReader.readTimeToSurvive(mapName, mapsPath);
                 this.countdownTimer = new CountdownTimer(hud.getTimerLabel(), timeToSurvive);
             }
@@ -224,10 +225,11 @@ public class Level {
             public void handle(long now) {
                 if (now - lastUpdate >= nanosPerUpdate) {
                     lastUpdate = now;
-                    if(!stopped) {
-                        update();
-                        trackFps(now);
+                    if(stopped) {
+                        return;
                     }
+                    update();
+                    trackFps(now);
                 }
                 // if(!stopped) {
                     // update();
@@ -336,8 +338,6 @@ public class Level {
         }
 
         if(keyboardListener.getGetCoordinates()) {
-            player.setX(600);
-            player.setY(500);
             System.out.println(String.format("Player(%d | %d)", player.getX(), player.getY()));
         }
 

@@ -3,11 +3,15 @@ package models.Screens;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import graphics.Graphics;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
@@ -26,7 +30,7 @@ public class EndScreen {
     private AnimationTimer animationTimer;
     private boolean timerFinished;
     private FlowPane flowPane;
-
+    private ImageView backgroundImageView;
     public EndScreen(Stage stage) {
         this.timerFinished = false;
         this.stage = stage;
@@ -37,16 +41,36 @@ public class EndScreen {
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")),
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"))
         );
-        this.labelCongratulations = new Label(Texts.getTextByName("labelcongratulations").getTextInLanguage());
+
+        this.backgroundImageView = new ImageView(new Image(Graphics.getGraphicUrl("background")));
+        this.backgroundImageView.setFitWidth(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH")));
+        this.backgroundImageView.setFitHeight(Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT")));
+        GaussianBlur blur = new GaussianBlur(30);
+        this.backgroundImageView.setEffect(blur);        
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                blur.setRadius(blur.getRadius() - 0.05);
+            }
+        };
+
+        this.labelCongratulations = new Label(Texts.getTextByName("labelcongratulations1").getTextInLanguage());
         this.labelCongratulations.setId("congratulations");
-        this.labelText = new Label("§§§§§§§§§§§§§§§§§§§§");
+        this.labelText = new Label(String.format("%s\n%s\n%s", 
+            Texts.getTextByName("labelcongratulations2").getTextInLanguage(),
+            Texts.getTextByName("labelcongratulations3").getTextInLanguage(),
+            Texts.getTextByName("labelcongratulations4").getTextInLanguage()
+        ));
         this.labelText.setId("text");
         this.vBox = new VBox();
         waitTimer();
         this.animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if(timerFinished) vBox.setLayoutY(vBox.getLayoutY()-0.3);
+                if(timerFinished) {
+                    vBox.setLayoutY(vBox.getLayoutY()-0.3);
+                    timer.start();
+                }
             }
         };
         this.animationTimer.start();
@@ -61,7 +85,7 @@ public class EndScreen {
         this.flowPane.setAlignment(Pos.CENTER);
         this.vBox.setAlignment(Pos.CENTER);
         this.vBox.getChildren().addAll(labelCongratulations, flowPane);
-        this.rootPane.getChildren().addAll(vBox);
+        this.rootPane.getChildren().addAll(backgroundImageView, vBox);
         this.rootPane.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
         this.stage.setScene(this.scene);
         this.stage.setTitle(Texts.getTextByName("endScreen").getTextInLanguage());
