@@ -3,7 +3,11 @@ package utils.mapConfig;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import goal.Finish;
 import graphics.GraphicReader;
@@ -122,10 +126,11 @@ public class MapWriter {
 
     public void writeFinish(Finish finish) {
         if(finish == null) throw new Error("Level needs Finish");
-        this.finishString = String.format("!finish:(%d,%d,%s)&\n",
+        this.finishString = String.format("!finish:(%d,%d,%s,%s)&\n",
             finish.getX(),
             finish.getY(),
-            finish.getGoal()
+            finish.getGoal(),
+            finish.getGraphicName()
         );
     }
 
@@ -198,12 +203,30 @@ public class MapWriter {
         this.gatesString += "&\n";
     }
 
-    // !policemenWaypoints:{
-    //     [(201,474);(1000,474)]
-    //     [(724,77);(980,77)]
-    //     [(66,225);(1170,225)]
-    // }&
 
+    public void deleteMap(String mapName) {
+         ArrayList<String> mapNames = new ArrayList<>();
+        Path mapsPath = Paths.get(ConfigArguments.getConfigArgumentValue("MY_MAPS_PATH"));
+        Path absoluteMapsPath = mapsPath.toAbsolutePath();
+
+        if (Files.exists(absoluteMapsPath)) {
+            try {
+                String data = Files.readString(absoluteMapsPath);
+                String map = String.format("(?s)!map:%s&.*?!mapEnd&", Pattern.quote(mapName));
+
+                String updatedData = data.replaceAll(map, "");
+
+                Files.writeString(absoluteMapsPath, updatedData);
+
+
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+            } 
+        } else {
+            System.err.println(String.format("File: '%s' does not exist!", absoluteMapsPath.toString()));
+        }
+    }
     public void createMap(
         String mapName,
         int[] playerStartCoordinates, 
@@ -227,7 +250,7 @@ public class MapWriter {
         writeTimeToSurvive(timeToSurvive, finish);
         
 
-        String map = String.format("%s%s%s%s%s%s%s%s%s%s%s", 
+        String map = String.format("%s%s%s%s%s%s%s%s%s%s%s%s", 
             this.mapNameString,
             this.playerStartCoordinatesString,
             this.tileString, 
@@ -238,6 +261,7 @@ public class MapWriter {
             this.finishString,
             this.itemsToCollectString,
             this.timeToSurviveString,
+            "!isLastLevel&\n",
             "!mapEnd&\n"
         );
         

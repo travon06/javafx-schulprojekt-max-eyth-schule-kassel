@@ -86,11 +86,9 @@ public class Level {
             this.tiles = initializeTiles(this.rootPane, mapName);
             this.items = intitializeItems(this.rootPane, mapName);
             this.policemen = initializePoliceman(rootPane, mapName);
-            System.out.println(this.policemen);
             this.finish = initializeGoal(rootPane);
             initializeGates(rootPane);    
             initializeIsLastLevel(mapName);
-            this.hud = new HUD(rootPane);
             if(this.policemen.size() > 0) {
                 for(int i = 0; i < this.policemen.size(); i++) {
                     this.policemen.get(i).getWaypoints().addAll(MapReader.readWaypoints(mapName, mapsPath, i));
@@ -103,7 +101,7 @@ public class Level {
                 this.timeToSurvive = MapReader.readTimeToSurvive(mapName, mapsPath);
                 this.countdownTimer = new CountdownTimer(hud.getTimerLabel(), timeToSurvive);
             }
-
+            
             ArrayList<Item> keys = new ArrayList<>();
             for(Item item : items) {
                 if(item instanceof Key) {
@@ -120,10 +118,11 @@ public class Level {
             this.itemInRange = false;
             
             
+            this.hud = new HUD(rootPane);
         }
         
-    //#region
-    private ArrayList<Tile> initializeTiles(Pane pane, String mapName) {
+        //#region
+        private ArrayList<Tile> initializeTiles(Pane pane, String mapName) {
         ArrayList<Tile> tiles = MapReader.readTiles(mapName, mapsPath);
 
         for(Tile tile : tiles) {
@@ -144,7 +143,6 @@ public class Level {
         ArrayList<Item> items = MapReader.readItems(mapName, mapsPath);
 
         for(Item item : items) {
-            System.out.println(item.getName());
             item.getHitbox().setFill(Color.RED);
             if(item.getImageView() == null) {
                 pane.getChildren().add(item.getHitbox());
@@ -195,7 +193,11 @@ public class Level {
 
     private Finish initializeGoal(Pane pane) {
         this.finish = MapReader.readFinish(mapName, mapsPath);
-        pane.getChildren().addAll(finish.getHitbox());
+        if(this.finish.getImageView() != null) {
+            pane.getChildren().addAll(finish.getHitbox(), finish.getImageView());
+        } else {
+            pane.getChildren().addAll(finish.getHitbox());
+        }
         return finish;
     }
 
@@ -210,33 +212,33 @@ public class Level {
     //#endregion ini functions
 
     public void start() {
-        this.startTime = System.nanoTime();
         
         if(finish.getGoal().equals("SURVIVE")) {
             countdownTimer.start();
         }
         hud.getGoalLabel().setText(formatGoalLabel());
-
+        
         long nanosPerUpdate = 1_000_000_000L / 80;
         this.timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 if (now - lastUpdate >= nanosPerUpdate) {
                     lastUpdate = now;
-                    update();
                     if(!stopped) {
+                        update();
                         trackFps(now);
                     }
                 }
-                update();
                 // if(!stopped) {
-                //     trackFps(now);
-                // }
-            }
-        };
-        timer.start();
-        
-        
+                    // update();
+                    //     trackFps(now);
+                    // }
+                }
+            };
+            timer.start();
+            this.startTime = System.nanoTime();
+            
+            
         for (Policeman policeman : policemen) {
             policeman.followPath(rootPane);
         }
@@ -261,6 +263,7 @@ public class Level {
                 return;
             }  
         }
+
         
         for (Gate gate : gates) {
             double distance = player.getHitbox().getBoundsInParent().getMinX() - gate.getHitbox().getBoundsInParent().getMinX();
@@ -333,10 +336,24 @@ public class Level {
         }
 
         if(keyboardListener.getGetCoordinates()) {
+            player.setX(600);
+            player.setY(500);
             System.out.println(String.format("Player(%d | %d)", player.getX(), player.getY()));
         }
 
         if(finish.getAccessible()) {
+
+            this.rootPane.getChildren().remove(finish.getImageView());
+            this.finish.setImageView(new ImageView(new Image(Graphics.getGraphicUrl("finishGold"))));
+            this.finish.getImageView().setX(this.finish.getX());
+            this.finish.getImageView().setY(this.finish.getY());
+            this.finish.getImageView().setFitWidth(this.finish.getWidth());
+            this.finish.getImageView().setFitHeight(this.finish.getHeight());
+            this.rootPane.getChildren().add(this.finish.getImageView());
+
+            this.player.getImage().toFront();
+
+
             if(finish.getGoal().equals("COLLECT_ITEMS")) {
                 hud.getGoalLabel().setText(Texts.getTextByName("HUDGoalLabelFinishedCollectItems").getTextInLanguage());
             } else if(finish.getGoal().equals("SURVIVE")) {
@@ -345,39 +362,31 @@ public class Level {
             }
             if(CollisionDetection.checkCollisionWithFinish(player, finish) && keyboardListener.getInteractPressed()) {
                 finished = true;
-                if(!isLastLevel) {
-                    for(int i = 0; i < LevelSelection.getMapNames().size(); i++) {
 
+                if(mapsPath.equals(ConfigArguments.getConfigArgumentValue("STORY_MAPS_PATH"))) {
+                    for(int i = 0; i < LevelSelection.getMapNames().size(); i++) {
                         LevelSelection.disableButton(false, LevelSelection.getMapNames().indexOf(mapName) +1);
                     }
-
-                    
-                    if(mapsPath.equals(ConfigArguments.getConfigArgumentValue("STORY_MAPS_PATH"))) {
-                        for(int i = 0; i < MapReader.readMapNames(mapsPath).size(); i++) {
-                            if(mapName.equals(MapReader.readMapNames(mapsPath).get(i)) && i >= Integer.parseInt(Statistics.getStatisticValue("LAST_LEVEL_INDEX")))  {
-                                Statistics.setStatisticValue("LAST_LEVEL_INDEX", String.format("%d", i+1));
-                            }
-    
-    
+                    for(int i = 0; i < MapReader.readMapNames(mapsPath).size(); i++) {
+                        if(mapName.equals(MapReader.readMapNames(mapsPath).get(i)) && i >= Integer.parseInt(Statistics.getStatisticValue("LAST_LEVEL_INDEX")))  {
+                            Statistics.setStatisticValue("LAST_LEVEL_INDEX", String.format("%d", i+1));
                         }
                     }
+                }
 
+                if(!isLastLevel) {
                     Level newLevel = new Level(this.stage, mapNameToTrigger, this.mapsPath, MapReader.getNextLevel(mapNameToTrigger, mapsPath));
                     this.stop();
                     newLevel.start();
                     return;
                 } else {
-                    for(int i = 0; i < MapReader.readMapNames(mapsPath).size(); i++) {
-                        if(mapName.equals(MapReader.readMapNames(mapsPath).get(i)) && i > Integer.parseInt(Statistics.getStatisticValue("LAST_LEVEL_INDEX")))  {
-                            Statistics.setStatisticValue("LAST_LEVEL_INDEX", String.format("%d", i+1));
-                        }
-
-
-                    }
-
                     Stage newStage = this.stage;
                     this.stop();
-                    new EndScreen(newStage);
+                    if(mapsPath.equals(ConfigArguments.getConfigArgumentValue("STORY_MAPS_PATH"))) {
+                        new EndScreen(newStage);
+                    } else {
+                        new LevelSelection(newStage, mapsPath);
+                    }
                     return;
                 }
                 

@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -58,6 +60,10 @@ public class ChangeKeyBinds {
                 button.setText("");
                 changeKeyBind(keybinding.getArgument(), button);
             });
+            button.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+                event.consume();
+                new Options(stage);
+            });
             this.vBox.getChildren().add(button);
             Label label = new Label(Texts.getTextByName(keybinding.getArgument()).getTextInLanguage());
             this.vBoxText.getChildren().add(label);
@@ -66,11 +72,10 @@ public class ChangeKeyBinds {
         this.buttonExit.setOnAction(event -> {
             new Options(stage);
         });
-
-        Platform.runLater(() -> {
-        });
-
-        Platform.runLater(() -> {
+        this.scene.setOnKeyPressed(event -> {
+            if(event.getCode() == KeyCode.ESCAPE) {
+                new Options(stage);
+            }
         });
 
 

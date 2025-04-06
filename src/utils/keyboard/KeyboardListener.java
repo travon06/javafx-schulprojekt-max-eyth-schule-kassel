@@ -55,9 +55,13 @@ public class KeyboardListener {
             } else if (keyPressed.equalsIgnoreCase(INTERACT)) {
                 if(allowCollectItem) this.interactPressed = true;
             } else if (keyPressed.equalsIgnoreCase(this.GET_COORDINATES)) {
-                this.getCoordinates = true;
+                if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("DEVELOPMENT_MODE"))) {
+                    this.getCoordinates = true;
+                }
             } else if (keyPressed.equalsIgnoreCase(this.TOGGLE_GOD_MODE)) {
-                this.godMode = !this.godMode;
+                if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("DEVELOPMENT_MODE"))) {
+                    this.godMode = !this.godMode;
+                }
             } else if (event.getCode() == (KeyCode.ESCAPE)) {
                 this.escPressed = true;
             }

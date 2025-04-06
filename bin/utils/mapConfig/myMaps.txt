@@ -1,30 +1,252 @@
-
-
-
-!map:test&
-!playerStartCoordinates:503,486&
+!map:myFirstMap&
+!playerStartCoordinates:700,500&
 !tiles:
 	border;
-	(false,300,100,50,50,streetUp,0.0);
-	(false,350,100,50,50,streetUp,90.0);
-	(false,350,150,50,50,streetUp,180.0);
-	(false,300,150,50,50,streetUp,270.0);
-	(false,450,100,50,50,streetCurve,0.0);
-	(false,500,100,50,50,streetCurve,90.0);
-	(false,500,150,50,50,streetCurve,180.0);
-	(false,450,150,50,50,streetCurve,270.0);
-	(false,600,100,50,50,crossing,0.0);
-	(false,650,100,50,50,crossing,0.0);
-	(false,650,150,50,50,crossing,0.0);
-	(false,600,150,50,50,crossing,0.0);
-	(false,750,100,50,50,crossing3,0.0);
-	(false,800,100,50,50,crossing3,90.0);
-	(false,800,150,50,50,crossing3,180.0);
-	(false,750,150,50,50,crossing3,270.0)&
+    (false,0,300,50,150,streetUp);
+	(false,100,100,50,50,ironRooftop);
+	(true,50,50,50,50,copperRooftop)&
+!items:
+	(energyDrink,50,50,energyDrink);
+	(key,600,500,key);
+	(key,500,500,key)&
 !policemen:
-	(923,264,1)&
+	(200,110,3)&
 !policemenWaypoints:{
-	[(923,264,true);(923,395,true);(1082,398,true);(1073,256,true)]
+	[(100,50);(110,60);(120,70)]
+	[(200,110);(70,500);(200,500)]
 }&
-!finish:(650,450,COLLECT_ITEMS)&
+!gates:
+	200,50;
+	500,500&
+!finish:(500,200,COLLECT_ITEMS)&
+!itemsToCollect:
+	(energyDrink,150,150,energyDrink)
+	&
 !mapEnd&
+
+
+
+
+
+!map:myFirstMap2&
+!playerStartCoordinates:700,700&
+!tiles:
+	border;
+    (false,0,300,50,150,streetUp);
+	(false,100,100,50,50,ironRooftop);
+	(true,50,50,50,50,copperRooftop)&
+!items:
+	(energyDrink,50,50,energyDrink);
+	(key,150,150,key)&
+!policemen:
+	(60,100,2);
+	(70,110,3)&
+!policemenWaypoints:{
+	[(100,50);(110,60);(120,70)]
+	[(70,110);(70,500);(200,500)]
+}&
+!gates:
+	50,50;
+	50,50&
+!finish:(500,200,COLLECT_ITEMS)&
+!itemsToCollect:
+	(energyDrink,150,150,energyDrink);
+	(key,500,500,key)&
+!isLastLevel&
+!mapEnd&
+
+
+!map:Level1&
+!playerStartCoordinates:657,665&
+!tiles:
+	border;
+	(true,0,550,50,50,copperRooftop,0.0);
+	(true,50,550,50,50,copperRooftop,0.0);
+	(true,100,550,50,50,copperRooftop,0.0);
+	(true,150,550,50,50,copperRooftop,0.0);
+	(true,200,550,50,50,copperRooftop,0.0);
+	(true,250,550,50,50,copperRooftop,0.0);
+	(true,300,550,50,50,copperRooftop,0.0);
+	(true,350,550,50,50,copperRooftop,0.0);
+	(true,400,550,50,50,copperRooftop,0.0);
+	(true,450,550,50,50,copperRooftop,0.0);
+	(true,500,550,50,50,copperRooftop,0.0);
+	(true,550,550,50,50,copperRooftop,0.0);
+	(true,600,550,50,50,copperRooftop,0.0);
+	(true,650,550,50,50,copperRooftop,0.0);
+	(true,700,550,50,50,copperRooftop,0.0);
+	(true,850,550,50,50,copperRooftop,0.0);
+	(true,900,550,50,50,copperRooftop,0.0);
+	(true,950,550,50,50,copperRooftop,0.0);
+	(true,1000,550,50,50,copperRooftop,0.0);
+	(true,1050,550,50,50,copperRooftop,0.0);
+	(true,1100,550,50,50,copperRooftop,0.0);
+	(true,1150,550,50,50,copperRooftop,0.0);
+	(true,1200,550,50,50,copperRooftop,0.0);
+	(true,1250,550,50,50,copperRooftop,0.0);
+	(true,0,300,50,50,ironRooftop,0.0);
+	(true,50,300,50,50,ironRooftop,0.0);
+	(true,250,300,50,50,ironRooftop,0.0);
+	(true,300,300,50,50,ironRooftop,0.0);
+	(true,350,300,50,50,ironRooftop,0.0);
+	(true,400,300,50,50,ironRooftop,0.0);
+	(true,450,300,50,50,ironRooftop,0.0);
+	(true,500,300,50,50,ironRooftop,0.0);
+	(true,550,300,50,50,ironRooftop,0.0);
+	(true,600,300,50,50,ironRooftop,0.0);
+	(true,650,300,50,50,ironRooftop,0.0);
+	(true,700,300,50,50,ironRooftop,0.0);
+	(true,750,300,50,50,ironRooftop,0.0);
+	(true,800,300,50,50,ironRooftop,0.0);
+	(true,850,300,50,50,ironRooftop,0.0);
+	(true,900,300,50,50,ironRooftop,0.0);
+	(true,950,300,50,50,ironRooftop,0.0);
+	(true,1000,300,50,50,ironRooftop,0.0);
+	(true,1050,300,50,50,ironRooftop,0.0);
+	(true,1050,250,50,50,ironRooftop,0.0);
+	(true,1050,200,50,50,ironRooftop,0.0);
+	(true,1050,150,50,50,ironRooftop,0.0);
+	(true,1050,100,50,50,ironRooftop,0.0);
+	(true,1050,50,50,50,ironRooftop,0.0);
+	(true,1050,0,50,50,ironRooftop,0.0);
+	(false,0,400,50,50,streetUp,90.0);
+	(false,50,400,50,50,streetUp,90.0);
+	(false,0,450,50,50,streetUp,90.0);
+	(false,50,450,50,50,streetUp,90.0);
+	(false,100,450,50,50,streetUp,90.0);
+	(false,100,400,50,50,streetUp,90.0);
+	(false,150,450,50,50,streetUp,90.0);
+	(false,150,400,50,50,streetUp,90.0);
+	(false,200,450,50,50,streetUp,90.0);
+	(false,200,400,50,50,streetUp,90.0);
+	(false,250,450,50,50,streetUp,90.0);
+	(false,250,400,50,50,streetUp,90.0);
+	(false,300,450,50,50,streetUp,90.0);
+	(false,300,400,50,50,streetUp,90.0);
+	(false,350,400,50,50,streetUp,90.0);
+	(false,350,450,50,50,streetUp,90.0);
+	(false,400,450,50,50,streetUp,90.0);
+	(false,450,450,50,50,streetUp,90.0);
+	(false,500,450,50,50,streetUp,90.0);
+	(false,500,400,50,50,streetUp,90.0);
+	(false,450,400,50,50,streetUp,90.0);
+	(false,400,400,50,50,streetUp,90.0);
+	(false,550,450,50,50,streetUp,90.0);
+	(false,600,450,50,50,streetUp,90.0);
+	(false,600,400,50,50,streetUp,90.0);
+	(false,550,400,50,50,streetUp,90.0);
+	(false,650,400,50,50,streetUp,90.0);
+	(false,700,400,50,50,streetUp,90.0);
+	(false,750,400,50,50,streetUp,90.0);
+	(false,700,450,50,50,streetUp,90.0);
+	(false,650,450,50,50,streetUp,90.0);
+	(false,750,450,50,50,streetUp,90.0);
+	(false,800,450,50,50,streetUp,90.0);
+	(false,850,450,50,50,streetUp,90.0);
+	(false,850,400,50,50,streetUp,90.0);
+	(false,800,400,50,50,streetUp,90.0);
+	(false,900,400,50,50,streetUp,90.0);
+	(false,900,450,50,50,streetUp,90.0);
+	(false,950,450,50,50,streetUp,90.0);
+	(false,1000,450,50,50,streetUp,90.0);
+	(false,1050,450,50,50,streetUp,90.0);
+	(false,1000,400,50,50,streetUp,90.0);
+	(false,950,400,50,50,streetUp,90.0);
+	(false,1050,400,50,50,streetUp,90.0);
+	(false,1100,400,50,50,streetUp,90.0);
+	(false,1100,450,50,50,streetUp,90.0);
+	(false,1150,450,50,50,streetUp,90.0);
+	(false,1150,400,50,50,streetCurve,180.0);
+	(false,1200,450,50,50,streetCurve,180.0);
+	(false,1200,400,50,50,streetUp,0.0);
+	(false,1200,350,50,50,streetUp,0.0);
+	(false,1150,350,50,50,streetUp,0.0);
+	(false,1150,300,50,50,streetUp,0.0);
+	(false,1200,300,50,50,streetUp,0.0);
+	(false,1200,250,50,50,streetUp,0.0);
+	(false,1150,250,50,50,streetUp,0.0);
+	(false,1150,200,50,50,streetUp,0.0);
+	(false,1200,200,50,50,streetUp,0.0);
+	(false,1200,150,50,50,streetUp,0.0);
+	(false,1150,150,50,50,streetUp,0.0);
+	(false,1150,100,50,50,streetUp,0.0);
+	(false,1200,100,50,50,streetUp,0.0);
+	(false,1200,50,50,50,streetUp,0.0);
+	(false,1150,50,50,50,streetUp,0.0);
+	(false,1200,0,50,50,streetUp,0.0);
+	(false,1150,0,50,50,streetUp,0.0);
+	(true,50,250,50,50,ironRooftop,0.0);
+	(true,50,200,50,50,ironRooftop,0.0);
+	(true,100,200,50,50,ironRooftop,0.0);
+	(true,150,200,50,50,ironRooftop,0.0);
+	(true,200,200,50,50,ironRooftop,0.0);
+	(true,250,200,50,50,ironRooftop,0.0);
+	(true,250,250,50,50,ironRooftop,0.0);
+	(false,350,50,50,50,crossing3,90.0);
+	(false,950,50,50,50,crossing3,180.0);
+	(false,300,50,50,50,streetUp,90.0);
+	(false,250,50,50,50,streetUp,90.0);
+	(false,200,50,50,50,streetUp,90.0);
+	(false,150,50,50,50,streetUp,90.0);
+	(false,100,50,50,50,streetUp,90.0);
+	(false,50,50,50,50,streetUp,90.0);
+	(false,0,50,50,50,streetUp,90.0);
+	(false,950,0,50,50,streetUp,180.0);
+	(false,900,50,50,50,streetUp,90.0);
+	(false,850,50,50,50,streetUp,90.0);
+	(false,800,50,50,50,streetUp,90.0);
+	(false,750,50,50,50,streetUp,90.0);
+	(false,700,50,50,50,streetUp,90.0);
+	(false,650,50,50,50,streetUp,90.0);
+	(false,600,50,50,50,streetUp,90.0);
+	(false,550,50,50,50,streetUp,90.0);
+	(false,500,50,50,50,streetUp,90.0);
+	(false,450,50,50,50,streetUp,90.0);
+	(false,400,50,50,50,streetUp,90.0);
+	(false,350,100,50,50,streetUp,180.0);
+	(false,350,150,50,50,streetUp,180.0);
+	(false,350,200,50,50,streetCurve,270.0);
+	(false,950,200,50,50,streetCurve,180.0);
+	(false,400,200,50,50,streetUp,270.0);
+	(false,450,200,50,50,streetUp,270.0);
+	(false,500,200,50,50,streetUp,270.0);
+	(false,550,200,50,50,streetUp,270.0);
+	(false,600,200,50,50,streetUp,270.0);
+	(false,650,200,50,50,streetUp,270.0);
+	(false,700,200,50,50,streetUp,270.0);
+	(false,750,200,50,50,streetUp,270.0);
+	(false,800,200,50,50,streetUp,270.0);
+	(false,850,200,50,50,streetUp,270.0);
+	(false,950,150,50,50,streetUp,180.0);
+	(false,950,100,50,50,streetUp,180.0);
+	(false,900,200,50,50,streetUp,270.0);
+	(true,450,150,50,50,ironRooftop,0.0);
+	(true,750,150,50,50,ironRooftop,0.0);
+	(true,700,150,50,50,copperRooftop,0.0);
+	(true,650,150,50,50,copperRooftop,0.0);
+	(true,850,100,50,50,copperRooftop,0.0);
+	(true,500,100,50,50,copperRooftop,0.0);
+	(true,200,100,50,50,copperRooftop,0.0);
+	(true,250,100,50,50,copperRooftop,0.0);
+	(true,100,0,50,50,ironRooftop,0.0)&
+!items:
+	(key,944,656,key)&
+!policemen:
+	(28,507,4);
+	(1222,402,2);
+	(32,73,1)&
+!policemenWaypoints:{
+	[(28,507,false);(1224,510,false)]
+	[(1222,402,false);(34,400,false)]
+	[(32,73,false);(975,71,false);(978,222,false);(379,223,false);(379,77,false)]
+}&
+!gates:
+	750,550&
+!finish:(1200,0,COLLECT_ITEMS,finishBlack)&
+!itemsToCollect:
+	(grasItem,172,300,grasItem)&
+!isLastLevel&
+!mapEnd&
+
+
+

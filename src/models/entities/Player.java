@@ -61,11 +61,6 @@ public class Player {
             if(itemsToCollect.contains(nearestItem))  {
                 itemsToCollect.remove(nearestItem);
             }
-            for(Item item : finish.getItemsToCollect()) {
-                if(item.getName().equals(nearestItem.getName())) {
-                    System.out.println("penis");
-                }
-            }
         }
 
         if(Boolean.parseBoolean(ConfigArguments.getConfigArgumentValue("NEAREST_ITEM_REMOVED_OUTPUT"))) {
@@ -193,14 +188,14 @@ public class Player {
 
     public void setX(int x) {
         this.x = x;
-        this.image.setX(x);
-        this.hitbox.setX(x);
+        this.image.setX(x - 25);
+        this.hitbox.setX(x - 25);
     }
 
     public void setY(int y) {
         this.y = y;
-        this.image.setY(y);
-        this.hitbox.setY(y);
+        this.image.setY(y - 25);
+        this.hitbox.setY(y - 25);
 
     }
 

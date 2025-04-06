@@ -16,6 +16,7 @@ import graphics.Graphics;
 import items.Coat;
 import items.EnergyDrink;
 import items.Item;
+import items.ItemToCollect;
 import models.Gate;
 import models.entities.Policeman;
 import models.tiles.Tile;
@@ -374,7 +375,26 @@ public class MapReader {
                                 } else {
                                     throw new Error("Ilegal Item format");
                                 }
-                            } 
+                            } else if(itemArguments[0].equals("grasItem") || itemArguments[0].equals("sussyCocain")) {
+                                if(itemArguments.length == 3) {
+                                    items.add(new ItemToCollect(
+                                        itemArguments[0], 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2]),
+                                        true
+                                    ));
+                                } else if (itemArguments.length == 4) {
+                                    items.add(new ItemToCollect(
+                                        itemArguments[0], 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2]),
+                                        itemArguments[3],
+                                        true
+                                    ));
+                                } else {
+                                    throw new Error("Ilegal Item format");
+                                }
+                            }
 
                         }
                     }
@@ -501,13 +521,24 @@ public class MapReader {
                         argument = argument.replace("(", "").replace(")", "");
                         String[] finishArguments = argument.split(",");
 
-                        finish = new Finish(
-                            Integer.parseInt(finishArguments[0]), // x
-                            Integer.parseInt(finishArguments[1]), // y
-                            Integer.parseInt(ConfigArguments.getConfigArgumentValue("GOAL_BOUNDS")), // width
-                            Integer.parseInt(ConfigArguments.getConfigArgumentValue("GOAL_BOUNDS")), // height
-                            finishArguments[2] // goal
-                        );
+                         if (finishArguments.length == 4) {
+                            finish = new Finish(
+                                Integer.parseInt(finishArguments[0]), // x
+                                Integer.parseInt(finishArguments[1]), // y
+                                Integer.parseInt(ConfigArguments.getConfigArgumentValue("GOAL_BOUNDS")), // width
+                                Integer.parseInt(ConfigArguments.getConfigArgumentValue("GOAL_BOUNDS")), // height
+                                finishArguments[2], // goal
+                                finishArguments[3] // image
+                            );
+                        } else if(finishArguments.length == 3) {
+                            finish = new Finish(
+                                Integer.parseInt(finishArguments[0]), // x
+                                Integer.parseInt(finishArguments[1]), // y
+                                Integer.parseInt(ConfigArguments.getConfigArgumentValue("GOAL_BOUNDS")), // width
+                                Integer.parseInt(ConfigArguments.getConfigArgumentValue("GOAL_BOUNDS")), // height
+                                finishArguments[2] // goal
+                            );
+                        }
                     }
                 }   
             }
@@ -623,7 +654,27 @@ public class MapReader {
                                 } else {
                                     throw new Error("Ilegal Item format");
                                 }
-                            }
+                            }  else if(itemArguments[0].equals("grasItem") || itemArguments[0].equals("sussyCocain")) {
+                                if(itemArguments.length == 3) {
+                                    itemsToCollect.add(new ItemToCollect(
+                                        itemArguments[0], 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2]),
+                                        true
+                                    ));
+                                } else if (itemArguments.length == 4) {
+                                    itemsToCollect.add(new ItemToCollect(
+                                        itemArguments[0], 
+                                        Integer.parseInt(itemArguments[1]), 
+                                        Integer.parseInt(itemArguments[2]),
+                                        itemArguments[3],
+                                        true
+                                    ));
+                                } else {
+                                    throw new Error("Ilegal Item format");
+                                }
+                            } 
+
                         }
                     }
                 }   

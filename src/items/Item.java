@@ -47,8 +47,8 @@ public abstract class Item {
         this.imageView = new ImageView(new Image(Graphics.getGraphicUrl(imageName)));
         this.imageView.setFitHeight(25);
         this.imageView.setFitWidth(25);
-        this.setX(startX - 25 / 2);
-        this.setY(startY - 25 / 2);
+        this.setX(startX); // habe das - 25 / 2 weggemacht 
+        this.setY(startY);
         this.isItemToCollect = isItemToCollect;
         this.hitbox.setVisible(false);
     }
@@ -86,9 +86,9 @@ public abstract class Item {
     }
 
     public void setX(int x) {
-        this.x = x ;
-        this.hitbox.setX(x);
-        this.imageView.setX(x);
+        this.x = x;
+        this.hitbox.setX(x - 12.5);
+        this.imageView.setX(x - 12.5);
     }
 
     public int getY() {
@@ -97,8 +97,8 @@ public abstract class Item {
 
     public void setY(int y) {
         this.y = y;
-        this.hitbox.setY(y);
-        this.imageView.setY(y);
+        this.hitbox.setY(y - 12.5);
+        this.imageView.setY(y - 12.5);
     }
 
     public Node getNode() {

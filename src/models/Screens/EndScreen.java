@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -49,6 +50,12 @@ public class EndScreen {
             }
         };
         this.animationTimer.start();
+
+        scene.setOnKeyPressed(event -> {
+            if(event.getCode() == KeyCode.ESCAPE) {
+                new StartScreen(stage);
+            }
+        });
 
         this.flowPane.getChildren().addAll(labelText);
         this.flowPane.setAlignment(Pos.CENTER);

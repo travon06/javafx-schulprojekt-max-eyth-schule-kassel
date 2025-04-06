@@ -20,6 +20,7 @@ public class Finish {
     private ImageView imageView;
     private ArrayList<Item> itemsToCollect;
     private final String goal;
+    private String graphicName;
 
     public Finish(int x, int y, int width, int height, String goal) {
         this.x = x;
@@ -32,6 +33,7 @@ public class Finish {
         this.hitbox.setFill(Color.YELLOW);
         this.isAccessible = false;
         this.goal = goal;
+        this.imageView = null;
     }
 
     public Finish(int x, int y, int width, int height, String goal, String imageName) {
@@ -43,6 +45,7 @@ public class Finish {
         this.hitbox.setX(x);
         this.hitbox.setY(y);
         this.hitbox.setFill(Color.YELLOW);
+        this.hitbox.setVisible(false);
         this.isAccessible = false;
         this.imageView = new ImageView(new Image(Graphics.getGraphicUrl(imageName)));
         this.imageView.setX(x);
@@ -50,6 +53,7 @@ public class Finish {
         this.imageView.setFitWidth(width);
         this.imageView.setFitHeight(height);
         this.goal = goal;
+        this.graphicName = imageName;
     }
 
     public void checkState(CountdownTimer countdownTimer) {
@@ -136,6 +140,14 @@ public class Finish {
 
     public String getGoal() {
         return goal;
+    }
+
+    public String getGraphicName() {
+        return graphicName;
+    }
+
+    public void setGraphicName(String graphicName) {
+        this.graphicName = graphicName;
     }
 
     //#endregion

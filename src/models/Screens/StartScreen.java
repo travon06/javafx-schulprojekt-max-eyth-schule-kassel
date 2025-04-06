@@ -19,6 +19,7 @@ public class StartScreen {
     private Button buttonLevelSelectionMyMaps;
     private Button buttonOptions;
     private Button buttonQuit;
+    private Button buttonStatistics;
     private Stage stage;
     private Scene scene;
     private Pane rootPane;
@@ -31,6 +32,7 @@ public class StartScreen {
         this.buttonLevelSelectionMyMaps = new Button(Texts.getTextByName("buttonLevelSelectionMyMaps").getTextInLanguage());
         this.buttonOptions = new Button(Texts.getTextByName("buttonOptions").getTextInLanguage());
         this.buttonQuit = new Button(Texts.getTextByName("buttonQuit").getTextInLanguage());
+        this.buttonStatistics = new Button(Texts.getTextByName("statisticsScreenTitle").getTextInLanguage());
         this.stage = stage;
         this.rootPane = new Pane();
         this.backgroundImageView = new ImageView(new Image(Graphics.getGraphicUrl("background")));
@@ -54,8 +56,12 @@ public class StartScreen {
         this.buttonQuit.setOnAction(event -> {
             stage.close();
         });
+
+        this.buttonStatistics.setOnAction(event -> {
+            new StatisticsScreen(stage);
+        });
         
-        this.vBox.getChildren().addAll(buttonLevelSelectionStory, buttonLevelSelectionMyMaps, buttonOptions, buttonQuit);
+        this.vBox.getChildren().addAll(buttonLevelSelectionStory, buttonLevelSelectionMyMaps, buttonOptions, buttonStatistics, buttonQuit);
         this.rootPane.getStylesheets().add(getClass().getResource("../../style/screens.css").toExternalForm());
         this.vBox.setAlignment(Pos.CENTER);
         this.rootPane.getChildren().addAll(backgroundImageView, vBox);
