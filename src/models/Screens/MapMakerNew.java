@@ -289,7 +289,7 @@ public class MapMakerNew {
             if(this.spawnPointSet && this.goalFinishSet) {
                 this.items.addAll(keys);
                 this.mapWriter.createMap(textFieldMapName.getText(), new int[]{this.player.getX(), this.player.getY()}, this.tiles, this.items, this.policemen, this.gates, this.goalFinish, this.itemsToCollect, Integer.parseInt(this.textFieldTimeToSurvive.getText()));
-                new LevelSelection(stage, ConfigArguments.getConfigArgumentValue("MY_MAPS_PATH"));
+                new LevelSelection(stage, ConfigArguments.getConfigArgumentValue("MY_MAPS_PATH"), true);
             } else {
                 this.warning.setText(Texts.getTextByName("warningSpawnPointAndGoalSet").getTextInLanguage());
                 showWarning();
@@ -325,6 +325,28 @@ public class MapMakerNew {
                 placeObjekt(event);
             }
         });
+    }
+
+    private void handelKeyInput(KeyEvent event) {
+        if(imageDragged == street || imageDragged == streetCurve || imageDragged == crossing || imageDragged == crossing3) {
+            if(event.getCode() == KeyCode.Q) {
+                this.imageDragged.setRotate(this.imageDragged.getRotate() - 90);
+            } else if(event.getCode() == KeyCode.E) {
+                this.imageDragged.setRotate(this.imageDragged.getRotate() + 90);
+            }
+        }
+        if(event.getCode() == KeyCode.ENTER && !dragging) {
+            this.showVboxInfo = !this.showVboxInfo;
+            this.vBoxInfo.setVisible(showVboxInfo);
+            if(showVboxInfo) {
+                setImageViews();
+            } else {
+                setImageViewsGone();
+            }
+        }
+        if(event.getCode() == KeyCode.ESCAPE) {
+            new MapModeSelection(stage);
+        }
     }
 
     private void setImageViews() {
@@ -549,28 +571,14 @@ public class MapMakerNew {
         }
     }
 
-    private void handelKeyInput(KeyEvent event) {
-        if(imageDragged == street || imageDragged == streetCurve || imageDragged == crossing || imageDragged == crossing3) {
-            if(event.getCode() == KeyCode.Q) {
-                this.imageDragged.setRotate(this.imageDragged.getRotate() - 90);
-            } else if(event.getCode() == KeyCode.E) {
-                this.imageDragged.setRotate(this.imageDragged.getRotate() + 90);
-            }
-        }
-        if(event.getCode() == KeyCode.ENTER) {
-            this.showVboxInfo = !this.showVboxInfo;
-            this.vBoxInfo.setVisible(showVboxInfo);
-        }
-        if(event.getCode() == KeyCode.ESCAPE) {
-            new MapModeSelection(stage);
-        }
-    }
-
     private void handleMousePressed(MouseEvent event) {
         if(event.getButton() == MouseButton.SECONDARY && isKey()) {
             setImageViews();
             this.rootPane.getChildren().remove(gates.getLast().getImageView());
             this.gates.removeLast();
+        } else if(event.getButton() == MouseButton.SECONDARY && !dragging) {
+            this.comboBoxPolicemanSpeed.setLayoutX(-500);
+            this.comboBoxPolicemanSpeed.setLayoutY(-1000);
         } else if(event.getButton() == MouseButton.SECONDARY) {
             setImageViews();
         } else if(isWithinBounds()) {
@@ -695,9 +703,9 @@ public class MapMakerNew {
             Double.parseDouble(ConfigArguments.getConfigArgumentValue("PLAYER_SPEED")),
             Double.parseDouble(ConfigArguments.getConfigArgumentValue("PLAYER_SPRINT_SPEED")),
             Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_COLLECT_RANGE")),
-            new Rectangle(50, 50),
-            (int) event.getSceneX(),
-            (int) event.getSceneY()
+            new Rectangle(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOUNDS")), Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOUNDS"))),
+            (int) event.getSceneX() + 5,
+            (int) event.getSceneY() + 5
         );
         this.rootPane.getChildren().add(tiles.size(), player.getImage());
         setImageViews();
@@ -735,7 +743,6 @@ public class MapMakerNew {
     }
 
     public boolean isWithinBounds() {
-
         return imageDragged.getLayoutX() >= -30 && imageDragged.getLayoutX() <= screenWidth && imageDragged.getLayoutY() >= -30 && imageDragged.getLayoutY() <= hBox.getLayoutY();
     }
 

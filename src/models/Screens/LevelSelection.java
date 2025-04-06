@@ -38,9 +38,9 @@ public class LevelSelection {
     private ImageView backgroundImageView;
     private static final int screenWidth = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_WIDTH"));
     private static final int screenHeight = Integer.parseInt(ConfigArguments.getConfigArgumentValue("SCREEN_HEIGHT"));
-    private boolean deleteMap;
+    private static boolean deleteMap = false;
 
-    public LevelSelection(Stage stage, String mapsPath) {
+    public LevelSelection(Stage stage, String mapsPath, boolean newPi) {
         this.rootPane = new Pane();
         LevelSelection.mapNames = MapReader.readMapNames(mapsPath);
         this.flowPane = new FlowPane();
@@ -57,8 +57,10 @@ public class LevelSelection {
         this.mapWriter = new MapWriter();
         this.mapMakerButtonHBox = new HBox(15);
         this.mapMakerButtonHBox.getChildren().addAll(buttonMapMaker, buttonDeleteMap);
-        this.deleteMap = false;
 
+        if(newPi) {
+            deleteMap = false;
+        }
         this.backgroundImageView = new ImageView(new Image(Graphics.getGraphicUrl("background")));
         this.backgroundImageView.setFitWidth(screenWidth);
         this.backgroundImageView.setFitHeight(screenHeight);
@@ -75,7 +77,7 @@ public class LevelSelection {
                     level.start();
                 } else {
                     mapWriter.deleteMap(mapNames.get(index));
-                    new LevelSelection(stage, mapsPath);
+                    new LevelSelection(stage, mapsPath, false);
                 }
 
 
@@ -97,8 +99,17 @@ public class LevelSelection {
             new StartScreen(stage);
         });
 
+        if(deleteMap) {
+            this.buttonDeleteMap.setStyle("-fx-background-color: red");
+        }
+
         this.buttonDeleteMap.setOnAction(event -> {
-            this.deleteMap = true;
+            deleteMap = !deleteMap;
+            if(deleteMap) {
+                this.buttonDeleteMap.setStyle("-fx-background-color: red");
+            } else {
+                this.buttonDeleteMap.setStyle("-fx-background-color: #1F141A");
+            }
         });
 
         
