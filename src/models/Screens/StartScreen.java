@@ -45,10 +45,10 @@ public class StartScreen {
         );
 
         this.buttonLevelSelectionStory.setOnAction(event -> {
-            new LevelSelection(stage, ConfigArguments.getConfigArgumentValue("STORY_MAPS_PATH"));
+            new LevelSelection(stage, ConfigArguments.getConfigArgumentValue("STORY_MAPS_PATH"), true);
         });
         this.buttonLevelSelectionMyMaps.setOnAction(event -> {
-            new LevelSelection(stage, ConfigArguments.getConfigArgumentValue("MY_MAPS_PATH"));
+            new LevelSelection(stage, ConfigArguments.getConfigArgumentValue("MY_MAPS_PATH"), true);
         });
         this.buttonOptions.setOnAction(event -> {
             new Options(stage);

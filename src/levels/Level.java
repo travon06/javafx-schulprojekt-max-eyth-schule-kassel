@@ -89,6 +89,7 @@ public class Level {
             this.finish = initializeGoal(rootPane);
             initializeGates(rootPane);    
             initializeIsLastLevel(mapName);
+            this.hud = new HUD(rootPane);
             if(this.policemen.size() > 0) {
                 for(int i = 0; i < this.policemen.size(); i++) {
                     this.policemen.get(i).getWaypoints().addAll(MapReader.readWaypoints(mapName, mapsPath, i));
@@ -118,7 +119,6 @@ public class Level {
             this.itemInRange = false;
             
             
-            this.hud = new HUD(rootPane);
         }
         
         //#region
@@ -171,9 +171,9 @@ public class Level {
                 Double.parseDouble(ConfigArguments.getConfigArgumentValue("PLAYER_SPEED")),
                 Double.parseDouble(ConfigArguments.getConfigArgumentValue("PLAYER_SPRINT_SPEED")),
                 Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_COLLECT_RANGE")),
-                new Rectangle(50, 50),
+                new Rectangle(Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOUNDS")), Integer.parseInt(ConfigArguments.getConfigArgumentValue("PLAYER_BOUNDS"))),
                 MapReader.readPlayerStartCoordinates(mapName, mapsPath)[0],
-                MapReader.readPlayerStartCoordinates(mapName, mapsPath)[1]  
+                MapReader.readPlayerStartCoordinates(mapName, mapsPath)[1]
         );
 
         player.getHitbox().setId("playerRectangle");
@@ -385,7 +385,7 @@ public class Level {
                     if(mapsPath.equals(ConfigArguments.getConfigArgumentValue("STORY_MAPS_PATH"))) {
                         new EndScreen(newStage);
                     } else {
-                        new LevelSelection(newStage, mapsPath);
+                        new LevelSelection(newStage, mapsPath, true);
                     }
                     return;
                 }

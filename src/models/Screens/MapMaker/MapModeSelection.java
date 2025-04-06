@@ -55,7 +55,7 @@ public class MapModeSelection {
         });
         this.scene.setOnKeyPressed(event -> {
             if(event.getCode() == KeyCode.ESCAPE) {
-                new LevelSelection(stage, ConfigArguments.getConfigArgumentValue("MY_MAPS_PATH"));
+                new LevelSelection(stage, ConfigArguments.getConfigArgumentValue("MY_MAPS_PATH"), true);
             }
         });
 
