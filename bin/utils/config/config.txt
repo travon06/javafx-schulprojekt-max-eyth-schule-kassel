@@ -1,7 +1,7 @@
 SCREEN_WIDTH=1280
 SCREEN_HEIGHT=720
 LANGUAGE=DE
-VOLUME=20
+VOLUME=2
 
 # filepaths
 STATISTICS_PATH=.\src\utils\statistics\statistics.txt

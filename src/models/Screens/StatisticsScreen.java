@@ -64,6 +64,10 @@ public class StatisticsScreen {
 
             String translated = translateArgument(argument);
 
+            if (argument.equals("MINUTES_PLAYED")) {
+                value = formatTime(Double.parseDouble(value) * 60);
+            }
+
             String formatted = String.format("%-" + totalWidth + "s%s", translated + ":", value);
             Label statisticLabel = new Label(formatted);
             statisticLabel.setStyle("-fx-font-family: 'monospaced';");
@@ -87,6 +91,15 @@ public class StatisticsScreen {
             this.buttonExit.setLayoutY((screenHeight - buttonExit.getHeight()) / 2);
         });
 
+    }
+
+    private String formatTime(double seconds) {
+        int gesamtSekunden = (int) seconds;
+
+        int minuten = (gesamtSekunden % 3600) / 60;
+        int sekunden = gesamtSekunden % 60;
+
+        return String.format("%02d:%02d", minuten, sekunden);
     }
 
     private String translateArgument(String argument) {

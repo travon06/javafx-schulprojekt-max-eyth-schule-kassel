@@ -58,7 +58,7 @@ public class TutorialScreen {
         energyDrinkHBox.getChildren().addAll(energyDrinkImageView, energyDrinkLabel);
         energyDrinkHBox.setId("tutorialHBox");
 
-        ImageView potionImageView = new ImageView(new Image(Graphics.getGraphicUrl("energyDrink")));
+        ImageView potionImageView = new ImageView(new Image(Graphics.getGraphicUrl("coat")));
         potionImageView.setFitWidth(50);
         potionImageView.setFitHeight(50);
         Label potionLabel = new Label(Texts.getTextByName("tutorialPotion").getTextInLanguage());

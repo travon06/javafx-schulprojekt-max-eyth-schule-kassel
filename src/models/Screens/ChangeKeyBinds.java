@@ -61,8 +61,10 @@ public class ChangeKeyBinds {
                 changeKeyBind(keybinding.getArgument(), button);
             });
             button.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-                event.consume();
-                new Options(stage);
+                if(event.getCode() == KeyCode.ESCAPE) {
+                    event.consume();
+                    new Options(stage);
+                }
             });
             this.vBox.getChildren().add(button);
             Label label = new Label(Texts.getTextByName(keybinding.getArgument()).getTextInLanguage());
